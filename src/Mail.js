@@ -2,8 +2,8 @@ import React from 'react';
 import './Mail.css';
 
 function Mail() {
-    return <div classname="mail">
-            
+    return <div className="mail">
+            <h1>Dan Dan</h1>
         </div>;
 }
 

@@ -13,8 +13,9 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Section from './Section';
 
+import EmailRow from './EmailRow.js'
 function EmailList() {
-    return (<div classname="emailList">
+    return (<div className="emailList">
             <div className="emailList__settings">
                 <div className="emailList__settingsLeft">
                     <Checkbox />
@@ -48,6 +49,21 @@ function EmailList() {
                 <Section Icon={InboxIcon} title="primary" color="red" selected />  
                 <Section Icon={PeopleIcon} title="Social" color="#1A73E8" />    
                 <Section Icon={LocalOfferIcon} title="Promotions" color="green" />  
+            </div>
+
+            <div className="emailList__list">
+                <EmailRow
+                    title="Twitch"
+                    subject="Hey fellow streamer!!"
+                    description="This is a test"
+                    time="10 pm"
+                />
+                <EmailRow
+                    title="Twitch"
+                    subject="Hey fellow streamer!!"
+                    description="This is a test22"
+                    time="10 pm"
+                />
             </div>
         </div>
     );

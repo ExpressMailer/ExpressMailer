@@ -14,7 +14,7 @@
     padding-right: 10px;
 }
 
-.emailList__Sections {
+.emailList__sections {
     position: sticky;
     top: 0;
     display: flex;
