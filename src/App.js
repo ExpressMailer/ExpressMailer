@@ -14,14 +14,14 @@ import EmailList from './EmailList';
 function App() {
   return (
     <Router>
-    <div className="App">
+    <div className="app">
       <Header />
 
-      <div className="app_body">
+      <div className="app__body">
         <Sidebar />
 
         <Switch>
-          <Route path="mail">
+          <Route path="/mail">
             <Mail />
           </Route>
           <Route path="/">
