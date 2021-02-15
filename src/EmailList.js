@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './EmailList.css';
 import { Checkbox, IconButton } from "@material-ui/core";
 import RedoIcon from "@material-ui/icons/Redo";
@@ -12,9 +12,22 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import SettingsIcon from "@material-ui/icons/Settings";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Section from './Section';
+import { db } from './firebase';
 
 import EmailRow from './EmailRow.js'
 function EmailList() {
+    const [emails,setEmails] = useState([])
+
+    useEffect(() => {
+        db.collection('emails').orderBy('timestamp','desc').onSnapshot(snapshot => {
+            setEmails(snapshot.docs.map(doc => ({
+                id: doc.id,
+                data: doc.data()
+            })))
+        })
+        
+    },[])
+
     return (<div className="emailList">
             <div className="emailList__settings">
                 <div className="emailList__settingsLeft">
@@ -52,18 +65,18 @@ function EmailList() {
             </div>
 
             <div className="emailList__list">
-                <EmailRow
-                    title="Twitch"
-                    subject="Hey fellow streamer!!"
-                    description="This is a test"
-                    time="10 pm"
-                />
-                <EmailRow
-                    title="Twitch"
-                    subject="Hey fellow streamer!!"
-                    description="This is a test22"
-                    time="10 pm"
-                />
+                {emails.map(({id,data:{to,subject,message,timestamp}}) => {
+                    return <EmailRow
+                        id={id}
+                        key={id}
+                        title={to}
+                        subject={subject}
+                        description={message}
+                        time={new Date(timestamp?.seconds*1000).toUTCString()}
+                    />
+                })}
+                {/* {emails.map({ id,data: {to,subject,message,timestamp} } => {
+                })} */}
             </div>
         </div>
     );
