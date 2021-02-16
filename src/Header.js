@@ -6,8 +6,19 @@ import AppsIcon from '@material-ui/icons/Apps';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import React from 'react'
 import './Header.css'
+import { useSelector, useDispatch } from "react-redux"
+import { selectUser, logout } from './features/userSlice';
+import { auth } from './firebase';
 
 function Header() {
+    const user = useSelector(selectUser);
+    const dispatch = useDispatch();
+
+    const signOut = () => {
+        auth.signOut().then(() => {
+            dispatch(logout())
+        })
+    };
     return (
         <div className="header">
             <div className="header__left">
@@ -32,7 +43,7 @@ function Header() {
                 <IconButton>
                     <NotificationsIcon />
                 </IconButton>
-                <Avatar />
+                <Avatar onClick={signOut} src={user?.photoUrl} />
             </div>
         </div>
     )

@@ -3,6 +3,15 @@
     overflow: scroll;
 }
 
+.emailList::-webkit-scrollbar{
+    display: none;
+}
+
+.emailList {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
 .emailList__settings {
     position: sticky;
     top: 0;
@@ -23,3 +32,6 @@
     z-index: 999;
 }
 
+.emailList__list {
+    padding-bottom: 20%;
+} 
