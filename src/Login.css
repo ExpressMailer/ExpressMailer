@@ -1,0 +1,16 @@
+.login{
+    background-color: #f2f2f2;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+.login__container{
+    display: flex;
+    flex-direction: column;
+}
+
+.login__container > img{
+    object-fit: contain;
+    height: 100px;
+}
