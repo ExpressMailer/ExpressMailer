@@ -9,7 +9,7 @@
     border-width: 0 !important;
 }
 
-.section--selected {
+.section__selected {
     background-color: whitesmoke;
     border-width: 3px !important;
 }

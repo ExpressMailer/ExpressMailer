@@ -3,10 +3,10 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { IconButton } from "@material-ui/core";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import LabelImportantOutlinedIcon from "@material-ui/icons/LabelImportantOutlined";
-import './EmailRow.css';
+import styles from './EmailRow.module.css';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { selectMail } from './features/mailSlice';
+import { selectMail } from '../../features/mailSlice';
  
 function EmailRow({ id, title, subject, description, time }) 
 {
@@ -28,8 +28,8 @@ function EmailRow({ id, title, subject, description, time })
     };
 
     return (
-        <div onClick= {openMail} className="emailRow">
-            <div className="emailRow__options">
+        <div onClick= {openMail} className={styles.emailRow}>
+            <div className={styles.emailRow__options}>
                 <Checkbox />
                 <IconButton>
                     <StarBorderOutlinedIcon />
@@ -39,18 +39,18 @@ function EmailRow({ id, title, subject, description, time })
                 </IconButton>
             </div>
 
-            <h3 className="emailRow__title">
+            <h3 className={styles.emailRow__title}>
                 {title}
             </h3>
 
-            <div className="emailRow__message">
+            <div className={styles.emailRow__message}>
                 <h4> {subject} {" "}
-                <span className="emailRow__description">- {description}
+                <span className={styles.emailRow__description}>- {description}
                 </span>
                 </h4>
             </div>
 
-            <p className="emailRow__description">
+            <p className={styles.emailRow__description}>
                 {time}
             </p>
 

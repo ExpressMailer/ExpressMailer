@@ -1,8 +1,8 @@
 import React from 'react';
-import "./Login.css";
+import styles from "./Login.module.css";
 import { Button } from '@material-ui/core';
-import { auth, provider } from './firebase';
-import { login } from './features/userSlice';
+import { auth, provider } from '../../firebase';
+import { login } from '../../features/userSlice';
 import { useDispatch } from 'react-redux';
 
 function Login() {
@@ -22,8 +22,8 @@ function Login() {
     }; 
 
     return (
-        <div className = "login">
-            <div className="login__container">
+        <div className={styles.login}>
+            <div className={styles.login__container}>
                 <img 
                     src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r2.png"
                     alt=""

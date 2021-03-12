@@ -5,10 +5,10 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AppsIcon from '@material-ui/icons/Apps';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import React from 'react'
-import './Header.css'
+import styles from './Header.module.css'
 import { useSelector, useDispatch } from "react-redux"
-import { selectUser, logout } from './features/userSlice';
-import { auth } from './firebase';
+import { selectUser, logout } from '../../features/userSlice';
+import { auth } from '../../firebase';
 
 function Header() {
     const user = useSelector(selectUser);
@@ -20,8 +20,8 @@ function Header() {
         })
     };
     return (
-        <div className="header">
-            <div className="header__left">
+        <div className={styles.header}>
+            <div className={styles.header__left}>
                 <IconButton>
                     <MenuIcon />
                 </IconButton>
@@ -30,13 +30,13 @@ function Header() {
                     alt="gmail icon"
                 />
             </div>
-            <div className="header__middle">
+            <div className={styles.header__middle}>
                 <SearchIcon />
-                <input placeholder="Search mail" type="text" className="header__inputCaret" />
+                <input placeholder="Search mail" type="text" className={styles.header__inputCaret} />
                 <ArrowDropDownIcon />
             </div>
 
-            <div className="header__right">
+            <div className={styles.header__right}>
                 <IconButton>
                     <AppsIcon />
                 </IconButton>

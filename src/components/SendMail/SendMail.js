@@ -1,11 +1,11 @@
 import React from 'react';
-import './SendMail.css';
+import styles from './SendMail.module.css';
 import CloseIcon from "@material-ui/icons/Close";
 import { Button } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { closeSendMessage } from './features/mail';
-import { db } from './firebase';
+import { closeSendMessage } from '../../features/mail';
+import { db } from '../../firebase';
 import firebase from 'firebase'
 
 function SendMail() {
@@ -24,11 +24,11 @@ function SendMail() {
         dispatch(closeSendMessage())
     }
 
-    return <div className='sendMail'>
-        <div className="sendMail__header">
+    return <div className={styles.sendMail}>
+        <div className={styles.sendMail__header}>
             <h3>New Message</h3>
             <CloseIcon 
-                className="sendMail__close" 
+                className={styles.sendMail__close} 
                 onClick={() => dispatch(closeSendMessage())}
             />
         </div>
@@ -41,25 +41,25 @@ function SendMail() {
                 type="email"
                 ref={register({ required: true })} 
             />
-            {errors.to && <p className="sendMail__error">To is required</p>}
+            {errors.to && <p className={styles.sendMail__error}>To is required</p>}
             <input
                 name="subject"
                 placeholder="Subject"
                 type="text"
                 ref={register({ required: true })} 
             />
-            {errors.to && <p className="sendMail__error">Subject is required</p>}
+            {errors.to && <p className={styles.sendMail__error}>Subject is required</p>}
 
            <input
                 name="message"
                 placeholder="Message..."
                 type="text" 
-                className="sendMail__message"
+                className={styles.sendMail__message}
                 ref={register({ required: true })} 
             />
-            {errors.to && <p className="sendMail__error">Message is required</p>}
+            {errors.to && <p className={styles.sendMail__error}>Message is required</p>}
 
-            <div className="sendMail__options">
+            <div className={styles.sendMail__options}>
                 <Button 
                     classNmae="sendMail__send"
                     variant="contained"

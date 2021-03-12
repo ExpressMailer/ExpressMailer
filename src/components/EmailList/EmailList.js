@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './EmailList.css';
+import styles from './EmailList.module.css';
 import { Checkbox, IconButton } from "@material-ui/core";
 import RedoIcon from "@material-ui/icons/Redo";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -11,10 +11,10 @@ import PeopleIcon from "@material-ui/icons/People";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import SettingsIcon from "@material-ui/icons/Settings";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Section from './Section';
-import { db } from './firebase';
+import Section from '../Section/Section';
+import { db } from '../../firebase';
 
-import EmailRow from './EmailRow.js'
+import EmailRow from '../EmailRow/EmailRow'
 function EmailList() {
     const [emails,setEmails] = useState([])
 
@@ -28,9 +28,9 @@ function EmailList() {
         
     },[])
 
-    return (<div className="emailList">
-            <div className="emailList__settings">
-                <div className="emailList__settingsLeft">
+    return (<div className={styles.emailList}>
+            <div className={styles.emailList__settings}>
+                <div className={styles.emailList__settingsLeft}>
                     <Checkbox />
                     <IconButton>
                         <ArrowDropDownIcon />
@@ -42,7 +42,7 @@ function EmailList() {
                         <MoreVertIcon />
                     </IconButton>
                 </div>
-                <div className="emailList__settingsRight">
+                <div className={styles.emailList__settingsRight}>
                     <IconButton>
                         <ChevronLeftIcon />
                     </IconButton>
@@ -58,13 +58,13 @@ function EmailList() {
                 </div>
             </div>
 
-            <div className="emailList__sections" >
+            <div className={styles.emailList__sections} >
                 <Section Icon={InboxIcon} title="Primary" color="red" selected />  
                 <Section Icon={PeopleIcon} title="Social" color="#1A73E8" />    
                 <Section Icon={LocalOfferIcon} title="Promotions" color="green" />  
             </div>
 
-            <div className="emailList__list">
+            <div className={styles.emailList__list}>
                 {emails.map(({id,data:{to,subject,message,timestamp}}) => {
                     return <EmailRow
                         id={id}
