@@ -12,14 +12,14 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import SettingsIcon from "@material-ui/icons/Settings";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Section from '../Section/Section';
-import { db } from '../../firebase';
+import { auth, db } from '../../firebase';
 
 import EmailRow from '../EmailRow/EmailRow'
 function EmailList() {
     const [emails,setEmails] = useState([])
 
     useEffect(() => {
-        db.collection('emails').orderBy('timestamp','desc').onSnapshot(snapshot => {
+        db.collection('emails').where('to','==',auth.currentUser.email).orderBy('timestamp','desc').onSnapshot(snapshot => {
             setEmails(snapshot.docs.map(doc => ({
                 id: doc.id,
                 data: doc.data()
@@ -65,11 +65,11 @@ function EmailList() {
             </div>
 
             <div className={styles.emailList__list}>
-                {emails.map(({id,data:{to,subject,message,timestamp}}) => {
+                {emails.map(({id,data:{to,from,subject,message,timestamp}}) => {
                     return <EmailRow
                         id={id}
                         key={id}
-                        title={to}
+                        title={from}
                         subject={subject}
                         description={message}
                         time={new Date(timestamp?.seconds*1000).toUTCString()}

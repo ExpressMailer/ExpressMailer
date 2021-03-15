@@ -5,7 +5,7 @@ import { Button } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { closeSendMessage } from '../../features/mail';
-import { db } from '../../firebase';
+import { auth, db } from '../../firebase';
 import firebase from 'firebase'
 
 function SendMail() {
@@ -13,15 +13,26 @@ function SendMail() {
     const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch()
 
+    
+    
     const onSubmit = (formData) => {
-        db.collection('emails').add({
-            to: formData.to,
-            subject: formData.subject,
-            message: formData.message,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        })
+        // check here if email exist (for now just setting it to true)
+        const emailExists = true 
 
+        if(emailExists){
+            db.collection('emails').add({
+                to: formData.to,
+                from: auth.currentUser.email,
+                subject: formData.subject,
+                message: formData.message,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            })
+        }
+        else{
+            console.log(formData.to + " doesn't exist.")
+        }
         dispatch(closeSendMessage())
+
     }
 
     return <div className={styles.sendMail}>
