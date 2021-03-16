@@ -15,8 +15,11 @@ import DuoIcon from "@material-ui/icons/Duo";
 import PhoneIcon from "@material-ui/icons/Phone";
 import { openSendMessage } from '../../features/mail';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function Sidebar() {
+    
+    const history = useHistory();
     const dispatch = useDispatch()
 
     return <div className={styles.sidebar}>
@@ -42,13 +45,34 @@ function Sidebar() {
                     <IconButton>
                         <PersonIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
                         <DuoIcon />
                     </IconButton>
                     <IconButton>
                         <PhoneIcon />
                     </IconButton>
                 </div>
+            </div>
+            <div>
+                <b>(video call)</b><br></br>
+                <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
+                    rugvedpb@gmail.com
+                    <DuoIcon />
+                </IconButton>
+                <br></br>
+                <IconButton onClick={() => history.push('/meet/single/rugved.bongale@somaiya.edu')}>
+                    rugved.bongale@somaiya.edu
+                    <DuoIcon />
+                </IconButton>
+                <br></br>
+            </div>
+            <div>
+                <b>(conference call)</b><br></br>
+                <IconButton onClick={() => history.push('/meet/conference/anyRoomName')}>
+                    Conf call
+                    <DuoIcon />
+                </IconButton>
+                <br></br>
             </div>
         </div>;
 }

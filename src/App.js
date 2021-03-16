@@ -16,6 +16,7 @@ import { selectSendMessageIsOpen } from './features/mail';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, login } from './features/userSlice';
 import { auth } from './firebase';
+import Meet from './components/Meet/Meet';
 
 function App() {
   const sendMessageIsOpen = useSelector(selectSendMessageIsOpen);
@@ -51,6 +52,12 @@ function App() {
           <Switch>
             <Route path="/mail">
               <Mail />
+            </Route>
+            <Route path="/meet/single/:userMail">
+              <Meet />
+            </Route>
+            <Route path="/meet/conference/:userMail">
+              <Meet />
             </Route>
             <Route path="/">
               <EmailList />
