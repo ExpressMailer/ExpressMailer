@@ -19,3 +19,10 @@
     display: flex;
     justify-content: center;
 }
+
+@media only screen and (max-width: 600px) {
+    .sidebar {
+        flex: 3;
+        padding-right: 20px;
+    }
+}

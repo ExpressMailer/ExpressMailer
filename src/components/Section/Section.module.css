@@ -3,10 +3,11 @@
     align-items: center; 
     border-bottom-width: 2px;
     padding: 15px;
-    min-width: 200px;
+    max-width: 200px;
     cursor: pointer;
     color: grey;
     border-width: 0 !important;
+    flex: 1;
 }
 
 .section__selected {

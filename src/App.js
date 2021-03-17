@@ -17,10 +17,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, login } from './features/userSlice';
 import { auth } from './firebase';
 import Meet from './components/Meet/Meet';
+import { selectShowSidebar } from './features/commonSlice';
 
 function App() {
   const sendMessageIsOpen = useSelector(selectSendMessageIsOpen);
   const user = useSelector(selectUser);
+  const showSideBar = useSelector(selectShowSidebar)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,7 +39,7 @@ function App() {
       }
     });
   }, []);
-
+  console.log(showSideBar)
   return (
     <Router>
       {!user ? (
@@ -47,7 +49,7 @@ function App() {
         <Header />
   
         <div className="app__body">
-          <Sidebar />
+          {showSideBar && <Sidebar />}
   
           <Switch>
             <Route path="/mail">

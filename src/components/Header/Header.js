@@ -9,6 +9,7 @@ import styles from './Header.module.css'
 import { useSelector, useDispatch } from "react-redux"
 import { selectUser, logout } from '../../features/userSlice';
 import { auth } from '../../firebase';
+import { toggleSidebar } from '../../features/commonSlice';
 
 function Header() {
     const user = useSelector(selectUser);
@@ -19,11 +20,16 @@ function Header() {
             dispatch(logout())
         })
     };
+
+    const toggleSidebarFunction = () => {
+        dispatch(toggleSidebar())
+    }
+
     return (
         <div className={styles.header}>
             <div className={styles.header__left}>
                 <IconButton>
-                    <MenuIcon />
+                    <MenuIcon onClick={toggleSidebarFunction} />
                 </IconButton>
                 <img 
                     src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r2.png" 
