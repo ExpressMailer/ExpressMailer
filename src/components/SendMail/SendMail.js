@@ -13,19 +13,30 @@ function SendMail() {
     const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch()
 
+    const generateKeywords = (formData) => {
+        let searchableKeywords = [auth.currentUser.email,...formData.subject.split(' ')]
+        let prev = ''
+        for(var i=0;i<formData.subject.length;i++){
+            prev = prev  + formData.subject.charAt(i)
+            searchableKeywords.push(prev)
+        }
+        return searchableKeywords
+    }
     
     
     const onSubmit = (formData) => {
         // check here if email exist (for now just setting it to true)
         const emailExists = true 
-
-        if(emailExists){
+        console.log(generateKeywords(formData))
+        if(emailExists){   
             db.collection('emails').add({
                 to: formData.to,
                 from: auth.currentUser.email,
                 subject: formData.subject,
                 message: formData.message,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                searchableKeywords:generateKeywords(formData),
+                read: false
             })
         }
         else{

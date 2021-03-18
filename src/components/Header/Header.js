@@ -11,7 +11,7 @@ import { selectUser, logout } from '../../features/userSlice';
 import { auth } from '../../firebase';
 import { toggleSidebar } from '../../features/commonSlice';
 
-function Header() {
+function Header({ showSearchResults }) {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
 
@@ -24,6 +24,7 @@ function Header() {
     const toggleSidebarFunction = () => {
         dispatch(toggleSidebar())
     }
+
 
     return (
         <div className={styles.header}>
@@ -38,7 +39,16 @@ function Header() {
             </div>
             <div className={styles.header__middle}>
                 <SearchIcon />
-                <input placeholder="Search mail" type="text" className={styles.header__inputCaret} />
+                    <input 
+                        placeholder="Search mail" 
+                        type="text" 
+                        className={styles.header__inputCaret} 
+                        onChange={e => {
+                            // if(e.key == 'Enter'){
+                            showSearchResults(e.target.value)
+                            // }
+                        }}
+                    />
                 <ArrowDropDownIcon />
             </div>
 
