@@ -17,7 +17,29 @@
 
 .sidebar_footer {
     display: flex;
-    justify-content: center;
+}
+
+.sidebar_chatmore{
+    flex: 2;
+}
+
+.sidebar_chatadd{
+    float: right;
+}
+
+.sidebar_chatname {
+    flex: 2;
+    margin-left: 10px;
+    float: left;
+    /* background-color: palevioletred; */
+}
+
+/* .sidebar_chatname_1 {
+    flex: 1;
+} */
+
+.sidebar_chatfunctions {
+    float: right;
 }
 
 @media only screen and (max-width: 600px) {

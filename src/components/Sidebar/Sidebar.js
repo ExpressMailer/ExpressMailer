@@ -1,8 +1,9 @@
 import React from 'react';
+import { Avatar } from '@material-ui/core'
 import styles from './Sidebar.module.css';
 import AddIcon from "@material-ui/icons/Add";
 import InboxIcon from "@material-ui/icons/Inbox"; 
-import { Button, IconButton } from '@material-ui/core';
+import { Button, IconButton, Collapse } from '@material-ui/core';
 import SidebarOption from '../SidebarOption/SidebarOption';
 import StarIcon from "@material-ui/icons/Star";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
@@ -10,17 +11,32 @@ import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import NearMeIcon from "@material-ui/icons/NearMe";
 import NoteIcon from "@material-ui/icons/Note";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import PersonIcon from "@material-ui/icons/Person";
+// import PersonIcon from "@material-ui/icons/Person";
+import ChatIcon from "@material-ui/icons/Chat";
 import DuoIcon from "@material-ui/icons/Duo";
-import PhoneIcon from "@material-ui/icons/Phone";
+// import PhoneIcon from "@material-ui/icons/Phone";
+import ArrowDropDown from "@material-ui/icons/ArrowDropDown";
 import { openSendMessage } from '../../features/mail';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { openSendChat } from '../../features/chat';
+import { useState } from 'react';
+//temp
+import { useSelector } from "react-redux"
+import { selectUser } from '../../features/userSlice';
 
 function Sidebar() {
-    
     const history = useHistory();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const [isOpen, setIsOpen] = useState(true);
+    // var state={ 
+    //     open:false
+    //    };
+
+
+    //temp
+    const user = useSelector(selectUser);
+    // till here temp
 
     return <div className={styles.sidebar}>
             <Button 
@@ -41,19 +57,45 @@ function Sidebar() {
             <SidebarOption Icon={ExpandMoreIcon} title="More" number={54} />
 
             <div className={styles.sidebar_footer}>
-                <div className={styles.sidebar_footerIcons}>
+                    <div className={styles.sidebar_chatmore}>
+                        <IconButton>
+                            <ArrowDropDown  onClick={() => setIsOpen(!isOpen)}/>   {/* onClick={!state.open} */}
+                        </IconButton> 
+                       Chat 
+                    </div>   
+                   <div className={styles.sidebar_chatadd}>
                     <IconButton>
-                        <PersonIcon />
+                            <AddIcon onClick={() => dispatch(openSendChat())}/>
                     </IconButton>
-                    <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
-                        <DuoIcon />
-                    </IconButton>
-                    <IconButton>
-                        <PhoneIcon />
-                    </IconButton>
-                </div>
+                    </div>
             </div>
+
+            <Collapse in={isOpen}>
+                <div className={styles.sidebar_footer}>  
+                    <div className={styles.sidebar_chatname}>
+                        <Avatar src={user?.photoUrl} />
+                        Tushar Bapecha     
+                    </div>   
+                       
+                     {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
+                    <div className={styles.sidebar_chatfunctions}>
+                            <IconButton>
+                                <ChatIcon onClick={() => dispatch(openSendChat())}/>
+                            </IconButton>
+                            <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
+                                <DuoIcon />
+                            </IconButton>
+                        </div>
+                </div>
+            </Collapse>
+
+            
             <div>
+              
+            </div>
+           
+
+            {/* <div>
                 <b>(video call)</b><br></br>
                 <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
                     rugvedpb@gmail.com
@@ -73,7 +115,7 @@ function Sidebar() {
                     <DuoIcon />
                 </IconButton>
                 <br></br>
-            </div>
+            </div> */}
         </div>;
 }
 
