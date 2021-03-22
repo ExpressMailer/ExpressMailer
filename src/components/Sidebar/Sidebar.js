@@ -25,12 +25,28 @@ import { useState } from 'react';
 import { useSelector } from "react-redux"
 import { selectUser } from '../../features/userSlice';
 
+// for modal
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+
 function Sidebar() {
     const history = useHistory();
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(true);
+    const [Openchatnew, setOpenchatnew] = useState(false);
     
+    const handleClickOpen = () => {
+        setOpenchatnew(true);
+    };
     
+    const handleClose = () => {
+        setOpenchatnew(false);
+    };
     //temp
     const user = useSelector(selectUser);
     // till here temp
@@ -62,8 +78,34 @@ function Sidebar() {
             </div>   
             <div>
             <IconButton>
-                    <AddIcon onClick={() => dispatch(openSendChat())}/>
+                    <AddIcon onClick={handleClickOpen} />
             </IconButton>
+
+            <Dialog open={Openchatnew} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                <DialogContent>
+                <DialogContentText>
+                Type the recipient email to whom you want to chat with:
+                </DialogContentText>
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Email Address"
+                    type="email"
+                    fullWidth
+                />
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                    Cancel
+                </Button>
+                <Button onClick={handleClose} color="primary">
+                    Start Chat
+                </Button>
+                </DialogActions>
+            </Dialog>
+
             </div>
             </div>
 
@@ -89,7 +131,10 @@ function Sidebar() {
 
             <div>    
             </div>
-           
+            
+            
+
+            
 
             {/* <div>
                 <b>(video call)</b><br></br>

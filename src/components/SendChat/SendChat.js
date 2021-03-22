@@ -8,6 +8,7 @@ import { closeSendChat, selectSendChatRecipientmail } from '../../features/chat'
 import { auth, db } from '../../firebase';
 import firebase from 'firebase'
 import AllChats from '../Chat/AllChats'
+
 function SendChat() {
 
     const recipient_mail = useSelector(selectSendChatRecipientmail);
@@ -93,7 +94,7 @@ function SendChat() {
                 onClick={() => dispatch(closeSendChat())}
             />
         </div>
-        {/* <div>
+        <div>
                 {chats.map(({id,data:{from,message,timestamp,to}}) => {
                     return <AllChats
                         id={id}
@@ -103,7 +104,7 @@ function SendChat() {
                         time={new Date(timestamp?.seconds*1000).toUTCString()}
                     />
                 })}
-        </div> */}
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
            <input
                 name="message"
