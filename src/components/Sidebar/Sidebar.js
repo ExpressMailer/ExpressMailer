@@ -78,7 +78,7 @@ function Sidebar() {
             {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
             <div className={styles.sidebar_chatfunctions}>
                     <IconButton>
-                        <ChatIcon onClick={() => dispatch(openSendChat('tushar@gmail.com'))}/>
+                        <ChatIcon onClick={() => dispatch(openSendChat('rugved@gmail.com'))}/>
                     </IconButton>
                     <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
                         <DuoIcon />

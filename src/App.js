@@ -11,8 +11,10 @@ import {
 import Mail from './components/Mail/Mail';
 import EmailList from './components/EmailList/EmailList';
 import SendMail from './components/SendMail/SendMail';
+import SendChat from './components/SendChat/SendChat';
 import Login from "./components/Login/Login"
 import { selectSendMessageIsOpen } from './features/mail';
+import { selectSendChatIsOpen } from './features/chat';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, login } from './features/userSlice';
 import { auth } from './firebase';
@@ -21,12 +23,13 @@ import { selectShowSidebar } from './features/commonSlice';
 
 function App() {
   const sendMessageIsOpen = useSelector(selectSendMessageIsOpen);
+  const sendChatIsOpen = useSelector(selectSendChatIsOpen);
   const user = useSelector(selectUser);
   const showSideBar = useSelector(selectShowSidebar)
   const dispatch = useDispatch();
 
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged(user => { 
       if (user) {
         //user is logged in
         dispatch(
@@ -67,7 +70,9 @@ function App() {
           </Switch>
   
         </div>
-        {sendMessageIsOpen && <SendMail />}
+        
+      {sendChatIsOpen && <SendChat />}
+      {sendMessageIsOpen && <SendMail />}
       </div>
       )}
 

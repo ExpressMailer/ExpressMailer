@@ -13,8 +13,6 @@ function SendMail() {
     const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch()
 
-    
-    
     const onSubmit = (formData) => {
         // check here if email exist (for now just setting it to true)
         const emailExists = true 
