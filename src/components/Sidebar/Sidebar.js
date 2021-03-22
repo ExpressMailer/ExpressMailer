@@ -29,11 +29,8 @@ function Sidebar() {
     const history = useHistory();
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(true);
-    // var state={ 
-    //     open:false
-    //    };
-
-
+    
+    
     //temp
     const user = useSelector(selectUser);
     // till here temp
@@ -57,41 +54,40 @@ function Sidebar() {
             <SidebarOption Icon={ExpandMoreIcon} title="More" number={54} />
 
             <div className={styles.sidebar_footer}>
-                    <div className={styles.sidebar_chatmore}>
-                        <IconButton>
-                            <ArrowDropDown  onClick={() => setIsOpen(!isOpen)}/>   {/* onClick={!state.open} */}
-                        </IconButton> 
-                       Chat 
-                    </div>   
-                   <div className={styles.sidebar_chatadd}>
-                    <IconButton>
-                            <AddIcon onClick={() => dispatch(openSendChat())}/>
-                    </IconButton>
-                    </div>
+            <div>
+                <IconButton>
+                    <ArrowDropDown  onClick={() => setIsOpen(!isOpen)}/>  
+                </IconButton> 
+            Chat 
+            </div>   
+            <div>
+            <IconButton>
+                    <AddIcon onClick={() => dispatch(openSendChat())}/>
+            </IconButton>
+            </div>
             </div>
 
             <Collapse in={isOpen}>
-                <div className={styles.sidebar_footer}>  
-                    <div className={styles.sidebar_chatname}>
-                        <Avatar src={user?.photoUrl} />
-                        Tushar Bapecha     
-                    </div>   
-                       
-                     {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
-                    <div className={styles.sidebar_chatfunctions}>
-                            <IconButton>
-                                <ChatIcon onClick={() => dispatch(openSendChat())}/>
-                            </IconButton>
-                            <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
-                                <DuoIcon />
-                            </IconButton>
-                        </div>
+            <div className={styles.sidebar_footer}>  
+            <div className={styles.sidebar_chatavatar}>
+                <Avatar src={user?.photoUrl} />     
+            </div>   
+            <div className={styles.sidebar_chatname}>
+                Tushar Bapecha 
+            </div>
+            {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
+            <div className={styles.sidebar_chatfunctions}>
+                    <IconButton>
+                        <ChatIcon onClick={() => dispatch(openSendChat('tushar@gmail.com'))}/>
+                    </IconButton>
+                    <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
+                        <DuoIcon />
+                    </IconButton>
                 </div>
+            </div>
             </Collapse>
 
-            
-            <div>
-              
+            <div>    
             </div>
            
 
