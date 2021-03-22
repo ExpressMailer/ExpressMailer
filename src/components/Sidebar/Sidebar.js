@@ -82,7 +82,7 @@ function Sidebar() {
             </IconButton>
 
             <Dialog open={Openchatnew} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                <DialogTitle id="form-dialog-title">Start a new Chat</DialogTitle>
                 <DialogContent>
                 <DialogContentText>
                 Type the recipient email to whom you want to chat with:
