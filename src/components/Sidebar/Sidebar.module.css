@@ -17,30 +17,25 @@
 
 .sidebar_footer {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-.sidebar_chatmore{
-    flex: 2;
-}
 
-.sidebar_chatadd{
-    float: right;
-}
-
-.sidebar_chatname {
-    flex: 2;
+.sidebar_chatavatar {
+    flex: 0.3;
     margin-left: 10px;
-    float: left;
+    /* background-color: blue; */
+}
+
+.sidebar_chatname{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    text-overflow: ellipsis;
     /* background-color: palevioletred; */
 }
 
-/* .sidebar_chatname_1 {
-    flex: 1;
-} */
-
-.sidebar_chatfunctions {
-    float: right;
-}
 
 @media only screen and (max-width: 600px) {
     .sidebar {
