@@ -132,9 +132,6 @@ function Sidebar() {
             <div>    
             </div>
             
-            
-
-            
 
             {/* <div>
                 <b>(video call)</b><br></br>
