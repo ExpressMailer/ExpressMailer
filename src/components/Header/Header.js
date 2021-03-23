@@ -60,7 +60,7 @@ function Header({ showSearchResults }) {
                         className={styles.header__inputCaret} 
                         onChange={e => {
                             // if(e.key == 'Enter'){
-                            showSearchResults(e.target.value)
+                            showSearchResults(e.target.value);
                             // }
                         }}
                     />

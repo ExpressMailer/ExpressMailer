@@ -11,6 +11,7 @@ import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import NearMeIcon from "@material-ui/icons/NearMe";
 import NoteIcon from "@material-ui/icons/Note";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import VideoCallIcon from '@material-ui/icons/VideoCall';
 // import PersonIcon from "@material-ui/icons/Person";
 import ChatIcon from "@material-ui/icons/Chat";
 import DuoIcon from "@material-ui/icons/Duo";
@@ -39,8 +40,10 @@ function Sidebar() {
 
     const history = useHistory();
     const dispatch = useDispatch();
-    //variable for opening chat window from recent chat person
+    //variable for opening chat collapse from recent chat person
     const [isOpen, setIsOpen] = useState(false);
+    //variable for opening meet collapse from recent chat person
+    const [isOpenmeet, setIsOpenmeet] = useState(false);
     //variable for opening dialogbox for chat with new person
     const [Openchatnew, setOpenchatnew] = useState(false);
     //creating a refernce for TextField Component in dialogbox
@@ -110,70 +113,90 @@ function Sidebar() {
             <SidebarOption Icon={ExpandMoreIcon} title="More" number={54} />
 
             <div className={styles.sidebar_footer}>
-            <div>
+            <div className={styles.sidebar_features}>    
+                <div>
+                    <IconButton>
+                        <ArrowDropDown  onClick={() => setIsOpen(!isOpen)}/>  
+                    </IconButton> 
+                Chat 
+                </div>   
+                <div>
                 <IconButton>
-                    <ArrowDropDown  onClick={() => setIsOpen(!isOpen)}/>  
-                </IconButton> 
-            Chat 
-            </div>   
-            <div>
-            <IconButton>
-                    <AddIcon onClick={handleClickOpen} />
-            </IconButton>
+                        <AddIcon onClick={handleClickOpen} />
+                </IconButton>
+                    
+                        <Dialog open={Openchatnew} onClose={handleClose} aria-labelledby="form-dialog-title">
+                            <DialogTitle id="form-dialog-title">Start a new Chat</DialogTitle>
+                            <DialogContent>
+                            <DialogContentText>
+                            Type the recipient email to whom you want to chat with:
+                            </DialogContentText>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Email Address"
+                                type="email"
 
-            <Dialog open={Openchatnew} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Start a new Chat</DialogTitle>
-                <DialogContent>
-                <DialogContentText>
-                Type the recipient email to whom you want to chat with:
-                </DialogContentText>
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Email Address"
-                    type="email"
-
-                    //connecting inputRef property of TextField to the valueRef
-                    inputRef={valueRef}   
-                    fullWidth
-                />
-                </DialogContent>
-                <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    Cancel
-                </Button>
-                <Button onClick={sendValue} color="primary">
-                    Start Chat
-                </Button>
-                </DialogActions>
-            </Dialog>
-
-            </div>
+                                //connecting inputRef property of TextField to the valueRef
+                                inputRef={valueRef}   
+                                fullWidth
+                            />
+                            </DialogContent>
+                            <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                                Cancel
+                            </Button>
+                            <Button onClick={sendValue} color="primary">
+                                Start Chat
+                            </Button>
+                            </DialogActions>
+                        </Dialog>
+                </div>
             </div>
 
             <Collapse in={isOpen}>
-            <div className={styles.sidebar_footer}>  
-            <div className={styles.sidebar_chatavatar}>
-                <Avatar src={user?.photoUrl} />     
-            </div>   
-            <div className={styles.sidebar_chatname}>
-                Tushar Bapecha 
-            </div>
-            {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
-            <div className={styles.sidebar_chatfunctions}>
-                    <IconButton>
-                        <ChatIcon onClick={() => dispatch(openSendChat('rugved@gmail.com'))}/>
-                    </IconButton>
-                    <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
-                        <DuoIcon />
-                    </IconButton>
-                </div>
-            </div>
+                        <div className={styles.sidebar_features}>  
+                        <div className={styles.sidebar_chatavatar}>
+                            <Avatar src={user?.photoUrl} />     
+                        </div>   
+                        <div className={styles.sidebar_chatname}>
+                            Tushar Bapecha 
+                        </div>
+                        {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
+                        <div className={styles.sidebar_chatfunctions}>
+                                <IconButton>
+                                    <ChatIcon onClick={() => dispatch(openSendChat('rugved@gmail.com'))}/>
+                                </IconButton>
+                                <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
+                                    <DuoIcon />
+                                </IconButton>
+                            </div>
+                        </div>
             </Collapse>
 
-            <div>    
+            
+            <div className={styles.sidebar_features}> 
+                <div>
+                    <IconButton>
+                        <ArrowDropDown  onClick={() => setIsOpenmeet(!isOpenmeet)}/>  
+                    </IconButton> 
+                Meet
+                </div> 
             </div>
+            </div>
+
+            <Collapse in={isOpenmeet}>
+                <div className={styles.sidebar_features}>  
+                    <div className={styles.sidebar_meet} onClick={() => history.push('/meet/conference/anyRoomName')}>
+                        <IconButton>
+                            <VideoCallIcon  />  
+                        </IconButton>
+                        New meeting
+                    </div>
+                </div>
+            </Collapse>
+
             
 
             {/* <div>
