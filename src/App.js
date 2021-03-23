@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
@@ -17,7 +17,7 @@ import { selectSendMessageIsOpen } from './features/mail';
 import { selectSendChatIsOpen } from './features/chat';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, login } from './features/userSlice';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
 import Meet from './components/Meet/Meet';
 import { selectShowSidebar } from './features/commonSlice';
 
@@ -27,6 +27,44 @@ function App() {
   const user = useSelector(selectUser);
   const showSideBar = useSelector(selectShowSidebar)
   const dispatch = useDispatch();
+  
+
+  const [emails,setEmails] = useState([])
+
+  const getMails = () => {
+    db.collection('emails').where('to','==',auth.currentUser.email).limit(10).orderBy('timestamp','desc').onSnapshot(snapshot => {
+      setEmails(snapshot.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data()
+      })))
+    })
+  }
+
+  const showSearchResults = (query) => {
+    console.log(query)
+    if(query.length == 0){
+      getMails()
+      return
+    }
+    db.collection('emails')
+    .where('to','==',auth.currentUser.email)
+    .where('searchableKeywords','array-contains',query)
+    .limit(10)
+    .orderBy('timestamp','desc')
+    .onSnapshot(snapshot => {
+      console.log(snapshot.docs.length)
+      if(snapshot.docs.length == 0){
+        setEmails(getMails())
+      }
+      else{
+        setEmails(snapshot.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data()
+        })))
+      }
+    })
+    // setShowSearch(true)
+  }
 
   useEffect(() => {
     auth.onAuthStateChanged(user => { 
@@ -39,17 +77,18 @@ function App() {
             photoUrl: user.photoURL
           })
         );
+        getMails()
       }
     });
   }, []);
-  console.log(showSideBar)
+  
   return (
     <Router>
       {!user ? (
         <Login />
       ): (
         <div className="app">
-        <Header />
+        <Header showSearchResults={showSearchResults} />
   
         <div className="app__body">
           {showSideBar && <Sidebar />}
@@ -65,7 +104,7 @@ function App() {
               <Meet />
             </Route>
             <Route path="/">
-              <EmailList />
+              <EmailList emails={emails} setEmails={setEmails} />
             </Route>
           </Switch>
   

@@ -17,7 +17,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
  
-  function Header() {
+function Header({ showSearchResults }) {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
 
@@ -54,7 +54,16 @@ import MenuItem from '@material-ui/core/MenuItem';
             </div>
             <div className={styles.header__middle}>
                 <SearchIcon />
-                <input placeholder="Search mail" type="text" className={styles.header__inputCaret} />
+                    <input 
+                        placeholder="Search mail" 
+                        type="text" 
+                        className={styles.header__inputCaret} 
+                        onChange={e => {
+                            // if(e.key == 'Enter'){
+                            showSearchResults(e.target.value)
+                            // }
+                        }}
+                    />
                 <ArrowDropDownIcon />
             </div>
 

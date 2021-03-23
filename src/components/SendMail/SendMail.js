@@ -7,33 +7,61 @@ import { useDispatch } from 'react-redux';
 import { closeSendMessage } from '../../features/mail';
 import { auth, db } from '../../firebase';
 import firebase from 'firebase'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function SendMail() {
 
     const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch()
 
-    const onSubmit = (formData) => {
-        // check here if email exist (for now just setting it to true)
-        const emailExists = true 
+    const notify = (msg) => toast(msg);
 
-        if(emailExists){
+    const generateKeywords = (formData) => {
+        let searchableKeywords = [auth.currentUser.email,...formData.subject.split(' ')]
+        let prev = ''
+        for(var i=0;i<formData.subject.length;i++){
+            prev = prev  + formData.subject.charAt(i)
+            searchableKeywords.push(prev)
+        }
+        return searchableKeywords
+    }
+    
+    const checkIfEmailExists = async (email) => {
+        const snapshot = await db.collection('users').where('email','==',email).limit(1).get()
+        console.log(snapshot.empty)
+        if(snapshot.empty){
+            return false
+        }
+        return true
+    }
+    
+    const onSubmit = async (formData) => {
+        // check here if email exist (for now just setting it to true)
+        const emailExists = await checkIfEmailExists(formData.to) 
+        console.log(generateKeywords(formData))
+        if(emailExists){   
             db.collection('emails').add({
                 to: formData.to,
                 from: auth.currentUser.email,
                 subject: formData.subject,
                 message: formData.message,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                searchableKeywords:generateKeywords(formData),
+                read: false
             })
+            dispatch(closeSendMessage())
         }
         else{
             console.log(formData.to + " doesn't exist.")
+            alert(formData.to + " doesn't exist.")
         }
-        dispatch(closeSendMessage())
 
     }
-
+    
     return <div className={styles.sendMail}>
+        <ToastContainer />
         <div className={styles.sendMail__header}>
             <h3>New Message</h3>
             <CloseIcon 

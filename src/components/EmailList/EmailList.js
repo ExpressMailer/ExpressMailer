@@ -15,18 +15,8 @@ import Section from '../Section/Section';
 import { auth, db } from '../../firebase';
 
 import EmailRow from '../EmailRow/EmailRow'
-function EmailList() {
-    const [emails,setEmails] = useState([])
-
-    useEffect(() => {
-        db.collection('emails').where('to','==',auth.currentUser.email).orderBy('timestamp','desc').onSnapshot(snapshot => {
-            setEmails(snapshot.docs.map(doc => ({
-                id: doc.id,
-                data: doc.data()
-            })))
-        })
-        
-    },[])
+function EmailList({ emails,setEmails }) {
+    // const [emails,setEmails] = useState(emails)
 
     return (<div className={styles.emailList}>
             <div className={styles.emailList__settings}>
