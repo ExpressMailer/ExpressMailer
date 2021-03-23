@@ -15,6 +15,8 @@ function SendChat() {
     const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch();
     console.log(recipient_mail);
+
+    // check which is lexicographically bigger and set docNAme accordingly
     var docName;
     if(auth.currentUser.email < recipient_mail)
         {
