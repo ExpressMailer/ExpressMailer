@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Avatar } from '@material-ui/core'
 import styles from './Sidebar.module.css';
 import AddIcon from "@material-ui/icons/Add";
@@ -33,20 +33,60 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import { auth, db } from '../../firebase';
 
 function Sidebar() {
+
     const history = useHistory();
     const dispatch = useDispatch();
-    const [isOpen, setIsOpen] = useState(true);
+    //variable for opening chat window from recent chat person
+    const [isOpen, setIsOpen] = useState(false);
+    //variable for opening dialogbox for chat with new person
     const [Openchatnew, setOpenchatnew] = useState(false);
-    
+    //creating a refernce for TextField Component in dialogbox
+    const valueRef = useRef('') 
+    // function as it's name says
+    const checkIfEmailExists = async (email) => {
+        const snapshot = await db.collection('users').where('email','==',email).limit(1).get()
+        console.log(snapshot.empty)
+        if(snapshot.empty){
+            return false
+        }
+        return true
+    }
+
+    // is called when one clicks on start chat in dialog box
+    const sendValue = async() => {
+        //on clicking button accesing current value of TextField and output it to console
+        console.log(valueRef.current.value) 
+
+        // check here if email exist, if exists then open chat window
+        const emailExists = await checkIfEmailExists(valueRef.current.value);
+
+        if(emailExists){  
+            //close window
+            handleClose();
+            //open chat window
+            dispatch(openSendChat(valueRef.current.value));
+        }
+        else{
+            console.log(valueRef.current.value + " doesn't exist.");
+            //alert showing email doesnt exists
+            alert(valueRef.current.value + " doesn't exist.");
+        }
+         
+    }
+
+    // dialogbox handling functions 
     const handleClickOpen = () => {
         setOpenchatnew(true);
     };
-    
+
     const handleClose = () => {
         setOpenchatnew(false);
     };
+
+
     //temp
     const user = useSelector(selectUser);
     // till here temp
@@ -93,6 +133,9 @@ function Sidebar() {
                     id="name"
                     label="Email Address"
                     type="email"
+
+                    //connecting inputRef property of TextField to the valueRef
+                    inputRef={valueRef}   
                     fullWidth
                 />
                 </DialogContent>
@@ -100,7 +143,7 @@ function Sidebar() {
                 <Button onClick={handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={sendValue} color="primary">
                     Start Chat
                 </Button>
                 </DialogActions>

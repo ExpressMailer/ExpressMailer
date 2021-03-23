@@ -12,7 +12,7 @@ export const chatSlice = createSlice({
       state.selectedChat = action.payload;
     },
     openSendChat: (state, action) => {
-      console.log(action.payload);
+      console.log('slice mai '+ action.payload);
       state.sendChatIsOpen = true;
       state.recipient_mail = action.payload;
     },

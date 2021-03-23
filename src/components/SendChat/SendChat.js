@@ -8,7 +8,6 @@ import { closeSendChat, selectSendChatRecipientmail } from '../../features/chat'
 import { auth, db } from '../../firebase';
 import firebase from 'firebase'
 import AllChats from '../Chat/AllChats'
-
 function SendChat() {
 
     const recipient_mail = useSelector(selectSendChatRecipientmail);
@@ -27,11 +26,8 @@ function SendChat() {
             docName = recipient_mail + '-' + auth.currentUser.email;
         }
     
-    const onSubmit = (formData) => {
-        // need to check if email exists
-        const echatExists = true 
-        // adding chat message details to document of subcollection
-        if(echatExists){
+    const onSubmit =  async (formData) => {
+        console.log('formData - ' + formData)
             db.collection('echats')
             .doc(docName)
             .collection('chats').add({
@@ -67,10 +63,7 @@ function SendChat() {
                 person: recipient_mail,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
-        }
-        else{
-            console.log(formData.to + " doesn't exist.")
-        }
+
         dispatch(closeSendChat())
     }
 
