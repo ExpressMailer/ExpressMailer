@@ -1,8 +1,8 @@
 import React from 'react';
-import './SidebarOption.css';
+import styles from './SidebarOption.module.css';
 
 function SidebarOption({ Icon, title, number, selected}) {
-    return <div className={`sidebarOption ${selected && 'sidebarOption--active'}`}>
+    return <div className={`${styles.sidebarOption} ${selected && styles.sidebarOption__active}`}>
         <Icon />
         <h3>{title}</h3>
         <p>{number}</p>   

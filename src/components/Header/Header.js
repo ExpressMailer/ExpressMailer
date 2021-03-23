@@ -5,12 +5,13 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AppsIcon from '@material-ui/icons/Apps';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import React from 'react'
-import './Header.css'
+import styles from './Header.module.css'
 import { useSelector, useDispatch } from "react-redux"
-import { selectUser, logout } from './features/userSlice';
-import { auth } from './firebase';
+import { selectUser, logout } from '../../features/userSlice';
+import { auth } from '../../firebase';
+import { toggleSidebar } from '../../features/commonSlice';
 
-function Header() {
+function Header({ showSearchResults }) {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
 
@@ -19,24 +20,39 @@ function Header() {
             dispatch(logout())
         })
     };
+
+    const toggleSidebarFunction = () => {
+        dispatch(toggleSidebar())
+    }
+
+
     return (
-        <div className="header">
-            <div className="header__left">
+        <div className={styles.header}>
+            <div className={styles.header__left}>
                 <IconButton>
-                    <MenuIcon />
+                    <MenuIcon onClick={toggleSidebarFunction} />
                 </IconButton>
                 <img 
                     src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r2.png" 
                     alt="gmail icon"
                 />
             </div>
-            <div className="header__middle">
+            <div className={styles.header__middle}>
                 <SearchIcon />
-                <input placeholder="Search mail" type="text" className="header__inputCaret" />
+                    <input 
+                        placeholder="Search mail" 
+                        type="text" 
+                        className={styles.header__inputCaret} 
+                        onChange={e => {
+                            // if(e.key == 'Enter'){
+                            showSearchResults(e.target.value)
+                            // }
+                        }}
+                    />
                 <ArrowDropDownIcon />
             </div>
 
-            <div className="header__right">
+            <div className={styles.header__right}>
                 <IconButton>
                     <AppsIcon />
                 </IconButton>

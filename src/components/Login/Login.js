@@ -1,15 +1,33 @@
 import React from 'react';
-import "./Login.css";
+import styles from "./Login.module.css";
 import { Button } from '@material-ui/core';
-import { auth, provider } from './firebase';
-import { login } from './features/userSlice';
+import { auth, db, provider } from '../../firebase';
+import { login } from '../../features/userSlice';
 import { useDispatch } from 'react-redux';
 
 function Login() {
     const dispatch = useDispatch()
+
+    const saveUserToDb = async (user) => {
+        console.log('saveUserToDb called')
+        const snapshot = await db.collection('users').where('email','==',user.email).get()
+        if (snapshot.empty) {
+            console.log('No matching documents.');
+            console.log('before user saved to db')
+            await db.collection('users').add({
+                displayName: user.displayName,
+                email: user.email,
+                photoUrl: user.photoURL
+            })
+            console.log('user saved to db')
+            return;
+        } 
+    }
+
     const signIn = () => {
         auth.signInWithPopup(provider)
-            .then(({user}) => {
+            .then( async ({user}) => {
+                await saveUserToDb(user)
                 dispatch(
                     login({
                         displayName: user.displayName,
@@ -22,8 +40,8 @@ function Login() {
     }; 
 
     return (
-        <div className = "login">
-            <div className="login__container">
+        <div className={styles.login}>
+            <div className={styles.login__container}>
                 <img 
                     src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r2.png"
                     alt=""
