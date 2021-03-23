@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 import { auth, db, provider } from '../../firebase';
 import { login } from '../../features/userSlice';
 import { useDispatch } from 'react-redux';
-
+import logo from '../Header/email.png'
 function Login() {
     const dispatch = useDispatch()
 
@@ -43,7 +43,7 @@ function Login() {
         <div className={styles.login}>
             <div className={styles.login__container}>
                 <img 
-                    src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r2.png"
+                    src={logo}
                     alt=""
                 />
                 <Button variant="contained" color="primary" onClick={signIn}>
