@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './SendChat.module.css';
 import CloseIcon from "@material-ui/icons/Close";
-import { Button } from '@material-ui/core';
+import { Button, Grid, IconButton } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeSendChat, selectSendChatRecipientmail } from '../../features/chat';
@@ -9,6 +9,14 @@ import { auth, db } from '../../firebase';
 import { selectUser } from '../../features/userSlice';
 import firebase from 'firebase'
 import AllChats from '../Chat/AllChats'
+
+import SendIcon from '@material-ui/icons/Send';
+import ScrollToBottom from 'react-scroll-to-bottom';
+import DuoIcon from "@material-ui/icons/Duo";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function SendChat() {
 
     const recipient_mail = useSelector(selectSendChatRecipientmail);
@@ -142,45 +150,18 @@ function SendChat() {
         })
     },[])
 
-    return <div className={styles.sendChat}>
-        <div className={styles.sendChat__header}>
-            <h3>{recipient_mail}</h3>
-            <CloseIcon 
-                className={styles.sendChat__close} 
-                onClick={() => dispatch(closeSendChat())}
-            />
+    
+    return <div>
+            {chats.map(({id,data:{from,message,timestamp,to}}) => {
+                return <AllChats
+                    id={id}
+                    key={id}
+                    title={from}
+                    chatmsg={message}
+                    time={new Date(timestamp?.seconds*1000).toUTCString()}
+                />
+            })}
         </div>
-        <div>
-                {/* {chats.map(({id,data:{from,message,timestamp,to}}) => {
-                    return <AllChats
-                        id={id}
-                        key={id}
-                        title={from}
-                        chatmsg={message}
-                        time={new Date(timestamp?.seconds*1000).toUTCString()}
-                    />
-                })} */}
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-           <input
-                name="message"
-                placeholder="Message..."
-                type="text" 
-                className={styles.sendChat__message}
-                ref={register({ required: true })} 
-            />
-            {errors.to && <p className={styles.sendChat__error}>Message is required</p>}
-
-            <div className={styles.sendChat__options}>
-                <Button 
-                    className="sendChat__send"
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                >Send</Button>
-            </div>
-        </form> 
-    </div>;
 }
 
 export default SendChat
