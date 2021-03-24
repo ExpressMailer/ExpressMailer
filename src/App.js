@@ -21,6 +21,8 @@ import { auth, db } from './firebase';
 import Meet from './components/Meet/Meet';
 import { selectShowSidebar } from './features/commonSlice';
 
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   const sendMessageIsOpen = useSelector(selectSendMessageIsOpen);
   const sendChatIsOpen = useSelector(selectSendChatIsOpen);
