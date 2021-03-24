@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Avatar } from '@material-ui/core'
 import styles from './Sidebar.module.css';
 import AddIcon from "@material-ui/icons/Add";
@@ -94,6 +94,18 @@ function Sidebar() {
     const user = useSelector(selectUser);
     // till here temp
 
+    const [recentChatpersons,setRecentChatpersons] = useState([])
+
+    useEffect(() => {
+        db.collection('users').where('email','==', auth.currentUser.email).onSnapshot(snapshot => {
+            setRecentChatpersons(snapshot.docs.map(doc => ({
+                id: doc.id,
+                data: doc.data(),
+                recents: doc.data()['recentlychatedwith'],
+            })))
+        })
+    },[])
+
     return <div className={styles.sidebar}>
             <Button 
                 startIcon={<AddIcon fontsize="large"/>}
@@ -154,26 +166,42 @@ function Sidebar() {
                         </Dialog>
                 </div>
             </div>
+            <div style={{overflowY: 'auto', maxHeight:'100px',}}>
 
             <Collapse in={isOpen}>
-                        <div className={styles.sidebar_features}>  
-                        <div className={styles.sidebar_chatavatar}>
-                            <Avatar src={user?.photoUrl} />     
-                        </div>   
-                        <div className={styles.sidebar_chatname}>
-                            Tushar Bapecha 
-                        </div>
-                        {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
-                        <div className={styles.sidebar_chatfunctions}>
-                                <IconButton>
-                                    <ChatIcon onClick={() => dispatch(openSendChat('rugved@gmail.com'))}/>
-                                </IconButton>
-                                <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
-                                    <DuoIcon />
-                                </IconButton>
-                            </div>
-                        </div>
+
+            <div className={styles.sidebar_features}>  
+                <div className={styles.sidebar_chatavatar}>
+                    <Avatar src={user?.photoUrl} />     
+                </div>   
+                <div className={styles.sidebar_chatname}>
+                    Tushar Bapecha 
+                </div>
+                            {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
+                <div className={styles.sidebar_chatfunctions}>
+                    <IconButton>                                        
+                        <ChatIcon onClick={() => dispatch(openSendChat('rugvedpb@gmail.com'))}/>
+                    </IconButton>
+                    <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
+                        <DuoIcon />
+                    </IconButton>
+                </div>
+            </div>
+
+            {/* ,recents:{email, displayName, photoUrl */}
+            {/* {recentChatpersons.map(({id,data:{from,message,timestamp,to}}) => {
+                return
+                        <SidebarChatrecent
+                            id={id}
+                            key={id}
+                            title={from}
+                            chatmsg={message}
+                            time={new Date(timestamp?.seconds*1000).toUTCString()}
+                        />
+                     })}  */}
             </Collapse>
+            
+            </div>
 
             
             <div className={styles.sidebar_features}> 

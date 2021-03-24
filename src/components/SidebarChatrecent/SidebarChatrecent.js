@@ -7,7 +7,7 @@ import { selectChat } from '../../features/chatSlice';
 import { selectUser } from '../../features/userSlice';
 import styles from '../SendChat/SendChat.module.css';
 
-function AllChats({ id, 
+function SidebarChatrecent({ id, 
                     title,
                     chatmsg,
                     time, }) 
@@ -31,23 +31,22 @@ function AllChats({ id,
     };
 
     return (
-        <div onClick= {openChats} >
-            <div className={styles.sendChat__chats}>
-                <Avatar src={user?.photoUrl} /> 
-                <h4 className="">
-                    {title}
-                </h4>                
+        <div className={styles.sidebar_features}>  
+            <div className={styles.sidebar_chatavatar}>
+                <Avatar src={user?.photoUrl} />     
+            </div>   
+            <div className={styles.sidebar_chatname}>
+                Tushar Bapecha 
             </div>
-            <p className={styles.sendChat__chattime}>
-                    {time}
-            </p>
-            <div className={styles.sendChat__chats_1}>
-                <span className=""> {chatmsg}
-                </span>
+                        {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
+            <div className={styles.sidebar_chatfunctions}>
+                <IconButton>                                        
+                    <ChatIcon onClick={() => dispatch(openSendChat('rugved.bongale@somaiya.edu'))}/>
+                </IconButton>
+                <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
+                    <DuoIcon />
+                </IconButton>
             </div>
-
-            
-
         </div>
     )
 }
