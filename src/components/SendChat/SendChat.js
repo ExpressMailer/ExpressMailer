@@ -20,10 +20,11 @@ import 'react-toastify/dist/ReactToastify.css';
 function SendChat() {
 
     const recipient_mail = useSelector(selectSendChatRecipientmail);
-    const { register, handleSubmit, watch, errors } = useForm();
+    // const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch();
     console.log(recipient_mail);
 
+    const [chatmsg, setChatmsg] = useState('')
     const [userDetails, setuserDetails] = useState([])
 
     // check which is lexicographically bigger and set docNAme accordingly
@@ -37,14 +38,13 @@ function SendChat() {
             docName = recipient_mail + '-' + auth.currentUser.email;
         }
     
-    const onSubmit =  async (formData) => {
-        console.log('formData - ' + formData)
+    const onSubmit =  async () => {
             db.collection('echats')
             .doc(docName)
             .collection('chats').add({
                 to: recipient_mail,
                 from: auth.currentUser.email,
-                message: formData.message,
+                message: chatmsg,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
         
@@ -151,17 +151,98 @@ function SendChat() {
     },[])
 
     
-    return <div>
-            {chats.map(({id,data:{from,message,timestamp,to}}) => {
-                return <AllChats
-                    id={id}
-                    key={id}
-                    title={from}
-                    chatmsg={message}
-                    time={new Date(timestamp?.seconds*1000).toUTCString()}
-                />
-            })}
-        </div>
+    // return <div>
+    //         {chats.map(({id,data:{from,message,timestamp,to}}) => {
+    //             return <AllChats
+    //                 id={id}
+    //                 key={id}
+    //                 title={from}
+    //                 chatmsg={message}
+    //                 time={new Date(timestamp?.seconds*1000).toUTCString()}
+    //             />
+    //         })}
+    //     </div>
+
+    return <div style={{
+            height:"350px",
+            position:"absolute",
+            bottom:"10px",
+            right:"50px",
+            backgroundColor:"white",
+            width:"250px",
+            boxShadow: "0px 5px 7px 8px rgba(0,0,0,0.24)"
+        }}>
+            {/* {chats.map(({id,data:{from,message,timestamp,to}}) => {
+            return <> */}
+            <div style={{
+                    backgroundColor:"#404040",
+                    // height:"10%",
+                    padding:"5px"
+                }}>
+                    <div style={{
+                        width:"100%",
+                        color:"white"
+                    }}
+                    >
+                        {recipient_mail}
+                        <div style={{
+                            float:"right"
+                        }}>
+                            <DuoIcon 
+                                className={styles.sendChat__close} 
+                                onClick={() => dispatch(closeSendChat())}
+                            />
+                            <CloseIcon 
+                                className={styles.sendChat__close} 
+                                onClick={() => dispatch(closeSendChat())}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div style={{
+                    height:"80%",
+                }}>
+                    <ScrollToBottom className={styles.scrollClass}>
+                        {chats.map(({id,data:{from,message,timestamp,to}}) => {
+                            return <>
+                            <div style={{
+                                    maxWidth:"80%",
+                                    padding:"10px",
+                                    marginTop:"10px",
+                                    backgroundColor:"#f2f2f2",
+                                    float: from === auth.currentUser.email ? "right" : "left",
+                                    clear:"both"
+                                }}>
+                                    {message}
+                            </div><br></br>
+                            </>
+                        })}
+                    </ScrollToBottom>
+                </div>
+                <div style={{
+                    height:"10%",
+                    width:"100%"
+                }}>
+                    <div style={{}}>
+                        <hr></hr>
+                        <input 
+                            onChange={(e) => setChatmsg(e.target.value)}
+                            type="text"
+                            style={{width:"80%",padding:'5px',outline: "none",border:"none"}}
+                        />
+                    
+                        <div style={{
+                                float:"right",
+                                padding:"2px"
+                            }}>
+                                <SendIcon
+                                    className={styles.sendChat__close} 
+                                    onClick={() => onSubmit()}
+                                />
+                        </div>
+                    </div>
+                </div>
+        </div>;
 }
 
 export default SendChat

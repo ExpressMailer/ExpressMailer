@@ -34,7 +34,9 @@ function App() {
   const [emails,setEmails] = useState([])
 
   const getMails = () => {
-    db.collection('emails').where('to','==',auth.currentUser.email).limit(10).orderBy('timestamp','desc').onSnapshot(snapshot => {
+    db.collection('emails')
+    .where('to','==',auth.currentUser.email).limit(10)
+    .orderBy('timestamp','desc').onSnapshot(snapshot => {
       setEmails(snapshot.docs.map(doc => ({
           id: doc.id,
           data: doc.data()
