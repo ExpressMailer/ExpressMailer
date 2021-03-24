@@ -13,6 +13,9 @@ import SendIcon from '@material-ui/icons/Send';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import DuoIcon from "@material-ui/icons/Duo";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function SendChat() {
 
     const recipient_mail = useSelector(selectSendChatRecipientmail);
@@ -101,6 +104,7 @@ function SendChat() {
         width:"250px",
         boxShadow: "0px 5px 7px 8px rgba(0,0,0,0.24)"
     }}>
+        
         <div style={{
             backgroundColor:"#404040",
             // height:"10%",
@@ -163,7 +167,7 @@ function SendChat() {
                     }}>
                         <SendIcon
                             className={styles.sendChat__close} 
-                            onClick={() => dispatch(closeSendChat())}
+                            onClick={() => toast("Wow so easy!")}
                         />
                 </div>
             </div>
