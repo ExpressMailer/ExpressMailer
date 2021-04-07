@@ -26,7 +26,7 @@ function SendChat() {
 
     const [chatmsg, setChatmsg] = useState('')
     const [userDetails, setuserDetails] = useState([])
-
+    
     // check which is lexicographically bigger and set docNAme accordingly
     var docName;
     if(auth.currentUser.email < recipient_mail)
@@ -38,7 +38,19 @@ function SendChat() {
             docName = recipient_mail + '-' + auth.currentUser.email;
         }
     
+
+        // Add chat data to document
+        // Fetch userdata
+        // update field named as recent with recipient data at index 0
+            //check if already present in recent array
+                // if present delete index where recipient is present
+                // add recipient to index 0
+            // if not present add to index 0
+        
     const onSubmit =  async () => {
+            console.log('1')
+
+            // add chat to document 
             db.collection('echats')
             .doc(docName)
             .collection('chats').add({
@@ -47,40 +59,58 @@ function SendChat() {
                 message: chatmsg,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
-        
-            let arrayData = [];
-        // checking no of elements in array recentlychatedperson
-            arrayData = await db.collection('users').where('email','==',auth.currentUser.email).onSnapshot( async (snapshot) => {
+            
+            console.log('2')
+            
+            // checking no of elements in array recentlychatedperson
+            let snapshot = await db.collection('users').where('email','==',auth.currentUser.email).get();
+            // .onSnapshot(async(snapshot) => {
             let userData = snapshot.docs.map(doc => ({
                 id: doc.id,
                 data: doc.data()
             }))
-            
+
+            console.log('3')
+            console.log(userData[0]);
             console.log(userData[0].data.recentlychatedwith);
+
+            let arrayData = [];
             arrayData = userData[0].data.recentlychatedwith;
             
            
             console.log("check array data -------------");
             console.log(arrayData);
-            console.log(arrayData.length);
-            console.log("upar check array data");
+            
+            console.log("check array data length" + arrayData.length);
 
-
+            // finding if recipient is there in recently chat person
             let obj = arrayData.find(o => o.email === recipient_mail);
 
             // if recipient present in recently chat array
             if(obj){
+                console.log("print obj below")
                 console.log(obj);
+
                 let temp;
+
                 // get index where recipient is present
                 let index = arrayData.findIndex(x => x.email === recipient_mail);
+
                 console.log("index at which recipient is already present " + index);
+
                 // store its index 
                 temp = arrayData[index];
+                
                 // if recipient is not at first position 
                 if(index!=0){
-                    arrayData = arrayData.splice(index, 1);
+                    console.log("recipient is not at first position ");
+                    console.log(arrayData);
+                    arrayData = arrayData.splice(index, 1);     
+                    console.log("arrayData after ");
+                    console.log(arrayData);
                     arrayData.unshift(temp);  // put recent on front
+                    console.log("arrayData after front");
+                    console.log(arrayData);
                 }
             }
 
@@ -107,33 +137,34 @@ function SendChat() {
                 }
                 
             }  
-  
-            
-            return arrayData;
-     
-          })
+        //   })
 
+            
+            // make chat field empty 
+            // setChatmsg('');
+            console.log('4')
             console.log("rugved check array data ")
             console.log(arrayData);
 
             // get user id to update
-            var userRef = await db.collection('users').where('email', '==', auth.currentUser.email).get();
-            console.log(userRef.docs[0].id);
+            // var userRef = await db.collection('users').where('email', '==', auth.currentUser.email).get();
+            // console.log(userRef.docs[0].id);
 
             // update recentlychatedwith array
-            var userRef1 = await db.collection('users').doc(userRef.docs[0].id);
-            return userRef1.update({
+            var userRef1 = await db.collection('users').doc(snapshot.docs[0].id);
+            userRef1.update({
             recentlychatedwith: arrayData,
             }).then(() => {
                 console.log("Document successfully updated!");
+                console.log('5')
             })
             .catch((error) => {
                 // The document probably doesn't exist.
                 console.error("Error updating document: ", error);
             }); 
 
-
         dispatch(closeSendChat())
+
     }
 
     const [chats,setChats] = useState([])
@@ -202,7 +233,7 @@ function SendChat() {
                 <div style={{
                     height:"80%",
                 }}>
-                    <ScrollToBottom className={styles.scrollClass}>
+                    <div className={styles.scrollClass}>
                         {chats.map(({id,data:{from,message,timestamp,to}}) => {
                             return <>
                             <div style={{
@@ -217,7 +248,7 @@ function SendChat() {
                             </div><br></br>
                             </>
                         })}
-                    </ScrollToBottom>
+                    </div>
                 </div>
                 <div style={{
                     height:"10%",
