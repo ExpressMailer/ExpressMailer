@@ -233,7 +233,7 @@ function SendChat() {
                 <div style={{
                     height:"80%",
                 }}>
-                    <div className={styles.scrollClass}>
+                    <ScrollToBottom  className={styles.scrollClass}>
                         {chats.map(({id,data:{from,message,timestamp,to}}) => {
                             return <>
                             <div style={{
@@ -248,7 +248,7 @@ function SendChat() {
                             </div><br></br>
                             </>
                         })}
-                    </div>
+                    </ScrollToBottom >
                 </div>
                 <div style={{
                     height:"10%",
