@@ -71,7 +71,7 @@ function App() {
       console.log('hie')
       if(snapshot.docs.length != 0){
         setLastDoc(snapshot.docs[snapshot.docs.length-1])
-        setEmails([...emails,...snapshot.docs.map(doc => {
+        setEmails([,...snapshot.docs.map(doc => {//...emails
           return {
             id: doc.id,
             data: {
