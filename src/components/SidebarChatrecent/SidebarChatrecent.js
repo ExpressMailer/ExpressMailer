@@ -38,7 +38,7 @@ function SidebarChatrecent({ displayName, email, photoUrl })
                 <Avatar src={photoUrl} />     
             </div>    
             <div className={styles.sidebar_chatname}>
-                {displayName} 
+                {displayName}
             </div>
                         {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
             <div className={styles.sidebar_chatfunctions}>
