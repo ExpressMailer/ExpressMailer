@@ -35,6 +35,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { auth, db } from '../../firebase';
+import SidebarChatrecent from '../SidebarChatrecent/SidebarChatrecent'
 
 function Sidebar({selectedSideBarItem,setSelectedSideBarItem}) {
 
@@ -103,7 +104,10 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem}) {
                 data: doc.data(),
                 recents: doc.data()['recentlychatedwith'],
             })))
+            // console.log("recentChatpersons")
+            // console.log(recentChatpersons[0].recents)
         })
+        
     },[])
 
     return <div className={styles.sidebar}>
@@ -170,35 +174,17 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem}) {
 
             <Collapse in={isOpen}>
 
-            <div className={styles.sidebar_features}>  
-                <div className={styles.sidebar_chatavatar}>
-                    <Avatar src={user?.photoUrl} />     
-                </div>   
-                <div className={styles.sidebar_chatname}>
-                    Tushar Bapecha 
-                </div>
-                            {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
-                <div className={styles.sidebar_chatfunctions}>
-                    <IconButton>                                        
-                        <ChatIcon onClick={() => dispatch(openSendChat('rugvedpb@gmail.com'))}/>
-                    </IconButton>
-                    <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
-                        <DuoIcon />
-                    </IconButton>
-                </div>
-            </div>
-
             {/* ,recents:{email, displayName, photoUrl */}
-            {/* {recentChatpersons.map(({id,data:{from,message,timestamp,to}}) => {
-                return
-                        <SidebarChatrecent
-                            id={id}
-                            key={id}
-                            title={from}
-                            chatmsg={message}
-                            time={new Date(timestamp?.seconds*1000).toUTCString()}
+            {/* {JSON.stringify(recentChatpersons)} */}
+            {recentChatpersons && recentChatpersons.length > 0 && recentChatpersons[0].recents.map(({displayName, email, photoUrl}) => {
+                return  <SidebarChatrecent
+                            displayName = {displayName}
+                            email={email}
+                            // displayName={displayName}
+                            photoUrl={photoUrl}
                         />
-                     })}  */}
+                     })} 
+
             </Collapse>
             
             </div>

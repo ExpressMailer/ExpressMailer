@@ -27,7 +27,7 @@ import { generateRoomName } from './utilities/common';
 
 function App() {
   
-  const limit = 100
+  const limit = 5
 
   const sendMessageIsOpen = useSelector(selectSendMessageIsOpen);
   const sendChatIsOpen = useSelector(selectSendChatIsOpen);
