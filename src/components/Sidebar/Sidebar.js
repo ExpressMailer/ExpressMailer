@@ -36,7 +36,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { auth, db } from '../../firebase';
 
-function Sidebar() {
+function Sidebar({selectedSideBarItem,setSelectedSideBarItem}) {
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -115,14 +115,14 @@ function Sidebar() {
                 Compose
             </Button>
 
-            <SidebarOption Icon={InboxIcon} title="Inbox"
-             number={54} selected={true} />
-            <SidebarOption Icon={StarIcon} title="Starred" number={54} />
-            <SidebarOption Icon={AccessTimeIcon} title="Snoozed" number={54} />
-            <SidebarOption Icon={LabelImportantIcon} title="Important" number={54} />
-            <SidebarOption Icon={NearMeIcon} title="Sent" number={54} />
-            <SidebarOption Icon={NoteIcon} title="Drafts" number={54} />
-            <SidebarOption Icon={ExpandMoreIcon} title="More" number={54} />
+            <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={0} selected={selectedSideBarItem == 0} Icon={InboxIcon} title="Inbox"
+             number={54}  />
+            <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={1} selected={selectedSideBarItem == 1} Icon={StarIcon} title="Starred" number={54} />
+            <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={2} selected={selectedSideBarItem == 2} Icon={AccessTimeIcon} title="Snoozed" number={54} />
+            <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={3} selected={selectedSideBarItem == 3} Icon={LabelImportantIcon} title="Important" number={54} />
+            <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={4} selected={selectedSideBarItem == 4} Icon={NearMeIcon} title="Sent" number={54} />
+            <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={5} selected={selectedSideBarItem == 5} Icon={NoteIcon} title="Drafts" number={54} />
+            <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={6} selected={selectedSideBarItem == 6} Icon={ExpandMoreIcon} title="More" number={54} />
 
             <div className={styles.sidebar_footer}>
             <div className={styles.sidebar_features}>    
