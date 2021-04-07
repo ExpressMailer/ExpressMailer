@@ -10,7 +10,8 @@ import firebase from 'firebase'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { decrypt,encrypt } from '../../utilities/crypt'
+import { generateRoomName } from '../../utilities/common';
 
 function SendMail() {
 
@@ -42,14 +43,17 @@ function SendMail() {
         // check here if email exist (for now just setting it to true)
         const emailExists = await checkIfEmailExists(formData.to) 
         console.log(generateKeywords(formData))
+
+        
+
         if(emailExists){   
             db.collection('emails').add({
                 to: formData.to,
                 from: auth.currentUser.email,
-                subject: formData.subject,
-                message: formData.message,
+                subject:  encrypt(formData.subject, generateRoomName(auth.currentUser.email,formData.to)),
+                message: encrypt(formData.message, generateRoomName(auth.currentUser.email,formData.to)),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                searchableKeywords:generateKeywords(formData),
+                searchableKeywords: generateKeywords(formData),
                 read: false
             })
             toast.success("Mail sent successfully.")

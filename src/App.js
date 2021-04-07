@@ -20,6 +20,8 @@ import { selectUser, login } from './features/userSlice';
 import { auth, db } from './firebase';
 import Meet from './components/Meet/Meet';
 import { selectShowSidebar } from './features/commonSlice';
+import { decrypt } from './utilities/crypt';
+import { generateRoomName } from './utilities/common';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -34,15 +36,25 @@ function App() {
   const [emails,setEmails] = useState([])
 
   const getMails = () => {
+    console.log('getMails')
     db.collection('emails')
     .where('to','==',auth.currentUser.email).limit(10)
     .orderBy('timestamp','desc').onSnapshot(snapshot => {
-      setEmails(snapshot.docs.map(doc => ({
+      console.log('hie')
+      setEmails(snapshot.docs.map(doc => {
+        // console.log(doc.data().subject)
+        // console.log({...doc.data(),subject: decrypt(doc.data().subject,generateRoomName(doc.data().to,doc.data().from)) })
+        
+        return {
           id: doc.id,
-          data: doc.data()
-      })))
-    })
-  }
+          data: {
+            ...doc.data(),
+            subject: decrypt(doc.data().subject,generateRoomName(auth.currentUser.email,doc.data().from)),
+            message: decrypt(doc.data().message,generateRoomName(auth.currentUser.email,doc.data().from))
+          }, 
+        }
+      }))})
+    }
 
   const showSearchResults = (query) => {
     console.log(query)
@@ -63,7 +75,10 @@ function App() {
       else{
         setEmails(snapshot.docs.map(doc => ({
             id: doc.id,
-            data: doc.data()
+            data: {
+              ...doc.data(), 
+              subject: decrypt(doc.data()['subject'],generateRoomName(auth.currentUser.email,doc.data()['title']))
+            }
         })))
       }
     })
