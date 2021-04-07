@@ -43,9 +43,9 @@ function SidebarChatrecent({ displayName, email, photoUrl })
                         {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
             <div className={styles.sidebar_chatfunctions}>
                 <IconButton>                                        
-                    <ChatIcon onClick={() => dispatch(openSendChat({email}))}/>
+                    <ChatIcon onClick={() => dispatch(openSendChat(email))}/>
                 </IconButton>
-                <IconButton onClick={() => history.push('/meet/single/' + {email})}>
+                <IconButton onClick={() => history.push('/meet/single/' + email)}>
                     <DuoIcon />
                 </IconButton>
             </div>

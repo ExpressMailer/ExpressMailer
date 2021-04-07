@@ -17,7 +17,8 @@ function Login() {
             await db.collection('users').add({
                 displayName: user.displayName,
                 email: user.email,
-                photoUrl: user.photoURL
+                photoUrl: user.photoURL,
+                recentlychatedwith: []
             })
             console.log('user saved to db')
             return;

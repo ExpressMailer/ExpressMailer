@@ -173,8 +173,6 @@ function Sidebar() {
             <div style={{overflowY: 'auto', maxHeight:'100px',}}>
 
             <Collapse in={isOpen}>
-
-            {/* ,recents:{email, displayName, photoUrl */}
             
             {recentChatpersons.length > 0 && recentChatpersons[0].recents.map(({displayName, email, photoUrl}) => {
                 return  <SidebarChatrecent
