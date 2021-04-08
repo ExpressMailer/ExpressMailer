@@ -8,6 +8,8 @@ export const chatSlice = createSlice({
   },
   reducers: {
     openSendChat: (state, action) => {
+      console.log('action')
+      console.log(action)
       state.sendChatIsOpen = true;
       state.recipient_mail = action.payload;
     },

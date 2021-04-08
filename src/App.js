@@ -20,10 +20,15 @@ import { selectUser, login } from './features/userSlice';
 import { auth, db } from './firebase';
 import Meet from './components/Meet/Meet';
 import { selectShowSidebar } from './features/commonSlice';
+import { decrypt } from './utilities/crypt';
+import { generateRoomName } from './utilities/common';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+  
+  const limit = 5
+
   const sendMessageIsOpen = useSelector(selectSendMessageIsOpen);
   const sendChatIsOpen = useSelector(selectSendChatIsOpen);
   const user = useSelector(selectUser);
@@ -32,13 +37,54 @@ function App() {
   
 
   const [emails,setEmails] = useState([])
+  const [selectedSideBarItem, setSelectedSideBarItem] = useState(0)
+  const [lastDoc, setLastDoc] = useState(null)
+
+  function getQueryStatement(){
+    let emailRef = db.collection('emails')
+    if(selectedSideBarItem == 0){// received
+      emailRef = emailRef.where('to','==',auth.currentUser.email)
+    }
+    else if(selectedSideBarItem == 1){ // starred
+      emailRef = emailRef.where('to','==',auth.currentUser.email).where('starred','==',true)
+    }
+    else if(selectedSideBarItem == 3){ // marked as imp
+      emailRef = emailRef.where('to','==',auth.currentUser.email).where('important','==',true)
+    }
+    else if(selectedSideBarItem == 4){// sent by me
+      emailRef = emailRef.where('from','==',auth.currentUser.email)
+    }
+    emailRef = emailRef.orderBy('timestamp','desc')
+    if(lastDoc){
+      emailRef = emailRef.startAfter(lastDoc)
+    }
+    emailRef = emailRef.limit(limit)
+    return emailRef
+  }
 
   const getMails = () => {
-    db.collection('emails').where('to','==',auth.currentUser.email).limit(10).orderBy('timestamp','desc').onSnapshot(snapshot => {
-      setEmails(snapshot.docs.map(doc => ({
-          id: doc.id,
-          data: doc.data()
-      })))
+    console.log('getMails')
+    let emailRef = getQueryStatement()
+    
+    emailRef
+    .onSnapshot(snapshot => {
+      console.log('hie')
+      if(snapshot.docs.length != 0){
+        setLastDoc(snapshot.docs[snapshot.docs.length-1])
+        setEmails([,...snapshot.docs.map(doc => {//...emails
+          return {
+            id: doc.id,
+            data: {
+              ...doc.data(),
+              subject: decrypt(doc.data().subject,generateRoomName(auth.currentUser.email,doc.data().from)),
+              message: decrypt(doc.data().message,generateRoomName(auth.currentUser.email,doc.data().from))
+            }, 
+          }
+        })])
+      }
+      else{
+        alert('No more mails available')
+      }
     })
   }
 
@@ -48,7 +94,8 @@ function App() {
       getMails()
       return
     }
-    db.collection('emails')
+    let emailRef = db.collection('emails')
+    emailRef
     .where('to','==',auth.currentUser.email)
     .where('searchableKeywords','array-contains',query)
     .limit(10)
@@ -61,7 +108,10 @@ function App() {
       else{
         setEmails(snapshot.docs.map(doc => ({
             id: doc.id,
-            data: doc.data()
+            data: {
+              ...doc.data(), 
+              subject: decrypt(doc.data()['subject'],generateRoomName(auth.currentUser.email,doc.data()['title']))
+            }
         })))
       }
     })
@@ -82,7 +132,7 @@ function App() {
         getMails()
       }
     });
-  }, []);
+  }, [selectedSideBarItem]);
   
   return (
     <Router>
@@ -93,7 +143,7 @@ function App() {
         <Header showSearchResults={showSearchResults} />
   
         <div className="app__body">
-          {showSideBar && <Sidebar />}
+          {showSideBar && <Sidebar selectedSideBarItem={selectedSideBarItem} setSelectedSideBarItem={setSelectedSideBarItem} />}
   
           <Switch>
             <Route path="/mail">
@@ -106,7 +156,7 @@ function App() {
               <Meet />
             </Route>
             <Route path="/">
-              <EmailList emails={emails} setEmails={setEmails} />
+              <EmailList emails={emails} setEmails={setEmails} getMails={getMails}/>
             </Route>
           </Switch>
   

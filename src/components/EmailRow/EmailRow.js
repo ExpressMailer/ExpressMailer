@@ -23,7 +23,6 @@ function EmailRow({ id, title, subject, description, time })
                 time,
             })
         );
-
         history.push("/mail");
     };
 

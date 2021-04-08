@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { selectUser, logout } from '../../features/userSlice';
 import { auth } from '../../firebase';
 import { toggleSidebar } from '../../features/commonSlice';
-
+import logo from './email.png'
 // Modal when clicked on self avatar
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -47,10 +47,11 @@ function Header({ showSearchResults }) {
                 <IconButton>
                     <MenuIcon onClick={toggleSidebarFunction} />
                 </IconButton>
-                <img 
-                    src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r2.png" 
+                <img style={{width: "50px", heigth: "25px", marginLeft: "25px",  marginRight: "15px"}}
+                    src={logo}
                     alt="gmail icon"
                 />
+               <h2> EMAIL </h2>
             </div>
             <div className={styles.header__middle}>
                 <SearchIcon />
@@ -60,7 +61,7 @@ function Header({ showSearchResults }) {
                         className={styles.header__inputCaret} 
                         onChange={e => {
                             // if(e.key == 'Enter'){
-                            showSearchResults(e.target.value)
+                            showSearchResults(e.target.value);
                             // }
                         }}
                     />

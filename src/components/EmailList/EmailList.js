@@ -15,7 +15,7 @@ import Section from '../Section/Section';
 import { auth, db } from '../../firebase';
 
 import EmailRow from '../EmailRow/EmailRow'
-function EmailList({ emails,setEmails }) {
+function EmailList({ emails,setEmails,getMails }) {
     // const [emails,setEmails] = useState(emails)
 
     return (<div className={styles.emailList}>
@@ -55,18 +55,21 @@ function EmailList({ emails,setEmails }) {
             </div>
 
             <div className={styles.emailList__list}>
-                {emails.map(({id,data:{to,from,subject,message,timestamp}}) => {
-                    return <EmailRow
-                        id={id}
-                        key={id}
-                        title={from}
-                        subject={subject}
-                        description={message}
-                        time={new Date(timestamp?.seconds*1000).toUTCString()}
-                    />
-                })}
-                {/* {emails.map({ id,data: {to,subject,message,timestamp} } => {
-                })} */}
+                <div>
+                    {emails.map(({id,data:{to,from,subject,message,timestamp}}) => {
+                        return <EmailRow
+                            id={id}
+                            key={id}
+                            title={from}
+                            subject={subject}
+                            description={message}
+                            time={new Date(timestamp?.seconds*1000).toUTCString()}
+                        />
+                    })}
+                </div>
+                <div style={{width:"100%",textAlign:"center"}}>
+                    <button onClick={getMails} className={styles.emailList__more}>More</button>
+                </div>
             </div>
         </div>
     );

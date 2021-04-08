@@ -17,14 +17,24 @@
 
 .sidebar_footer {
     display: flex;
+    flex-direction: column;
+    
+}
+.sidebar_features {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-
 .sidebar_chatavatar {
     flex: 0.3;
     margin-left: 10px;
+    /* background-color: blue; */
+}
+
+.sidebar_meet {
+    flex: 1;
+    margin-left: 30px;
     /* background-color: blue; */
 }
 
