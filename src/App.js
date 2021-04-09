@@ -22,12 +22,11 @@ import Meet from './components/Meet/Meet';
 import { selectShowSidebar } from './features/commonSlice';
 import { decrypt } from './utilities/crypt';
 import { generateRoomName } from './utilities/common';
-
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import Loading from './components/Loading/Loading';
 
 function App() {
   
-  const limit = 5
+  // const limit = 5
 
   const sendMessageIsOpen = useSelector(selectSendMessageIsOpen);
   const sendChatIsOpen = useSelector(selectSendChatIsOpen);
@@ -38,7 +37,8 @@ function App() {
 
   const [emails,setEmails] = useState([])
   const [selectedSideBarItem, setSelectedSideBarItem] = useState(0)
-  const [lastDoc, setLastDoc] = useState(null)
+  const [selectedLabelItem, setSelectedLabelItem] = useState(0)// 0-> Primary, 1-> Social, 2->Promotions
+  // const [lastDoc, setLastDoc] = useState(null)
 
   function getQueryStatement(){
     let emailRef = db.collection('emails')
@@ -54,11 +54,27 @@ function App() {
     else if(selectedSideBarItem == 4){// sent by me
       emailRef = emailRef.where('from','==',auth.currentUser.email)
     }
-    emailRef = emailRef.orderBy('timestamp','desc')
-    if(lastDoc){
-      emailRef = emailRef.startAfter(lastDoc)
+
+    // Label
+    if(selectedLabelItem == 0){
+      console.log('0 called')
+      // emailRef = emailRef.where('label','==',"primary")
     }
-    emailRef = emailRef.limit(limit)
+    else if(selectedLabelItem == 1){
+      console.log('1 called')
+      emailRef = emailRef.where('label','==',"social")
+    }
+    else if(selectedLabelItem == 2){
+      console.log('2 called')
+      emailRef = emailRef.where('label','==',"promotions")
+    }
+
+
+    emailRef = emailRef.orderBy('timestamp','desc')
+    // if(lastDoc){
+    //   emailRef = emailRef.startAfter(lastDoc)
+    // }
+    // emailRef = emailRef.limit(limit)
     return emailRef
   }
 
@@ -69,9 +85,9 @@ function App() {
     emailRef
     .onSnapshot(snapshot => {
       console.log('hie')
-      if(snapshot.docs.length != 0){
-        setLastDoc(snapshot.docs[snapshot.docs.length-1])
-        setEmails([,...snapshot.docs.map(doc => {//...emails
+      // if(snapshot.docs.length != 0){
+        // setLastDoc(snapshot.docs[snapshot.docs.length-1])
+        setEmails([...snapshot.docs.map(doc => {//...emails
           return {
             id: doc.id,
             data: {
@@ -81,10 +97,10 @@ function App() {
             }, 
           }
         })])
-      }
-      else{
-        alert('No more mails available')
-      }
+      // }
+      // else{
+      //   alert('No mails available')
+      // }
     })
   }
 
@@ -98,14 +114,14 @@ function App() {
     emailRef
     .where('to','==',auth.currentUser.email)
     .where('searchableKeywords','array-contains',query)
-    .limit(10)
+    // .limit(10)
     .orderBy('timestamp','desc')
     .onSnapshot(snapshot => {
       console.log(snapshot.docs.length)
-      if(snapshot.docs.length == 0){
-        setEmails(getMails())
-      }
-      else{
+      // if(snapshot.docs.length == 0){
+      //   setEmails(getMails())
+      // }
+      // else{
         setEmails(snapshot.docs.map(doc => ({
             id: doc.id,
             data: {
@@ -113,7 +129,7 @@ function App() {
               subject: decrypt(doc.data()['subject'],generateRoomName(auth.currentUser.email,doc.data()['title']))
             }
         })))
-      }
+      // }
     })
     // setShowSearch(true)
   }
@@ -132,7 +148,7 @@ function App() {
         getMails()
       }
     });
-  }, [selectedSideBarItem]);
+  }, [selectedSideBarItem,selectedLabelItem]);
   
   return (
     <Router>
@@ -156,7 +172,14 @@ function App() {
               <Meet />
             </Route>
             <Route path="/">
-              <EmailList emails={emails} setEmails={setEmails} getMails={getMails}/>
+              
+              <EmailList 
+                emails={emails} 
+                setEmails={setEmails} 
+                getMails={getMails}
+                selectedLabelItem={selectedLabelItem}
+                setSelectedLabelItem={setSelectedLabelItem}
+              />
             </Route>
           </Switch>
   

@@ -15,7 +15,8 @@ import Section from '../Section/Section';
 import { auth, db } from '../../firebase';
 
 import EmailRow from '../EmailRow/EmailRow'
-function EmailList({ emails,setEmails,getMails }) {
+import Loading from '../Loading/Loading';
+function EmailList({ emails,setEmails,getMails,selectedLabelItem,setSelectedLabelItem }) {
     // const [emails,setEmails] = useState(emails)
 
     return (<div className={styles.emailList}>
@@ -49,12 +50,31 @@ function EmailList({ emails,setEmails,getMails }) {
             </div>
 
             <div className={styles.emailList__sections} >
-                <Section Icon={InboxIcon} title="Primary" color="red" selected />  
-                <Section Icon={PeopleIcon} title="Social" color="#1A73E8" />    
-                <Section Icon={LocalOfferIcon} title="Promotions" color="green" />  
+                <Section 
+                    Icon={InboxIcon} 
+                    title="Primary" 
+                    color="red" 
+                    selected={selectedLabelItem == 0} 
+                    onClick={() => setSelectedLabelItem(0)}
+                />  
+                <Section 
+                    Icon={PeopleIcon} 
+                    title="Social" 
+                    color="#1A73E8" 
+                    selected={selectedLabelItem == 1} 
+                    onClick={() => setSelectedLabelItem(1)}
+                />    
+                <Section 
+                    Icon={LocalOfferIcon} 
+                    title="Promotions" 
+                    color="green" 
+                    selected={selectedLabelItem == 2}
+                    onClick={() => setSelectedLabelItem(2)} 
+                />  
             </div>
 
             <div className={styles.emailList__list}>
+            {emails.length == 0 ? <Loading /> : 
                 <div>
                     {emails.map(({id,data:{to,from,subject,message,timestamp}}) => {
                         return <EmailRow
@@ -67,9 +87,10 @@ function EmailList({ emails,setEmails,getMails }) {
                         />
                     })}
                 </div>
-                <div style={{width:"100%",textAlign:"center"}}>
+            }
+                {/* <div style={{width:"100%",textAlign:"center"}}>
                     <button onClick={getMails} className={styles.emailList__more}>More</button>
-                </div>
+                </div> */}
             </div>
         </div>
     );
