@@ -10,7 +10,13 @@ import { useSelector, useDispatch } from "react-redux"
 import { selectUser, logout } from '../../features/userSlice';
 import { auth } from '../../firebase';
 import { toggleSidebar } from '../../features/commonSlice';
+import logo from './email.png'
+// Modal when clicked on self avatar
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
+ 
 function Header({ showSearchResults }) {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
@@ -25,17 +31,27 @@ function Header({ showSearchResults }) {
         dispatch(toggleSidebar())
     }
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+    
     return (
         <div className={styles.header}>
             <div className={styles.header__left}>
                 <IconButton>
                     <MenuIcon onClick={toggleSidebarFunction} />
                 </IconButton>
-                <img 
-                    src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r2.png" 
+                <img style={{width: "50px", heigth: "25px", marginLeft: "25px",  marginRight: "15px"}}
+                    src={logo}
                     alt="gmail icon"
                 />
+               <h2> EMAIL </h2>
             </div>
             <div className={styles.header__middle}>
                 <SearchIcon />
@@ -45,7 +61,7 @@ function Header({ showSearchResults }) {
                         className={styles.header__inputCaret} 
                         onChange={e => {
                             // if(e.key == 'Enter'){
-                            showSearchResults(e.target.value)
+                            showSearchResults(e.target.value);
                             // }
                         }}
                     />
@@ -59,7 +75,22 @@ function Header({ showSearchResults }) {
                 <IconButton>
                     <NotificationsIcon />
                 </IconButton>
-                <Avatar onClick={signOut} src={user?.photoUrl} />
+                {/* <Avatar onClick={signOut} src={user?.photoUrl} /> */}
+                <Avatar onClick={handleClick} src={user?.photoUrl} />
+                <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem>
+                        <Avatar src={user?.photoUrl} />
+                    </MenuItem>
+                    <MenuItem >{user.displayName}</MenuItem>
+                    <MenuItem >{user.email}</MenuItem>
+                    <MenuItem onClick={signOut}>Sign Out</MenuItem>
+                </Menu>
             </div>
         </div>
     )

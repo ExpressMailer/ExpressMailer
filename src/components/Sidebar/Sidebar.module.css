@@ -17,8 +17,35 @@
 
 .sidebar_footer {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    
 }
+.sidebar_features {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.sidebar_chatavatar {
+    flex: 0.3;
+    margin-left: 10px;
+    /* background-color: blue; */
+}
+
+.sidebar_meet {
+    flex: 1;
+    margin-left: 30px;
+    /* background-color: blue; */
+}
+
+.sidebar_chatname{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    text-overflow: ellipsis;
+    /* background-color: palevioletred; */
+}
+
 
 @media only screen and (max-width: 600px) {
     .sidebar {

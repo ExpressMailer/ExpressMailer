@@ -35,3 +35,14 @@
 .emailList__list {
     padding-bottom: 20%;
 } 
+
+.emailList__more{
+    color: #000;
+    text-align: center;
+    border: none;
+    outline: none;
+    position: absolute;
+    bottom: 10px;
+    cursor: pointer;
+    font-weight: bolder;
+}
