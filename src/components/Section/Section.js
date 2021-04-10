@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from "./Section.module.css";
 
-function Section({ Icon, title, color, selected }) {
+function Section({ Icon, title, color, selected, onClick }) {
     return (
-        <div className = {`${styles.section} ${selected && styles.section__selected}`}
+        <div onClick={onClick} className = {`${styles.section} ${selected && styles.section__selected}`}
             style={{
                 borderBottom:`3px solid ${color}`,
                 color: `${selected && color}`,
