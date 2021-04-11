@@ -7,7 +7,8 @@ import { useDispatch } from 'react-redux';
 import { closeSendMessage } from '../../features/mail';
 import { auth, db } from '../../firebase';
 import firebase from 'firebase'
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { decrypt,encrypt } from '../../utilities/crypt'
@@ -103,6 +104,15 @@ function SendMail() {
                     className={styles.sendMail__message}
                     ref={register({ required: true })} 
                 />
+
+                {/* <CKEditor
+                    placeholder="Message..."
+                    editor={ ClassicEditor } 
+                    className={styles.sendMail__message}
+                    ref={register({ required: true })} 
+                    data={addData} 
+                    onChange={handleChange}
+                    /> */}
                 {errors.to && <p className={styles.sendMail__error}>Message is required</p>}
 
                 <div className={styles.sendMail__options}>
