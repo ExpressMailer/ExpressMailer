@@ -13,13 +13,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { decrypt,encrypt } from '../../utilities/crypt'
 import { generateRoomName } from '../../utilities/common';
+import { useState } from 'react'; 
 
 function SendMail() {
 
     const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch()
-
+    const [addData, setVal] = useState("");
     const notify = (msg) => toast(msg);
+
+    const handleChange = (e, editor) => {
+        var data = editor.getData();
+        data = data.replace(/<[^>]+>/g, '');
+        setVal(data);
+    }
 
     const generateKeywords = (formData) => {
         let searchableKeywords = [auth.currentUser.email,...formData.subject.split(' ')]
@@ -44,7 +51,6 @@ function SendMail() {
         // check here if email exist (for now just setting it to true)
         const emailExists = await checkIfEmailExists(formData.to) 
         console.log(generateKeywords(formData))
-
         
 
         if(emailExists){   
@@ -52,7 +58,7 @@ function SendMail() {
                 to: formData.to,
                 from: auth.currentUser.email,
                 subject:  encrypt(formData.subject, generateRoomName(auth.currentUser.email,formData.to)),
-                message: encrypt(formData.message, generateRoomName(auth.currentUser.email,formData.to)),
+                message: encrypt(addData, generateRoomName(auth.currentUser.email,formData.to)),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 searchableKeywords: generateKeywords(formData),
                 read: false
@@ -97,22 +103,25 @@ function SendMail() {
                 />
                 {errors.to && <p className={styles.sendMail__error}>Subject is required</p>}
 
-            <input
+            {/* <input
                     name="message"
                     placeholder="Message..."
                     type="text" 
                     className={styles.sendMail__message}
                     ref={register({ required: true })} 
-                />
-
-                {/* <CKEditor
-                    placeholder="Message..."
-                    editor={ ClassicEditor } 
-                    className={styles.sendMail__message}
-                    ref={register({ required: true })} 
-                    data={addData} 
-                    onChange={handleChange}
-                    /> */}
+                /> */}
+                
+                {/* <div className={styles.sendMail__message}> */}
+                    <CKEditor
+                        placeholder="Message..."
+                        editor={ ClassicEditor } 
+                        // styles={{"flex":"1"}}
+                        // className={styles.sendMail__message}
+                        ref={register({ required: true })} 
+                        data={addData}  
+                        onChange={handleChange}
+                    />
+                {/* </div> */}
                 {errors.to && <p className={styles.sendMail__error}>Message is required</p>}
 
                 <div className={styles.sendMail__options}>
