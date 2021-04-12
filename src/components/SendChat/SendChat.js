@@ -9,11 +9,11 @@ import { auth, db } from '../../firebase';
 import { selectUser } from '../../features/userSlice';
 import firebase from 'firebase'
 import AllChats from '../Chat/AllChats'
-
+import { generateRoomName } from '../../utilities/common';
 import SendIcon from '@material-ui/icons/Send';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import DuoIcon from "@material-ui/icons/Duo";
-
+import { decrypt,encrypt } from '../../utilities/crypt'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -82,7 +82,7 @@ function SendChat() {
         .collection('chats').add({
             to: recipient_mail,
             from: auth.currentUser.email,
-            message: chatmsg,
+            message: encrypt(chatmsg, generateRoomName(auth.currentUser.email,recipient_mail)),
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         })
 
@@ -166,7 +166,7 @@ function SendChat() {
                                     float: from === auth.currentUser.email ? "right" : "left",
                                     clear:"both"
                                 }}>
-                                    {message}
+                                    {decrypt(message, generateRoomName(auth.currentUser.email,recipient_mail))}
                             </div><br></br>
                             </>
                         })}

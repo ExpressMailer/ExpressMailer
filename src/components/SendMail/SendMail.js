@@ -7,18 +7,32 @@ import { useDispatch } from 'react-redux';
 import { closeSendMessage } from '../../features/mail';
 import { auth, db } from '../../firebase';
 import firebase from 'firebase'
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { decrypt,encrypt } from '../../utilities/crypt'
 import { generateRoomName } from '../../utilities/common';
+import { useState } from 'react'; 
 
 function SendMail() {
 
     const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch()
-
+    const [addData, setVal] = useState("");
+    const [option,setOption] = useState("Primary");
     const notify = (msg) => toast(msg);
+
+    const handleChange = (e, editor) => {
+        var data = editor.getData();
+        data = data.replace(/<[^>]+>/g, '');
+        setVal(data);
+    }
+    
+    const handleChangeinType = (event) => {
+        setOption(event.target.value)
+        console.log(`Option selected:`, option);
+    }
 
     const generateKeywords = (formData) => {
         let searchableKeywords = [auth.currentUser.email,...formData.subject.split(' ')]
@@ -43,7 +57,6 @@ function SendMail() {
         // check here if email exist (for now just setting it to true)
         const emailExists = await checkIfEmailExists(formData.to) 
         console.log(generateKeywords(formData))
-
         
 
         if(emailExists){   
@@ -51,10 +64,11 @@ function SendMail() {
                 to: formData.to,
                 from: auth.currentUser.email,
                 subject:  encrypt(formData.subject, generateRoomName(auth.currentUser.email,formData.to)),
-                message: encrypt(formData.message, generateRoomName(auth.currentUser.email,formData.to)),
+                message: encrypt(addData, generateRoomName(auth.currentUser.email,formData.to)),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 searchableKeywords: generateKeywords(formData),
-                read: false
+                read: false,
+                label: option
             })
             toast.success("Mail sent successfully.")
             dispatch(closeSendMessage())
@@ -96,22 +110,45 @@ function SendMail() {
                 />
                 {errors.to && <p className={styles.sendMail__error}>Subject is required</p>}
 
-            <input
+            {/* <input
                     name="message"
                     placeholder="Message..."
                     type="text" 
                     className={styles.sendMail__message}
                     ref={register({ required: true })} 
-                />
+                /> */}
+
+                {/* <div className={styles.sendMail__message}> */}
+                    <CKEditor
+                        placeholder="Message..."
+                        editor={ ClassicEditor } 
+                        // styles={{"flex":"1"}}
+                        // className={styles.sendMail__message}
+                        ref={register({ required: true })} 
+                        data={addData}  
+                        onChange={handleChange}
+                    />
+                {/* </div> */}
                 {errors.to && <p className={styles.sendMail__error}>Message is required</p>}
 
                 <div className={styles.sendMail__options}>
                     <Button 
-                        classNmae="sendMail__send"
+                        className="sendMail__send"
                         variant="contained"
                         color="primary"
                         type="submit"
                     >Send</Button>
+
+                    <select 
+                        value="Primary"
+                        onChange={handleChangeinType}
+                        name='option' 
+                    >
+                        <option value="Primary">Primary</option>
+                        <option value="Social">Social</option>
+                        <option value="Promotions">Promotions</option>
+                    </select>
+
                 </div>
             </form> 
         </div>
