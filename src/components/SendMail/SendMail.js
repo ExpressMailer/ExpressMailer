@@ -25,7 +25,6 @@ function SendMail() {
 
     const handleChange = (e, editor) => {
         var data = editor.getData();
-        data = data.replace(/<[^>]+>/g, '');
         setVal(data);
     }
     
@@ -55,6 +54,10 @@ function SendMail() {
     
     const onSubmit = async (formData) => {
         // check here if email exist (for now just setting it to true)
+        if(addData == "")
+        {
+            return; 
+        }
         const emailExists = await checkIfEmailExists(formData.to) 
         console.log(generateKeywords(formData))
         
@@ -120,11 +123,8 @@ function SendMail() {
 
                 {/* <div className={styles.sendMail__message}> */}
                     <CKEditor
-                        placeholder="Message..."
                         editor={ ClassicEditor } 
-                        // styles={{"flex":"1"}}
-                        // className={styles.sendMail__message}
-                        ref={register({ required: true })} 
+                        // styles={{"minHeight":"500px"}}
                         data={addData}  
                         onChange={handleChange}
                     />
@@ -132,13 +132,6 @@ function SendMail() {
                 {errors.to && <p className={styles.sendMail__error}>Message is required</p>}
 
                 <div className={styles.sendMail__options}>
-                    <Button 
-                        className="sendMail__send"
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                    >Send</Button>
-
                     <select 
                         value="Primary"
                         onChange={handleChangeinType}
@@ -148,6 +141,15 @@ function SendMail() {
                         <option value="Social">Social</option>
                         <option value="Promotions">Promotions</option>
                     </select>
+                   
+                    <Button 
+                        className="sendMail__send"
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                    >Send</Button>
+
+                   
 
                 </div>
             </form> 
