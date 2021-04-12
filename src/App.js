@@ -58,15 +58,15 @@ function App() {
     // Label
     if(selectedLabelItem == 0){
       console.log('0 called')
-      // emailRef = emailRef.where('label','==',"primary")
+      emailRef = emailRef.where('label','==',"Primary")
     }
     else if(selectedLabelItem == 1){
       console.log('1 called')
-      emailRef = emailRef.where('label','==',"social")
+      emailRef = emailRef.where('label','==',"Social")
     }
     else if(selectedLabelItem == 2){
       console.log('2 called')
-      emailRef = emailRef.where('label','==',"promotions")
+      emailRef = emailRef.where('label','==',"Promotions")
     }
 
 

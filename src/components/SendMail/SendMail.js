@@ -20,12 +20,18 @@ function SendMail() {
     const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch()
     const [addData, setVal] = useState("");
+    const [option,setOption] = useState("Primary");
     const notify = (msg) => toast(msg);
 
     const handleChange = (e, editor) => {
         var data = editor.getData();
         data = data.replace(/<[^>]+>/g, '');
         setVal(data);
+    }
+    
+    const handleChangeinType = (event) => {
+        setOption(event.target.value)
+        console.log(`Option selected:`, option);
     }
 
     const generateKeywords = (formData) => {
@@ -61,7 +67,8 @@ function SendMail() {
                 message: encrypt(addData, generateRoomName(auth.currentUser.email,formData.to)),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 searchableKeywords: generateKeywords(formData),
-                read: false
+                read: false,
+                label: option
             })
             toast.success("Mail sent successfully.")
             dispatch(closeSendMessage())
@@ -110,7 +117,7 @@ function SendMail() {
                     className={styles.sendMail__message}
                     ref={register({ required: true })} 
                 /> */}
-                
+
                 {/* <div className={styles.sendMail__message}> */}
                     <CKEditor
                         placeholder="Message..."
@@ -126,11 +133,22 @@ function SendMail() {
 
                 <div className={styles.sendMail__options}>
                     <Button 
-                        classNmae="sendMail__send"
+                        className="sendMail__send"
                         variant="contained"
                         color="primary"
                         type="submit"
                     >Send</Button>
+
+                    <select 
+                        value="Primary"
+                        onChange={handleChangeinType}
+                        name='option' 
+                    >
+                        <option value="Primary">Primary</option>
+                        <option value="Social">Social</option>
+                        <option value="Promotions">Promotions</option>
+                    </select>
+
                 </div>
             </form> 
         </div>
