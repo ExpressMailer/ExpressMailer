@@ -33,6 +33,11 @@
     margin: 15px !important;
 }
 
+.sendMail__sendtype{
+    background-color: #3079ed !important;
+    margin: 15px !important;
+}
+
 .sendMail__close{
     cursor: pointer;
 }

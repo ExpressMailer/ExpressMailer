@@ -11,9 +11,12 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { decrypt,encrypt } from '../../utilities/crypt'
+import { decrypt,encrypt } from '../../utilities/crypt';
 import { generateRoomName } from '../../utilities/common';
 import { useState } from 'react'; 
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
 function SendMail() {
 
@@ -132,16 +135,20 @@ function SendMail() {
                 {errors.to && <p className={styles.sendMail__error}>Message is required</p>}
 
                 <div className={styles.sendMail__options}>
-                    <select 
-                        value="Primary"
-                        onChange={handleChangeinType}
+                    <Select
+                        labelId="demo-simple-select-filled-label"
+                        id="demo-simple-select-filled"
+                        value={option}
                         name='option' 
-                    >
-                        <option value="Primary">Primary</option>
-                        <option value="Social">Social</option>
-                        <option value="Promotions">Promotions</option>
-                    </select>
-                   
+                        // className="sendMail__sendtype"
+                        style={{"backgroundColor":"white", "margin":" 15px !important"}}
+                        onChange={handleChangeinType}
+                        >
+                        <MenuItem  value="Primary">Primary</MenuItem>
+                        <MenuItem value="Social">Social</MenuItem>
+                        <MenuItem value="Promotions">Promotions</MenuItem>
+                    </Select>
+
                     <Button 
                         className="sendMail__send"
                         variant="contained"
