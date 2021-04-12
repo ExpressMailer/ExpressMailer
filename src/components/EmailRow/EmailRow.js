@@ -7,7 +7,8 @@ import styles from './EmailRow.module.css';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { selectMail } from '../../features/mailSlice';
- 
+import ReactHtmlParser from 'react-html-parser';
+
 function EmailRow({ id, title, subject, description, time }) 
 {
     const history = useHistory();
@@ -44,7 +45,7 @@ function EmailRow({ id, title, subject, description, time })
 
             <div className={styles.emailRow__message}>
                 <h4> {subject} {" "}
-                <span className={styles.emailRow__description}>- {description}
+                <span className={styles.emailRow__description}>- {ReactHtmlParser(description)}
                 </span>
                 </h4>
             </div>

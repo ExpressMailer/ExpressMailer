@@ -16,6 +16,7 @@ import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import { useHistory } from 'react-router-dom';
 import { selectOpenMail } from '../../features/mailSlice';
 import { useSelector } from 'react-redux';
+import ReactHtmlParser from 'react-html-parser';
 
 function Mail() {
     const history = useHistory();
@@ -74,7 +75,7 @@ function Mail() {
                     <p className={styles.mail__time}>{selectedMail?.time}</p>
                 </div>    
                 <div className={styles.mail__message}>
-                    <p>{selectedMail?.description}</p> 
+                    <p>{ReactHtmlParser(selectedMail?.description)}</p> 
                 </div>
             </div>
         </div>
