@@ -40,7 +40,6 @@ function SidebarChatrecent({ displayName, email, photoUrl })
             <div className={styles.sidebar_chatname}>
                 {displayName}
             </div>
-                        {/* <div className={styles.sidebar_chatname_1}>Tushar</div> */}
             <div className={styles.sidebar_chatfunctions}>
                 <IconButton>                                        
                     <ChatIcon onClick={() => dispatch(openSendChat(email))}/>
