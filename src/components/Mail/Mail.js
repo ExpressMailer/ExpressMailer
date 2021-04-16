@@ -16,6 +16,10 @@ import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import { useHistory } from 'react-router-dom';
 import { selectOpenMail } from '../../features/mailSlice';
 import { useSelector } from 'react-redux';
+import EmailRow from '../EmailRow/EmailRow'
+
+var important = EmailRow.important   
+
 
 function Mail() {
     const history = useHistory();
@@ -45,8 +49,8 @@ function Mail() {
                     <IconButton>
                         <CheckCircleIcon />
                     </IconButton>
-                    <IconButton>
-                        <LabelImportantIcon />
+                    <IconButton onClick={EmailRow.toggleImportant}>
+                    {important ? <LabelImportantIcon style={{fill: "orange"}}/> : <LabelImportantIcon /> }
                     </IconButton>
                     <IconButton>
                         <MoreVertIcon />

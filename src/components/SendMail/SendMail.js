@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SendMail.module.css';
 import CloseIcon from "@material-ui/icons/Close";
 import { Button } from '@material-ui/core';
@@ -12,6 +12,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { decrypt,encrypt } from '../../utilities/crypt'
 import { generateRoomName } from '../../utilities/common';
+import EmailRow from '../EmailRow/EmailRow'
+
+var starred= EmailRow.starred
 
 function SendMail() {
 
@@ -19,6 +22,15 @@ function SendMail() {
     const dispatch = useDispatch()
 
     const notify = (msg) => toast(msg);
+
+    const [spam, setSpam] = useState(0);
+
+    useEffect(() => {
+        fetch('/predict').then(res => res.json()).then(data => {
+        setSpam(data.spam);
+        console.log(data.spam)
+        });
+    }, []);
 
     const generateKeywords = (formData) => {
         let searchableKeywords = [auth.currentUser.email,...formData.subject.split(' ')]
@@ -44,7 +56,7 @@ function SendMail() {
         const emailExists = await checkIfEmailExists(formData.to) 
         console.log(generateKeywords(formData))
 
-        
+   
 
         if(emailExists){   
             db.collection('emails').add({
@@ -54,7 +66,10 @@ function SendMail() {
                 message: encrypt(formData.message, generateRoomName(auth.currentUser.email,formData.to)),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 searchableKeywords: generateKeywords(formData),
-                read: false
+                read: false,
+                starred: false,
+                important: false,
+                spam: spam
             })
             toast.success("Mail sent successfully.")
             dispatch(closeSendMessage())
