@@ -12,7 +12,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { decrypt,encrypt } from '../../utilities/crypt'
 import { generateRoomName } from '../../utilities/common';
-import EmailRow from '../EmailRow/EmailRow'
+import EmailRow from '../EmailRow/EmailRow';
+import axios from 'axios';
+
+const api= axios.create({
+    baseURL: 'http://127.0.0.1:5000/'
+})
 
 var starred= EmailRow.starred
 
@@ -23,14 +28,10 @@ function SendMail() {
 
     const notify = (msg) => toast(msg);
 
-    const [spam, setSpam] = useState(0);
-
-    useEffect(() => {
-        fetch('/predict').then(res => res.json()).then(data => {
-        setSpam(data.spam);
-        console.log(data.spam)
-        });
-    }, []);
+    const sendEmail = async(msg) =>{
+        let resp = await api.post('/predict', {message: msg})
+        return resp
+    }
 
     const generateKeywords = (formData) => {
         let searchableKeywords = [auth.currentUser.email,...formData.subject.split(' ')]
@@ -69,7 +70,7 @@ function SendMail() {
                 read: false,
                 starred: false,
                 important: false,
-                spam: spam
+                spam: await sendEmail(formData.message)
             })
             toast.success("Mail sent successfully.")
             dispatch(closeSendMessage())

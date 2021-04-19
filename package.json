@@ -2,7 +2,6 @@
   "name": "gmail-clone",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:5000/",
   "engines": {
     "npm": "6.13.4",
     "node": "12.16.1"
@@ -14,6 +13,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "crypto-js": "^4.0.0",
     "firebase": "^8.2.7",

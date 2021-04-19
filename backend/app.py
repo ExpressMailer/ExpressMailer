@@ -30,17 +30,22 @@ def features_transform(mail):
     #return result of transforms
     return messages_tfidf
 
-@app.route('/predict',methods=['GET'])
+@app.route('/predict',methods=['POST'])
 def predict():
-    email="Dear Student, Last chance to Register for the Event, Dont miss out on interacting with 15+ banks and exciting offers , Hurry up ..!!! REGISTER NOW..!!!.We are exhilarated to invite you all the Fall 2021 aspirants for EduLoans Online Loan Mela, an event that helps you acquire financial assistance to achieve your dreams. Join us for the Mela and get a chance to interact directly with the loan representatives from 15+ financial institutions from the comfort of your home.Why EduLoans ?With student centric education loan solutions, EduLoans ensures that students can pursue their higher education without being shackled by finances. Abroad aspirants can now get an unbiased comparison between more that 15+ banks/financial institutes and choose the best loan offer for completely free on EduLoans."
+
+    email = request.get('resp')
+        #return email
     email=[email]
     email= features_transform(email)
     output = model.predict(email)
 
-    if(output[0]=="spam"):
-        return "1"
+    if output[0]=='spam':
+        return True
     else:
-        return "0"
+        return False
+    
+    #email="Dear Student, Last chance to Register for the Event, Dont miss out on interacting with 15+ banks and exciting offers , Hurry up ..!!! REGISTER NOW..!!!.We are exhilarated to invite you all the Fall 2021 aspirants for EduLoans Online Loan Mela, an event that helps you acquire financial assistance to achieve your dreams. Join us for the Mela and get a chance to interact directly with the loan representatives from 15+ financial institutions from the comfort of your home.Why EduLoans ?With student centric education loan solutions, EduLoans ensures that students can pursue their higher education without being shackled by finances. Abroad aspirants can now get an unbiased comparison between more that 15+ banks/financial institutes and choose the best loan offer for completely free on EduLoans."
+    
 
 # @app.route('/predict_api',methods=['POST'])
 # def predict_api():
