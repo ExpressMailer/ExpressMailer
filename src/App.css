@@ -7,6 +7,21 @@
     height: 100vh;
 }
 
+
+.ck-editor__editable {
+    min-height: 40vh !important;
+    border: none !important;
+}
+
+.ck-toolbar {
+    background-color: black;
+    border: none !important;
+}
+
+.ck-editor {
+    background-color: black;
+}
+
 @media only screen and (max-width: 600px) {
     .app__body {
         display: flex;

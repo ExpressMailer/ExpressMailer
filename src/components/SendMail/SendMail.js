@@ -7,30 +7,45 @@ import { useDispatch } from 'react-redux';
 import { closeSendMessage } from '../../features/mail';
 import { auth, db } from '../../firebase';
 import firebase from 'firebase'
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { decrypt,encrypt } from '../../utilities/crypt'
+import { decrypt,encrypt } from '../../utilities/crypt';
 import { generateRoomName } from '../../utilities/common';
 import EmailRow from '../EmailRow/EmailRow';
 import axios from 'axios';
+ 
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const api= axios.create({
     baseURL: 'http://127.0.0.1:5000/'
 })
 
-var starred= EmailRow.starred
 
 function SendMail() {
 
     const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch()
-
+    const [addData, setVal] = useState("");
+    const [option,setOption] = useState("Primary");
     const notify = (msg) => toast(msg);
 
     const sendEmail = async(msg) =>{
         let resp = await api.post('/predict', {message: msg})
         return resp
+    }
+
+    const handleChange = (e, editor) => {
+        var data = editor.getData();
+        setVal(data);
+    }
+    
+    const handleChangeinType = (event) => {
+        setOption(event.target.value)
+        console.log(`Option selected:`, option);
     }
 
     const generateKeywords = (formData) => {
@@ -54,23 +69,29 @@ function SendMail() {
     
     const onSubmit = async (formData) => {
         // check here if email exist (for now just setting it to true)
+        if(addData == "")
+        {
+            return; 
+        }
         const emailExists = await checkIfEmailExists(formData.to) 
         console.log(generateKeywords(formData))
-
+    
    
+        
 
         if(emailExists){   
             db.collection('emails').add({
                 to: formData.to,
                 from: auth.currentUser.email,
                 subject:  encrypt(formData.subject, generateRoomName(auth.currentUser.email,formData.to)),
-                message: encrypt(formData.message, generateRoomName(auth.currentUser.email,formData.to)),
+                message: encrypt(addData, generateRoomName(auth.currentUser.email,formData.to)),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 searchableKeywords: generateKeywords(formData),
                 read: false,
                 starred: false,
                 important: false,
-                spam: await sendEmail(formData.message)
+                spam: await sendEmail(formData.message),
+                label: option
             })
             toast.success("Mail sent successfully.")
             dispatch(closeSendMessage())
@@ -80,9 +101,7 @@ function SendMail() {
             // toast.error(formData.to + " doesn't exist.")
             toast.success("Mail sent successfully.")
         }
-
     }
-    
     return <>
     <ToastContainer />
         <div className={styles.sendMail}>
@@ -112,22 +131,48 @@ function SendMail() {
                 />
                 {errors.to && <p className={styles.sendMail__error}>Subject is required</p>}
 
-            <input
+            {/* <input
                     name="message"
                     placeholder="Message..."
                     type="text" 
                     className={styles.sendMail__message}
                     ref={register({ required: true })} 
-                />
+                /> */}
+
+                {/* <div className={styles.sendMail__message}> */}
+                    <CKEditor
+                        editor={ ClassicEditor } 
+                        // styles={{"minHeight":"500px"}}
+                        data={addData}  
+                        onChange={handleChange}
+                    />
+                {/* </div> */}
                 {errors.to && <p className={styles.sendMail__error}>Message is required</p>}
 
                 <div className={styles.sendMail__options}>
+                    <Select
+                        labelId="demo-simple-select-filled-label"
+                        id="demo-simple-select-filled"
+                        value={option}
+                        name='option' 
+                        // className="sendMail__sendtype"
+                        style={{"backgroundColor":"white", "margin":" 15px !important"}}
+                        onChange={handleChangeinType}
+                        >
+                        <MenuItem  value="Primary">Primary</MenuItem>
+                        <MenuItem value="Social">Social</MenuItem>
+                        <MenuItem value="Promotions">Promotions</MenuItem>
+                    </Select>
+
                     <Button 
-                        classNmae="sendMail__send"
+                        className="sendMail__send"
                         variant="contained"
                         color="primary"
                         type="submit"
                     >Send</Button>
+
+                   
+
                 </div>
             </form> 
         </div>

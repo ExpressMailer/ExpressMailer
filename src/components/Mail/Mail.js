@@ -15,15 +15,21 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import { useHistory } from 'react-router-dom';
 import { selectOpenMail } from '../../features/mailSlice';
-import { useSelector } from 'react-redux';
-import EmailRow from '../EmailRow/EmailRow'
-
-var important = EmailRow.important   
-
+import { useSelector } from 'react-redux'; 
+import { db } from '../../firebase';
+import ReactHtmlParser from 'react-html-parser';
 
 function Mail() {
     const history = useHistory();
     const selectedMail = useSelector(selectOpenMail);
+
+    async function toggleImportant(){
+        var current= await db.collection('emails').doc(selectedMail.id).get()
+        console.log(current.data()["important"])
+        db.collection('emails').doc(selectedMail.id).set({
+            "important": !selectedMail.important
+          },{merge:true})
+      }
 
     return(<div className={styles.mail}>
             <div className={styles.mail__tools}>
@@ -49,8 +55,8 @@ function Mail() {
                     <IconButton>
                         <CheckCircleIcon />
                     </IconButton>
-                    <IconButton onClick={EmailRow.toggleImportant}>
-                    {important ? <LabelImportantIcon style={{fill: "orange"}}/> : <LabelImportantIcon /> }
+                    <IconButton onClick={toggleImportant}>
+                    {selectedMail.important ? <LabelImportantIcon style={{fill: "orange"}}/> : <LabelImportantIcon /> }
                     </IconButton>
                     <IconButton>
                         <MoreVertIcon />
@@ -78,7 +84,7 @@ function Mail() {
                     <p className={styles.mail__time}>{selectedMail?.time}</p>
                 </div>    
                 <div className={styles.mail__message}>
-                    <p>{selectedMail?.description}</p> 
+                    <p>{ReactHtmlParser(selectedMail?.description)}</p> 
                 </div>
             </div>
         </div>

@@ -74,7 +74,6 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem}) {
             dispatch(openSendChat(valueRef.current.value));
         }
         else{
-            console.log(valueRef.current.value + " doesn't exist.");
             //alert showing email doesnt exists
             alert(valueRef.current.value + " doesn't exist.");
         }

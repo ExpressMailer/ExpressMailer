@@ -25,8 +25,6 @@ import { generateRoomName } from './utilities/common';
 import Loading from './components/Loading/Loading';
 
 function App() {
-  
-  // const limit = 5
 
   const sendMessageIsOpen = useSelector(selectSendMessageIsOpen);
   const sendChatIsOpen = useSelector(selectSendChatIsOpen);
@@ -36,12 +34,13 @@ function App() {
   
 
   const [emails,setEmails] = useState([])
-  const [selectedSideBarItem, setSelectedSideBarItem] = useState(0)
+  const [selectedSideBarItem, setSelectedSideBarItem] = useState(0)// 0-> Inbox, 2-> Starred, etc
   const [selectedLabelItem, setSelectedLabelItem] = useState(0)// 0-> Primary, 1-> Social, 2->Promotions
-  // const [lastDoc, setLastDoc] = useState(null)
 
   function getQueryStatement(){
     let emailRef = db.collection('emails')
+
+    // Left side bar
     if(selectedSideBarItem == 0){// received
       emailRef = emailRef.where('to','==',auth.currentUser.email)
     }
@@ -58,54 +57,48 @@ function App() {
     // Label
     if(selectedLabelItem == 0){
       console.log('0 called')
-      // emailRef = emailRef.where('label','==',"primary")
+      emailRef = emailRef.where('label','==',"Primary")
     }
     else if(selectedLabelItem == 1){
       console.log('1 called')
-      emailRef = emailRef.where('label','==',"social")
+      emailRef = emailRef.where('label','==',"Social")
     }
     else if(selectedLabelItem == 2){
       console.log('2 called')
-      emailRef = emailRef.where('label','==',"promotions")
+      emailRef = emailRef.where('label','==',"Promotions")
     }
 
 
     emailRef = emailRef.orderBy('timestamp','desc')
-    // if(lastDoc){
-    //   emailRef = emailRef.startAfter(lastDoc)
-    // }
-    // emailRef = emailRef.limit(limit)
+    
     return emailRef
   }
 
   const getMails = () => {
-    console.log('getMails')
     let emailRef = getQueryStatement()
     
     emailRef
     .onSnapshot(snapshot => {
-      console.log('hie')
-      // if(snapshot.docs.length != 0){
-        // setLastDoc(snapshot.docs[snapshot.docs.length-1])
         setEmails([...snapshot.docs.map(doc => {//...emails
           return {
             id: doc.id,
             data: {
               ...doc.data(),
-              subject: decrypt(doc.data().subject,generateRoomName(auth.currentUser.email,doc.data().from)),
-              message: decrypt(doc.data().message,generateRoomName(auth.currentUser.email,doc.data().from))
+              subject: decrypt(
+                doc.data().subject,
+                generateRoomName(doc.data().to, doc.data().from)
+              ),
+              message: decrypt(
+                doc.data().message,
+                generateRoomName(doc.data().to, doc.data().from)
+              )
             }, 
           }
         })])
-      // }
-      // else{
-      //   alert('No mails available')
-      // }
     })
   }
 
   const showSearchResults = (query) => {
-    console.log(query)
     if(query.length == 0){
       getMails()
       return
@@ -114,30 +107,28 @@ function App() {
     emailRef
     .where('to','==',auth.currentUser.email)
     .where('searchableKeywords','array-contains',query)
-    // .limit(10)
     .orderBy('timestamp','desc')
     .onSnapshot(snapshot => {
-      console.log(snapshot.docs.length)
-      // if(snapshot.docs.length == 0){
-      //   setEmails(getMails())
-      // }
-      // else{
         setEmails(snapshot.docs.map(doc => ({
             id: doc.id,
             data: {
               ...doc.data(), 
-              subject: decrypt(doc.data()['subject'],generateRoomName(auth.currentUser.email,doc.data()['title']))
+              subject: decrypt(
+                doc.data().subject,
+                generateRoomName(doc.data().to, doc.data().from)
+              ),
+              message: decrypt(
+                doc.data().message,
+                generateRoomName(doc.data().to, doc.data().from)
+              )
             }
         })))
-      // }
     })
-    // setShowSearch(true)
   }
 
   useEffect(() => {
     auth.onAuthStateChanged(user => { 
       if (user) {
-        //user is logged in
         dispatch(
           login({
             displayName: user.displayName,

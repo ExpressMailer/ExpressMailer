@@ -10,6 +10,9 @@ import { useDispatch } from "react-redux";
 import { selectMail } from '../../features/mailSlice';
 import { db } from '../../firebase';
  
+ 
+import ReactHtmlParser from 'react-html-parser';
+
 function EmailRow({ id, title, subject, description, time, starred, important }) 
 {
     const history = useHistory();
@@ -64,7 +67,7 @@ function EmailRow({ id, title, subject, description, time, starred, important })
 
             <div className={styles.emailRow__message}>
                 <h4> {subject} {" "}
-                <span className={styles.emailRow__description}>- {description}
+                <span className={styles.emailRow__description}>- {ReactHtmlParser(description)}
                 </span>
                 </h4>
             </div>

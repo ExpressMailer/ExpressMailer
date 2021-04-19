@@ -4,8 +4,8 @@
     right: 50px;
     background-color: #404040;
     width: 40%;
-    height: 40%;
-    max-width: 500px;
+    height: 60%;
+    max-width: 800px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     display: flex;
@@ -30,6 +30,11 @@
 .sendMail__send{
     backdrop-filter: #3079ed !important;
     text-transform: capitalize !important;
+    margin: 15px !important;
+}
+
+.sendMail__sendtype{
+    background-color: #3079ed !important;
     margin: 15px !important;
 }
 
@@ -62,3 +67,4 @@
     padding: 2px;
     font-size: xx-small;
 }
+
