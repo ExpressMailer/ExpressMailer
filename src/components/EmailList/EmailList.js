@@ -76,7 +76,7 @@ function EmailList({ emails,setEmails,getMails,selectedLabelItem,setSelectedLabe
             <div className={styles.emailList__list}>
             {emails.length == 0 ? <Loading /> : 
                 <div>
-                    {emails.map(({id,data:{to,from,subject,message,timestamp}}) => {
+                    {emails.map(({id,data:{to,from,subject,message,timestamp,starred,important}}) => {
                         return <EmailRow
                             id={id}
                             key={id}
@@ -84,6 +84,8 @@ function EmailList({ emails,setEmails,getMails,selectedLabelItem,setSelectedLabe
                             subject={subject}
                             description={message}
                             time={new Date(timestamp?.seconds*1000).toUTCString()}
+                            starred={starred || false}
+                            important={important || false}
                         />
                     })}
                 </div>

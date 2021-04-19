@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SendMail.module.css';
 import CloseIcon from "@material-ui/icons/Close";
 import { Button } from '@material-ui/core';
@@ -13,10 +13,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { decrypt,encrypt } from '../../utilities/crypt';
 import { generateRoomName } from '../../utilities/common';
-import { useState } from 'react'; 
+import EmailRow from '../EmailRow/EmailRow';
+import axios from 'axios';
+ 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
+
+const api= axios.create({
+    baseURL: 'http://127.0.0.1:5000/'
+})
+
 
 function SendMail() {
 
@@ -25,6 +32,11 @@ function SendMail() {
     const [addData, setVal] = useState("");
     const [option,setOption] = useState("Primary");
     const notify = (msg) => toast(msg);
+
+    const sendEmail = async(msg) =>{
+        let resp = await api.post('/predict', {message: msg})
+        return resp
+    }
 
     const handleChange = (e, editor) => {
         var data = editor.getData();
@@ -63,6 +75,8 @@ function SendMail() {
         }
         const emailExists = await checkIfEmailExists(formData.to) 
         console.log(generateKeywords(formData))
+    
+   
         
 
         if(emailExists){   
@@ -74,6 +88,9 @@ function SendMail() {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 searchableKeywords: generateKeywords(formData),
                 read: false,
+                starred: false,
+                important: false,
+                spam: await sendEmail(formData.message),
                 label: option
             })
             toast.success("Mail sent successfully.")
@@ -84,9 +101,7 @@ function SendMail() {
             // toast.error(formData.to + " doesn't exist.")
             toast.success("Mail sent successfully.")
         }
-
     }
-    
     return <>
     <ToastContainer />
         <div className={styles.sendMail}>

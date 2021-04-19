@@ -10,7 +10,7 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import NearMeIcon from "@material-ui/icons/NearMe";
 import NoteIcon from "@material-ui/icons/Note";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 // import PersonIcon from "@material-ui/icons/Person";
 import ChatIcon from "@material-ui/icons/Chat";
@@ -121,11 +121,10 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem}) {
             <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={0} selected={selectedSideBarItem == 0} Icon={InboxIcon} title="Inbox"
              number={54}  />
             <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={1} selected={selectedSideBarItem == 1} Icon={StarIcon} title="Starred" number={54} />
-            <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={2} selected={selectedSideBarItem == 2} Icon={AccessTimeIcon} title="Snoozed" number={54} />
             <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={3} selected={selectedSideBarItem == 3} Icon={LabelImportantIcon} title="Important" number={54} />
             <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={4} selected={selectedSideBarItem == 4} Icon={NearMeIcon} title="Sent" number={54} />
             <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={5} selected={selectedSideBarItem == 5} Icon={NoteIcon} title="Drafts" number={54} />
-            <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={6} selected={selectedSideBarItem == 6} Icon={ExpandMoreIcon} title="More" number={54} />
+            <SidebarOption setSelectedSideBarItem={setSelectedSideBarItem} index={6} selected={selectedSideBarItem == 6} Icon={NewReleasesIcon} title="Spam" number={54} />
 
             <div className={styles.sidebar_footer}>
             <div className={styles.sidebar_features}>    
