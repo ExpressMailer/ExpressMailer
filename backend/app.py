@@ -12,7 +12,8 @@ cors = CORS(app, resource={
         "origins":"*"
     }
 })
-#model = pickle.load(open('C:/Users/Hardik/Desktop/Gmail-clone/backend/spamdetection.pkl', 'rb'))
+
+model = pickle.load(open('./spamdetection.pkl', 'rb'))
 
 def split_into_lemmas(message):
     message = message.lower()
@@ -40,18 +41,17 @@ def features_transform(mail):
 @app.route('/predict',methods=['POST'])
 def predict():
 
-    # email = request.get('resp')
-    #     #return email
-    # email=[email]
-    # email= features_transform(email)
-    # output = model.predict(email)
+    email = request.get('resp')
+        #return email
+    email=[email]
+    email= features_transform(email)
+    output = model.predict(email)
 
-    # if output[0]=='spam':
-    #     return True
-    # else:
-    #     return False
-    print("hello")
-    return True
+    if output[0]=='spam':
+        return {"val": True}
+    else:
+        return {"val": False}
+    
     #email="Dear Student, Last chance to Register for the Event, Dont miss out on interacting with 15+ banks and exciting offers , Hurry up ..!!! REGISTER NOW..!!!.We are exhilarated to invite you all the Fall 2021 aspirants for EduLoans Online Loan Mela, an event that helps you acquire financial assistance to achieve your dreams. Join us for the Mela and get a chance to interact directly with the loan representatives from 15+ financial institutions from the comfort of your home.Why EduLoans ?With student centric education loan solutions, EduLoans ensures that students can pursue their higher education without being shackled by finances. Abroad aspirants can now get an unbiased comparison between more that 15+ banks/financial institutes and choose the best loan offer for completely free on EduLoans."
     
 

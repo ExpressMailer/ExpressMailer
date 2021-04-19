@@ -35,7 +35,9 @@ function SendMail() {
 
     const sendEmail = async(msg) =>{
         let resp = await api.post('/predict', {message: msg})
-        return resp
+        console.log('------------------------------------------')
+        console.log(resp.data)
+        return resp.data['val']
     }
 
     const handleChange = (e, editor) => {
