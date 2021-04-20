@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from textblob import TextBlob
 
 app = Flask(__name__)
-CORS(app)
+
 cors = CORS(app, resource={
     r"/*":{
         "origins":"*"
@@ -41,7 +41,7 @@ def features_transform(mail):
 @app.route('/predict',methods=['POST'])
 def predict():
 
-    email = request.get('resp')
+    email = request.get_data('resp')
         #return email
     email=[email]
     email= features_transform(email)
