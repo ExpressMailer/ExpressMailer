@@ -42,7 +42,7 @@ function SendMail() {
             'Access-Control-Allow-Origin': '*'
         }}
 
-        const resp = await axios.post('http://127.0.0.1:5000/predict', {message: cleanMsg},config)
+        const resp = await axios.post('https://gmail-clone-ml.herokuapp.com/predict', {message: cleanMsg},config)
         return resp.data['val']
     }
 
@@ -70,7 +70,7 @@ function SendMail() {
             'Access-Control-Allow-Origin': '*'
         }}
 
-        const resp = await axios.post('http://127.0.0.1:5000/keywords', {message: cleanMsg,n:5},config)
+        const resp = await axios.post('https://gmail-clone-ml.herokuapp.com/keywords', {message: cleanMsg,n:5},config)
         searchableKeywords = [...searchableKeywords,...resp.data['keywords']]
         console.log(searchableKeywords)
         return searchableKeywords
