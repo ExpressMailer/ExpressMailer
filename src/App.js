@@ -151,7 +151,7 @@ function App() {
         <Header showSearchResults={showSearchResults} />
   
         <div className="app__body">
-          {showSideBar && <Sidebar selectedSideBarItem={selectedSideBarItem} setSelectedSideBarItem={setSelectedSideBarItem} />}
+          {showSideBar && <Sidebar listLength={emails.length} selectedSideBarItem={selectedSideBarItem} setSelectedSideBarItem={setSelectedSideBarItem} />}
   
           <Switch>
             <Route path="/mail">
