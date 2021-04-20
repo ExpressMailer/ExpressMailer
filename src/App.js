@@ -51,6 +51,7 @@ function App() {
       emailRef = emailRef.where('to','==',auth.currentUser.email).where('important','==',true)
     }
     else if(selectedSideBarItem == 4){// sent by me
+      console.log('sentttt by meee')
       emailRef = emailRef.where('from','==',auth.currentUser.email)
     }
 

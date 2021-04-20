@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Mail.module.css';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
@@ -16,7 +16,7 @@ import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import { useHistory } from 'react-router-dom';
 import { selectOpenMail } from '../../features/mailSlice';
 import { useSelector } from 'react-redux'; 
-import { db } from '../../firebase';
+import { auth, db } from '../../firebase';
 import ReactHtmlParser from 'react-html-parser';
 
 function Mail() {
@@ -29,7 +29,16 @@ function Mail() {
         db.collection('emails').doc(selectedMail.id).set({
             "important": !selectedMail.important
           },{merge:true})
-      }
+    }
+
+    useEffect(() => {
+        //  If receiver open this mail, set its read status as true
+        if(selectedMail.from != auth.currentUser.email){
+            db.collection('emails').doc(selectedMail.id).set({
+                "read": true
+            },{merge:true})
+        }
+    }, [])
 
     return(<div className={styles.mail}>
             <div className={styles.mail__tools}>
@@ -76,7 +85,33 @@ function Mail() {
                     </IconButton>
                 </div>
             </div>
-            <div className={styles.mail__body}>
+            <div className={styles.mail__body} style={{position:"relative"}}>
+                <div style={{position:"absolute",top:"0px",right:"20px"}}>
+                    {selectedMail && selectedMail.read ? 
+                        selectedMail.from == auth.currentUser.email &&
+                        <div style={{
+                            padding: "10px",
+                            borderRadius: "10px",
+                            backgroundColor: "turquoise",
+                            cursor: "pointer",
+                            color:"white"
+                        }}>
+                            Read
+                        </div>
+                        :
+                        selectedMail.from == auth.currentUser.email &&
+                        <div style={{
+                            padding: "10px",
+                            borderRadius: "10px",
+                            backgroundColor: "transparent",
+                            border:"2px solid turquoise",
+                            cursor: "pointer",
+                        }}>
+                            Unread
+                        </div>
+                    }
+                </div>
+
                 <div className={styles.mail__bodyHeader}>
                     <h2>{selectedMail?.subject}</h2>
                     <LabelImportantIcon className={styles.mail__important} />

@@ -92,7 +92,7 @@ function SendMail() {
                 read: false,
                 starred: false,
                 important: false,
-                spam: await sendEmail(formData.message),
+                spam: false,//await sendEmail(formData.message),
                 label: option
             })
             toast.success("Mail sent successfully.")
