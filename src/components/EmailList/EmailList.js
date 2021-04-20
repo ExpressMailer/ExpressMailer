@@ -17,8 +17,7 @@ import { auth, db } from '../../firebase';
 import EmailRow from '../EmailRow/EmailRow'
 import Loading from '../Loading/Loading';
 function EmailList({ emails,setEmails,getMails,selectedLabelItem,setSelectedLabelItem }) {
-    // const [emails,setEmails] = useState(emails)
-
+    
     return (<div className={styles.emailList}>
             <div className={styles.emailList__settings}>
                 <div className={styles.emailList__settingsLeft}>

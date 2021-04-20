@@ -5,6 +5,10 @@ from flask_cors import CORS
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from textblob import TextBlob
 
+# import nltk
+# nltk.download('wordnet')
+# ValueError: Number of features of the model must match the input. Model n_features is 38830 and input n_features is 145
+
 app = Flask(__name__)
 CORS(app)
 cors = CORS(app, resource={
@@ -40,12 +44,15 @@ def features_transform(mail):
 
 @app.route('/predict',methods=['POST'])
 def predict():
-
-    email = request.get('resp')
-        #return email
+    print('in server')
+    data = request.get_json()
+    email = data.get('message', '')
+    print(email)
     email=[email]
+
     email= features_transform(email)
     output = model.predict(email)
+    print(output)
 
     if output[0]=='spam':
         return {"val": True}
