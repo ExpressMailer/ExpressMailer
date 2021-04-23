@@ -8,7 +8,7 @@ import styles from './EmailRow.module.css';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { selectMail } from '../../features/mailSlice';
-import { db } from '../../firebase';
+import { auth, db } from '../../firebase';
  
  
 import ReactHtmlParser from 'react-html-parser';
@@ -36,7 +36,9 @@ function EmailRow({ id, title, subject, description, time, starred, important,re
         );
         history.push("/mail");
     };
-    const rowColor = read ? "white" : "rgb(221, 221, 221)"
+    const rowColor = read ? "white" : "rgb(221, 221, 221)"  
+    const sentValname = "To: " + to
+    const inboxOrSent = from === auth.currentUser.email && to != auth.currentUser.email ? sentValname : to
     return (
         <div onClick= {openMail} className={styles.emailRow} style={{backgroundColor: rowColor}}>
             <div className={styles.emailRow__options}>
@@ -58,7 +60,7 @@ function EmailRow({ id, title, subject, description, time, starred, important,re
             </div>
         
             <h3 className={styles.emailRow__title}>
-                {title}
+                {inboxOrSent}
             </h3>
 
             <div className={styles.emailRow__message}>
