@@ -38,7 +38,6 @@ function EmailRow({ id, title, subject, description, time, starred, important,re
 
     async function toggleStarred(){
         var current= await db.collection('emails').doc(id).get()
-        console.log(current.data()["starred"])
         db.collection('emails').doc(id).set({
             "starred": !current.data()["starred"]
           },{merge:true})
@@ -46,7 +45,6 @@ function EmailRow({ id, title, subject, description, time, starred, important,re
 
     async function toggleImportant(){
         var current= await db.collection('emails').doc(id).get()
-        console.log(current.data()["important"])
         db.collection('emails').doc(id).set({
             "important": !current.data()["important"]
           },{merge:true})
