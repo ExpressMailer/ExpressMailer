@@ -13,7 +13,7 @@ import { db } from '../../firebase';
  
 import ReactHtmlParser from 'react-html-parser';
 
-function EmailRow({ id, title, subject, description, time, starred, important }) 
+function EmailRow({ id, title, subject, description, time, starred, important,read,to,from }) 
 {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -28,6 +28,9 @@ function EmailRow({ id, title, subject, description, time, starred, important })
                 time,
                 starred,
                 important,
+                read,
+                to,
+                from
             })
         );
         history.push("/mail");

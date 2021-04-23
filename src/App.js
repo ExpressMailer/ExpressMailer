@@ -51,6 +51,7 @@ function App() {
       emailRef = emailRef.where('to','==',auth.currentUser.email).where('important','==',true)
     }
     else if(selectedSideBarItem == 4){// sent by me
+      console.log('sentttt by meee')
       emailRef = emailRef.where('from','==',auth.currentUser.email)
     }
 
@@ -150,7 +151,7 @@ function App() {
         <Header showSearchResults={showSearchResults} />
   
         <div className="app__body">
-          {showSideBar && <Sidebar selectedSideBarItem={selectedSideBarItem} setSelectedSideBarItem={setSelectedSideBarItem} />}
+          {showSideBar && <Sidebar listLength={emails.length} selectedSideBarItem={selectedSideBarItem} setSelectedSideBarItem={setSelectedSideBarItem} />}
   
           <Switch>
             <Route path="/mail">

@@ -19,10 +19,11 @@ import axios from 'axios';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
+import ReactHtmlParser from 'react-html-parser';
 
-const api= axios.create({
-    baseURL: 'http://127.0.0.1:5000/'
-})
+// const api= axios.create({
+//     baseURL: 'http://127.0.0.1:5000/'
+// })
 
 
 function SendMail() {
@@ -34,9 +35,14 @@ function SendMail() {
     const notify = (msg) => toast(msg);
 
     const sendEmail = async(msg) =>{
-        let resp = await api.post('/predict', {message: msg})
-        console.log('------------------------------------------')
-        console.log(resp.data)
+        console.log('addData')
+        let cleanMsg = addData.replace( /(<([^>]+)>)/ig, '')
+        let config = {headers: {  
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }}
+
+        const resp = await axios.post('http://127.0.0.1:5000/predict', {message: cleanMsg},config)
         return resp.data['val']
     }
 
