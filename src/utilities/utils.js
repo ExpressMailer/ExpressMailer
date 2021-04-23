@@ -13,6 +13,7 @@ export function getQueryStatement(selectedSideBarItem,selectedLabelItem){
       emailRef = emailRef.where('to','==',auth.currentUser.email).where('starred','==',true)
     }
     else if(selectedSideBarItem == 3){ // marked as imp
+      console.log('imp here')
       emailRef = emailRef.where('to','==',auth.currentUser.email).where('important','==',true)
     }
     else if(selectedSideBarItem == 4){// sent by me
@@ -55,4 +56,18 @@ export function processMailData(doc){
           )
         }, 
     }
+}
+
+export async function toggleStarred(id){
+  var current= await db.collection('emails').doc(id).get()
+  db.collection('emails').doc(id).set({
+      "starred": !current.data()["starred"]
+    },{merge:true})
+}
+
+export async function toggleImportant(id){
+  var current= await db.collection('emails').doc(id).get()
+  db.collection('emails').doc(id).set({
+      "important": !current.data()["important"]
+    },{merge:true})
 }
