@@ -3,7 +3,7 @@ import styles from './Mail.module.css';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import MoveToInboxIcon from "@material-ui/icons/MoveToInbox";
-import ErrorIcon from "@material-ui/icons/Error";
+import NewReleasesIcon from '@material-ui/icons/NewReleases'
 import DeleteIcon from "@material-ui/icons/Delete";
 import EmailIcon from "@material-ui/icons/Email";
 import WatchLaterIcon from "@material-ui/icons/WatchLater";
@@ -18,13 +18,14 @@ import { selectOpenMail } from '../../features/mailSlice';
 import { useSelector } from 'react-redux'; 
 import { auth, db } from '../../firebase';
 import ReactHtmlParser from 'react-html-parser';
-import { toggleImportant, toggleStarred } from '../../utilities/utils';
+import { toggleImportant, toggleSpam } from '../../utilities/utils';
 import Loading from '../Loading/Loading';
 
 function Mail() {
     const history = useHistory();
     const selectedMail = useSelector(selectOpenMail);
     const [imp, setImp] = useState(false)
+    const [spam, setSpam] = useState(false)
 
     useEffect(() => {
         if(!selectedMail){
@@ -39,6 +40,7 @@ function Mail() {
             },{merge:true})
         }
         setImp(selectedMail.important || false)
+        setSpam(selectedMail.spam || false)
     }, [])
 
     return(!selectedMail ? <Loading /> : <div className={styles.mail}>
@@ -50,8 +52,13 @@ function Mail() {
                     <IconButton>
                         <MoveToInboxIcon />
                     </IconButton>
-                    <IconButton>
-                        <ErrorIcon />
+                    <IconButton onClick={(e) => {
+                            e.stopPropagation();
+                            toggleSpam(selectedMail.id)
+                            setSpam(!spam)
+                        }
+                    }>
+                        {spam ? <NewReleasesIcon style={{fill: "red"}}/> : <NewReleasesIcon /> }
                     </IconButton>
                     <IconButton>
                         <DeleteIcon />

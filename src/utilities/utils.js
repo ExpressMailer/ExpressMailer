@@ -80,3 +80,14 @@ export async function toggleImportant(id){
       "important": !current.data()["important"]
     },{merge:true})
 }
+
+export async function toggleSpam(id){
+  var current= await db.collection('emails').doc(id).get()
+  if(current.data().from == auth.currentUser.email){
+    // user trying to imp mail sent by self => DENY
+    return 
+  }
+  db.collection('emails').doc(id).set({
+      "spam": !current.data()["spam"]
+    },{merge:true})
+}
