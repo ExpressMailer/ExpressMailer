@@ -12,6 +12,7 @@ import { db } from '../../firebase';
  
  
 import ReactHtmlParser from 'react-html-parser';
+import { toggleImportant, toggleStarred } from '../../utilities/utils';
 
 function EmailRow({ id, title, subject, description, time, starred, important,read,to,from }) 
 {
@@ -36,30 +37,22 @@ function EmailRow({ id, title, subject, description, time, starred, important,re
         history.push("/mail");
     };
 
-    async function toggleStarred(){
-        var current= await db.collection('emails').doc(id).get()
-        console.log(current.data()["starred"])
-        db.collection('emails').doc(id).set({
-            "starred": !current.data()["starred"]
-          },{merge:true})
-      }
-
-    async function toggleImportant(){
-        var current= await db.collection('emails').doc(id).get()
-        console.log(current.data()["important"])
-        db.collection('emails').doc(id).set({
-            "important": !current.data()["important"]
-          },{merge:true})
-      } 
-
     return (
         <div onClick= {openMail} className={styles.emailRow}>
             <div className={styles.emailRow__options}>
                 <Checkbox />
-                <IconButton onClick={toggleStarred}>
+                <IconButton onClick={(e) => {
+                        e.stopPropagation();
+                        toggleStarred(id)
+                    }
+                }>
                    {starred ? <StarIcon style={{fill: "orange"}}/> : <StarBorderOutlinedIcon /> }
                 </IconButton>
-                <IconButton onClick={toggleImportant}>
+                <IconButton onClick={(e) => {
+                        e.stopPropagation();
+                        toggleImportant(id)
+                    }
+                }>
                     {important ? <LabelImportantOutlinedIcon style={{fill: "orange"}}/> : <LabelImportantOutlinedIcon /> }
                 </IconButton>
             </div>

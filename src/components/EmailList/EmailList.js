@@ -12,11 +12,11 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import SettingsIcon from "@material-ui/icons/Settings";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Section from '../Section/Section';
-import { auth, db } from '../../firebase';
 
 import EmailRow from '../EmailRow/EmailRow'
 import Loading from '../Loading/Loading';
-function EmailList({ emails,setEmails,getMails,selectedLabelItem,setSelectedLabelItem }) {
+
+function EmailList({ emails,selectedLabelItem,setSelectedLabelItem }) {
     
     return (<div className={styles.emailList}>
             <div className={styles.emailList__settings}>
@@ -49,45 +49,37 @@ function EmailList({ emails,setEmails,getMails,selectedLabelItem,setSelectedLabe
             </div>
 
             <div className={styles.emailList__sections} >
-                <Section 
-                    Icon={InboxIcon} 
-                    title="Primary" 
-                    color="red" 
-                    selected={selectedLabelItem == 0} 
-                    onClick={() => setSelectedLabelItem(0)}
-                />  
-                <Section 
-                    Icon={PeopleIcon} 
-                    title="Social" 
-                    color="#1A73E8" 
-                    selected={selectedLabelItem == 1} 
-                    onClick={() => setSelectedLabelItem(1)}
-                />    
-                <Section 
-                    Icon={LocalOfferIcon} 
-                    title="Promotions" 
-                    color="green" 
-                    selected={selectedLabelItem == 2}
-                    onClick={() => setSelectedLabelItem(2)} 
-                />  
+                {[
+                    {icon:InboxIcon,title:'Primary',color:'red'},
+                    {icon:PeopleIcon,title:'Social',color:'#1A73E8'},
+                    {icon:LocalOfferIcon,title:'Promotions',color:'green'}
+                ].map((obj,index) => {
+                    return <Section 
+                        Icon={obj.icon} 
+                        title={obj.title}
+                        color={obj.color}
+                        selected={selectedLabelItem == index} 
+                        onClick={() => setSelectedLabelItem(index)}
+                    />  
+                })}
             </div>
 
             <div className={styles.emailList__list}>
             {emails.length == 0 ? <Loading /> : 
                 <div>
-                    {emails.map(({id,data:{to,from,subject,message,timestamp,starred,important,read}}) => {
+                    {emails.map(( {id, data} ) => {
                         return <EmailRow
                             id={id}
                             key={id}
-                            title={from}
-                            subject={subject}
-                            to={to}
-                            from={from}
-                            description={message}
-                            time={new Date(timestamp?.seconds*1000).toUTCString()}
-                            starred={starred || false}
-                            important={important || false}
-                            read={read || false}
+                            title={data.from}
+                            subject={data.subject}
+                            to={data.to}
+                            from={data.from}
+                            description={data.message}
+                            time={new Date(data.timestamp?.seconds*1000).toUTCString()}
+                            starred={data.starred || false}
+                            important={data.important || false}
+                            read={data.read || false}
                         />
                     })}
                 </div>

@@ -23,6 +23,7 @@ import { selectShowSidebar } from './features/commonSlice';
 import { decrypt } from './utilities/crypt';
 import { generateRoomName } from './utilities/common';
 import Loading from './components/Loading/Loading';
+import { getQueryStatement, processMailData } from './utilities/utils';
 
 function App() {
 
@@ -37,65 +38,11 @@ function App() {
   const [selectedSideBarItem, setSelectedSideBarItem] = useState(0)// 0-> Inbox, 2-> Starred, etc
   const [selectedLabelItem, setSelectedLabelItem] = useState(0)// 0-> Primary, 1-> Social, 2->Promotions
 
-  function getQueryStatement(){
-    let emailRef = db.collection('emails')
-
-    // Left side bar
-    if(selectedSideBarItem == 0){// received
-      emailRef = emailRef.where('to','==',auth.currentUser.email)
-    }
-    else if(selectedSideBarItem == 1){ // starred
-      emailRef = emailRef.where('to','==',auth.currentUser.email).where('starred','==',true)
-    }
-    else if(selectedSideBarItem == 3){ // marked as imp
-      emailRef = emailRef.where('to','==',auth.currentUser.email).where('important','==',true)
-    }
-    else if(selectedSideBarItem == 4){// sent by me
-      console.log('sentttt by meee')
-      emailRef = emailRef.where('from','==',auth.currentUser.email)
-    }
-
-    // Label
-    if(selectedLabelItem == 0){
-      console.log('0 called')
-      emailRef = emailRef.where('label','==',"Primary")
-    }
-    else if(selectedLabelItem == 1){
-      console.log('1 called')
-      emailRef = emailRef.where('label','==',"Social")
-    }
-    else if(selectedLabelItem == 2){
-      console.log('2 called')
-      emailRef = emailRef.where('label','==',"Promotions")
-    }
-
-
-    emailRef = emailRef.orderBy('timestamp','desc')
-    
-    return emailRef
-  }
-
   const getMails = () => {
-    let emailRef = getQueryStatement()
-    
-    emailRef
-    .onSnapshot(snapshot => {
-        setEmails([...snapshot.docs.map(doc => {//...emails
-          return {
-            id: doc.id,
-            data: {
-              ...doc.data(),
-              subject: decrypt(
-                doc.data().subject,
-                generateRoomName(doc.data().to, doc.data().from)
-              ),
-              message: decrypt(
-                doc.data().message,
-                generateRoomName(doc.data().to, doc.data().from)
-              )
-            }, 
-          }
-        })])
+    let emailRef = getQueryStatement(selectedSideBarItem,selectedLabelItem)
+
+    emailRef.onSnapshot(snapshot => {
+      setEmails([...snapshot.docs.map(doc => processMailData(doc) )])
     })
   }
 
@@ -110,20 +57,7 @@ function App() {
     .where('searchableKeywords','array-contains',query)
     .orderBy('timestamp','desc')
     .onSnapshot(snapshot => {
-        setEmails(snapshot.docs.map(doc => ({
-            id: doc.id,
-            data: {
-              ...doc.data(), 
-              subject: decrypt(
-                doc.data().subject,
-                generateRoomName(doc.data().to, doc.data().from)
-              ),
-              message: decrypt(
-                doc.data().message,
-                generateRoomName(doc.data().to, doc.data().from)
-              )
-            }
-        })))
+        setEmails(snapshot.docs.map(doc => processMailData(doc) ))
     })
   }
 
@@ -167,8 +101,6 @@ function App() {
               
               <EmailList 
                 emails={emails} 
-                setEmails={setEmails} 
-                getMails={getMails}
                 selectedLabelItem={selectedLabelItem}
                 setSelectedLabelItem={setSelectedLabelItem}
               />

@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Mail.module.css';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import MoveToInboxIcon from "@material-ui/icons/MoveToInbox";
-import ErrorIcon from "@material-ui/icons/Error";
+import NewReleasesIcon from '@material-ui/icons/NewReleases'
 import DeleteIcon from "@material-ui/icons/Delete";
 import EmailIcon from "@material-ui/icons/Email";
 import WatchLaterIcon from "@material-ui/icons/WatchLater";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import LabelImportantIcon from "@material-ui/icons/LabelImportant";
+import LabelImportantOutlinedIcon from "@material-ui/icons/LabelImportant";
 import MoreVertIcon from "@material-ui/icons/MoreVert"; 
 import PrintIcon from "@material-ui/icons/Print";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -18,29 +18,32 @@ import { selectOpenMail } from '../../features/mailSlice';
 import { useSelector } from 'react-redux'; 
 import { auth, db } from '../../firebase';
 import ReactHtmlParser from 'react-html-parser';
+import { toggleImportant, toggleSpam } from '../../utilities/utils';
+import Loading from '../Loading/Loading';
 
 function Mail() {
     const history = useHistory();
     const selectedMail = useSelector(selectOpenMail);
-
-    async function toggleImportant(){
-        var current= await db.collection('emails').doc(selectedMail.id).get()
-        console.log(current.data()["important"])
-        db.collection('emails').doc(selectedMail.id).set({
-            "important": !selectedMail.important
-          },{merge:true})
-    }
+    const [imp, setImp] = useState(false)
+    const [spam, setSpam] = useState(false)
 
     useEffect(() => {
+        if(!selectedMail){
+            history.push("/")
+            return
+        }
+
         //  If receiver open this mail, set its read status as true
         if(selectedMail.from != auth.currentUser.email){
             db.collection('emails').doc(selectedMail.id).set({
                 "read": true
             },{merge:true})
         }
+        setImp(selectedMail.important || false)
+        setSpam(selectedMail.spam || false)
     }, [])
 
-    return(<div className={styles.mail}>
+    return(!selectedMail ? <Loading /> : <div className={styles.mail}>
             <div className={styles.mail__tools}>
                 <div className={styles.mail__toolsLeft}>
                     <IconButton onClick={() => history.push("/")}>
@@ -49,8 +52,13 @@ function Mail() {
                     <IconButton>
                         <MoveToInboxIcon />
                     </IconButton>
-                    <IconButton>
-                        <ErrorIcon />
+                    <IconButton onClick={(e) => {
+                            e.stopPropagation();
+                            toggleSpam(selectedMail.id)
+                            setSpam(!spam)
+                        }
+                    }>
+                        {spam ? <NewReleasesIcon style={{fill: "red"}}/> : <NewReleasesIcon /> }
                     </IconButton>
                     <IconButton>
                         <DeleteIcon />
@@ -64,8 +72,13 @@ function Mail() {
                     <IconButton>
                         <CheckCircleIcon />
                     </IconButton>
-                    <IconButton onClick={toggleImportant}>
-                    {selectedMail.important ? <LabelImportantIcon style={{fill: "orange"}}/> : <LabelImportantIcon /> }
+                    <IconButton onClick={(e) => {
+                            e.stopPropagation();
+                            toggleImportant(selectedMail.id)
+                            setImp(!imp)
+                        }
+                    }>
+                        {imp ? <LabelImportantOutlinedIcon style={{fill: "orange"}}/> : <LabelImportantOutlinedIcon /> }
                     </IconButton>
                     <IconButton>
                         <MoreVertIcon />
@@ -85,6 +98,9 @@ function Mail() {
                     </IconButton>
                 </div>
             </div>
+
+
+
             <div className={styles.mail__body} style={{position:"relative"}}>
                 <div style={{position:"absolute",top:"0px",right:"20px"}}>
                     {selectedMail && selectedMail.read ? 
@@ -114,7 +130,7 @@ function Mail() {
 
                 <div className={styles.mail__bodyHeader}>
                     <h2>{selectedMail?.subject}</h2>
-                    <LabelImportantIcon className={styles.mail__important} />
+                    {imp ? <LabelImportantOutlinedIcon style={{fill: "orange"}}/> : <LabelImportantOutlinedIcon /> }
                     <p>{selectedMail?.title}</p> 
                     <p className={styles.mail__time}>{selectedMail?.time}</p>
                 </div>    

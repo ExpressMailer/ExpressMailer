@@ -42,7 +42,7 @@ function SendMail() {
             'Access-Control-Allow-Origin': '*'
         }}
 
-        const resp = await axios.post('http://127.0.0.1:5000/predict', {message: cleanMsg},config)
+        const resp = await axios.post('https://gmail-clone-ml.herokuapp.com/predict', {message: cleanMsg},config)
         return resp.data['val']
     }
 
@@ -56,13 +56,23 @@ function SendMail() {
         console.log(`Option selected:`, option);
     }
 
-    const generateKeywords = (formData) => {
+    const generateKeywords = async (formData) => {
         let searchableKeywords = [auth.currentUser.email,...formData.subject.split(' ')]
         let prev = ''
         for(var i=0;i<formData.subject.length;i++){
             prev = prev  + formData.subject.charAt(i)
             searchableKeywords.push(prev)
         }
+        // top n Keywords from the body 
+        let cleanMsg = addData.replace( /(<([^>]+)>)/ig, '')
+        let config = {headers: {  
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }}
+
+        const resp = await axios.post('https://gmail-clone-ml.herokuapp.com/keywords', {message: cleanMsg,n:5},config)
+        searchableKeywords = [...searchableKeywords,...resp.data['keywords']]
+        console.log(searchableKeywords)
         return searchableKeywords
     }
     
@@ -82,10 +92,8 @@ function SendMail() {
             return; 
         }
         const emailExists = await checkIfEmailExists(formData.to) 
-        console.log(generateKeywords(formData))
     
-   
-        
+        // console.log(await generateKeywords(formData))
 
         if(emailExists){   
             db.collection('emails').add({
@@ -94,7 +102,7 @@ function SendMail() {
                 subject:  encrypt(formData.subject, generateRoomName(auth.currentUser.email,formData.to)),
                 message: encrypt(addData, generateRoomName(auth.currentUser.email,formData.to)),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                searchableKeywords: generateKeywords(formData),
+                searchableKeywords: await generateKeywords(formData),
                 read: false,
                 starred: false,
                 important: false,
