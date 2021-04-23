@@ -60,6 +60,10 @@ export function processMailData(doc){
 
 export async function toggleStarred(id){
   var current= await db.collection('emails').doc(id).get()
+  if(current.data().from == auth.currentUser.email){
+    // user trying to star mail sent by self => DENY
+    return 
+  }
   db.collection('emails').doc(id).set({
       "starred": !current.data()["starred"]
     },{merge:true})
@@ -67,6 +71,11 @@ export async function toggleStarred(id){
 
 export async function toggleImportant(id){
   var current= await db.collection('emails').doc(id).get()
+  if(current.data().from == auth.currentUser.email){
+    // user trying to imp mail sent by self => DENY
+    console.log('action deny')
+    return 
+  }
   db.collection('emails').doc(id).set({
       "important": !current.data()["important"]
     },{merge:true})
