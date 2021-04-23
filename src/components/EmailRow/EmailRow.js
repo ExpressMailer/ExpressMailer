@@ -36,9 +36,9 @@ function EmailRow({ id, title, subject, description, time, starred, important,re
         );
         history.push("/mail");
     };
-
+    const rowColor = read ? "white" : "rgb(221, 221, 221)"
     return (
-        <div onClick= {openMail} className={styles.emailRow}>
+        <div onClick= {openMail} className={styles.emailRow} style={{backgroundColor: rowColor}}>
             <div className={styles.emailRow__options}>
                 <Checkbox />
                 <IconButton onClick={(e) => {
