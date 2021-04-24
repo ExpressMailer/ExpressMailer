@@ -38,7 +38,7 @@ function EmailRow({ id, title, subject, description, time, starred, important,re
     };
     const rowColor = read ? "white" : "rgb(221, 221, 221)"  
     const sentValname = "To: " + to
-    const inboxOrSent = from === auth.currentUser.email && to != auth.currentUser.email ? sentValname : to
+    const inboxOrSent = from === auth.currentUser.email && to != auth.currentUser.email ? sentValname : title
     return (
         <div onClick= {openMail} className={styles.emailRow} style={{backgroundColor: rowColor}}>
             <div className={styles.emailRow__options}>
