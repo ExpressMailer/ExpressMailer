@@ -64,10 +64,12 @@ function EmailRow({ id, title, subject, description, time, starred, important,re
             </h3>
 
             <div className={styles.emailRow__message}>
-                <h4> {subject} {" "}
-                <span className={styles.emailRow__description}>- {ReactHtmlParser(description)}
-                </span>
-                </h4>
+                <p>
+                    <h4> {subject} {" "}
+                    <span className={styles.emailRow__description}> - {description.replace(/<[^>]+>/g, '').substring(0,30)}...
+                    </span>
+                    </h4>
+                </p>
             </div>
 
             <p className={styles.emailRow__description}>
