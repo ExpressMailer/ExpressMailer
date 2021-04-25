@@ -65,12 +65,10 @@ function EmailRow({ id, title, subject, description, time, starred, important, r
             </h3>
 
             <div className={styles.emailRow__message}>
-                <p>
-                    <h4> {subject} {" "}
-                    </h4>
+                    <h4> {"  "} {subject} {" "}
                     <span className={styles.emailRow__description}> - {description.replace(/<[^>]+>/g, '').substring(0,30)}...
                     </span>
-                </p>
+                    </h4>
             </div>
 
             <p className={styles.emailRow__description}>
