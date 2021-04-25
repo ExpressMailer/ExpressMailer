@@ -52,10 +52,10 @@ function Mail() {
                     <IconButton>
                         <MoveToInboxIcon />
                     </IconButton>
-                    <IconButton onClick={(e) => {
+                    <IconButton onClick={async (e) => {
                             e.stopPropagation();
-                            toggleSpam(selectedMail.id)
-                            setSpam(!spam)
+                            const result = await toggleSpam(selectedMail.id)
+                            if(result) setSpam(!spam)
                         }
                     }>
                         {spam ? <NewReleasesIcon style={{fill: "red"}}/> : <NewReleasesIcon /> }
@@ -72,10 +72,10 @@ function Mail() {
                     <IconButton>
                         <CheckCircleIcon />
                     </IconButton>
-                    <IconButton onClick={(e) => {
+                    <IconButton onClick={async (e) => {
                             e.stopPropagation();
-                            toggleImportant(selectedMail.id)
-                            setImp(!imp)
+                            const result = await toggleImportant(selectedMail.id)
+                            if(result) setImp(!imp)
                         }
                     }>
                         {imp ? <LabelImportantOutlinedIcon style={{fill: "orange"}}/> : <LabelImportantOutlinedIcon /> }

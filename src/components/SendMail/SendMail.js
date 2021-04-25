@@ -20,6 +20,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import ReactHtmlParser from 'react-html-parser';
+import Loading from '../Loading/Loading';
 
 // const api= axios.create({
 //     baseURL: 'http://127.0.0.1:5000/'
@@ -33,6 +34,7 @@ function SendMail() {
     const [addData, setVal] = useState("");
     const [option,setOption] = useState("Primary");
     const notify = (msg) => toast(msg);
+    
 
     const sendEmail = async(msg) =>{
         console.log('addData')
@@ -79,7 +81,8 @@ function SendMail() {
     const checkIfEmailExists = async (email) => {
         const snapshot = await db.collection('users').where('email','==',email).limit(1).get()
         console.log(snapshot.empty)
-        if(snapshot.empty){
+
+        if(snapshot.empty || email == auth.currentUser.email){
             return false
         }
         return true
@@ -109,15 +112,18 @@ function SendMail() {
                 spam: await sendEmail(formData.message),
                 label: option
             })
-            toast.success("Mail sent successfully.")
             dispatch(closeSendMessage())
         }
         else{
             console.log(formData.to + " doesn't exist.")
-            // toast.error(formData.to + " doesn't exist.")
-            toast.success("Mail sent successfully.")
+            toast.error("Cannot send mail to "+formData.to)
+            // toast.success("Mail sent successfully.")
         }
+        
     }
+
+    
+
     return <>
     <ToastContainer />
         <div className={styles.sendMail}>

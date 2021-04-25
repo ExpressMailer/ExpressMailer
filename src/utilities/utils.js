@@ -4,7 +4,7 @@ import { decrypt } from "./crypt"
 
 export function getQueryStatement(selectedSideBarItem,selectedLabelItem){
     let emailRef = db.collection('emails')
-
+  
     // Left side bar
     if(selectedSideBarItem == 0){// received
       emailRef = emailRef.where('to','==',auth.currentUser.email).where('spam','==',false)
@@ -23,6 +23,9 @@ export function getQueryStatement(selectedSideBarItem,selectedLabelItem){
     else if(selectedSideBarItem == 6){// spam
       emailRef = emailRef.where('to','==',auth.currentUser.email).where('spam','==',true)
     }
+    else{
+      emailRef = emailRef.where('to',"==","somethingThatDoesntExist")
+    }
 
     // Label
     if(selectedLabelItem == 0){
@@ -36,6 +39,9 @@ export function getQueryStatement(selectedSideBarItem,selectedLabelItem){
     else if(selectedLabelItem == 2){
       console.log('2 called')
       emailRef = emailRef.where('label','==',"Promotions")
+    }
+    else{
+      emailRef = emailRef.where('label',"==","somethingThatDoesntExist")
     }
 
 
@@ -65,11 +71,12 @@ export async function toggleStarred(id){
   var current= await db.collection('emails').doc(id).get()
   if(current.data().from == auth.currentUser.email){
     // user trying to star mail sent by self => DENY
-    return 
+    return false
   }
   db.collection('emails').doc(id).set({
       "starred": !current.data()["starred"]
     },{merge:true})
+  return true
 }
 
 export async function toggleImportant(id){
@@ -77,20 +84,22 @@ export async function toggleImportant(id){
   if(current.data().from == auth.currentUser.email){
     // user trying to imp mail sent by self => DENY
     console.log('action deny')
-    return 
+    return false
   }
   db.collection('emails').doc(id).set({
       "important": !current.data()["important"]
     },{merge:true})
+  return true
 }
 
 export async function toggleSpam(id){
   var current= await db.collection('emails').doc(id).get()
   if(current.data().from == auth.currentUser.email){
     // user trying to imp mail sent by self => DENY
-    return 
+    return false
   }
   db.collection('emails').doc(id).set({
       "spam": !current.data()["spam"]
     },{merge:true})
+  return true
 }
