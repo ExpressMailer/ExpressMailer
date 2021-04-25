@@ -1,3 +1,4 @@
+import { Button, FormControl, Grid, Input, InputLabel, Paper, TextField } from '@material-ui/core';
 import React, { useState } from 'react'
 
 import { Jutsu } from 'react-jutsu'
@@ -46,7 +47,6 @@ const Meet = () => {
       display:"flex",
       margin:"0 auto",
       alignItems:"center",
-      // backgroundColor:"pink"
     }}
   >
     {call ? (
@@ -58,15 +58,76 @@ const Meet = () => {
         loadingComponent={<p>loading ...</p>}
         errorComponent={<p>Oops, something went wrong</p>} />
     ) : (
-      <div>
-          <form>
-              <input id='room' type='text' placeholder='Room' value={room} onChange={(e) => setRoom(e.target.value)} />
-              <input id='name' type='text' placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
-              <input id='password' type='text' placeholder='Password (optional)' value={password} onChange={(e) => setPassword(e.target.value)} />
-              <button onClick={handleClick} type='submit'>
+      <div style={{
+        backgroundColor:"#f2f2f2",
+        display:"flex",flexWrap:"wrap",flexDirection:"column",
+        padding:"10px",width:"500px"
+      }}>
+        <div style={{ width:"100%",textAlign:"center",marginBottom:"30px" }}>
+          <h1>Join the meet!</h1>
+        </div>
+        
+              <br></br>
+              <InputLabel htmlFor="room">Enter room name</InputLabel>
+              <TextField  id='room' type='text' placeholder='Room' value={room} onChange={(e) => setRoom(e.target.value)} />
+              
+              <br></br>
+              <InputLabel htmlFor="name">Your name</InputLabel>
+              <TextField  id='name' type='text' placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
+              <br></br>
+              <InputLabel htmlFor="password">Password(optional)</InputLabel>
+              <TextField  id='password' type='text' placeholder='' value={password} onChange={(e) => setPassword(e.target.value)} />
+
+              <Button variant="contained"  color="primary" onClick={handleClick} type='submit'>
                   Start / Join
-              </button>
-          </form>
+              </Button>
+
+          {/* <form>
+            <Paper style={{ padding: 16 }}>
+              <Grid container alignItems="flex-start" spacing={2}>
+                <Grid item xs={6}>
+                  <Field
+                    fullWidth
+                    required
+                    name="firstName"
+                    component={TextField}
+                    type="text"
+                    label="First Name"
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Field
+                    fullWidth
+                    required
+                    name="lastName"
+                    component={TextField}
+                    type="text"
+                    label="Last Name"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    name="email"
+                    fullWidth
+                    required
+                    component={TextField}
+                    type="email"
+                    label="Email"
+                  />
+                </Grid>
+                
+                <Grid item style={{ marginTop: 16 }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </form> */}
       </div>
     )}
   </div>

@@ -9,18 +9,14 @@ function Login() {
     const dispatch = useDispatch()
 
     const saveUserToDb = async (user) => {
-        console.log('saveUserToDb called')
         const snapshot = await db.collection('users').where('email','==',user.email).get()
         if (snapshot.empty) {
-            console.log('No matching documents.');
-            console.log('before user saved to db')
             await db.collection('users').add({
                 displayName: user.displayName,
                 email: user.email,
                 photoUrl: user.photoURL,
                 recentlychatedwith: []
             })
-            console.log('user saved to db')
             return;
         } 
     }

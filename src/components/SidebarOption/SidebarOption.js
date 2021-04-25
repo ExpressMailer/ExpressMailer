@@ -6,7 +6,10 @@ function SidebarOption({ Icon, title, number, selected,setSelectedSideBarItem,in
     const history = useHistory();
     return <div 
         className={`${styles.sidebarOption} ${selected && styles.sidebarOption__active}`} 
-        onClick={() => setSelectedSideBarItem(index)}>
+        onClick={() => {
+            history.push('/')
+            setSelectedSideBarItem(index)
+        }}>
         <Icon />
         <h3>{title}</h3>
         <p>{number}</p>   

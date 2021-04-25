@@ -103,8 +103,6 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem,listLength}) {
                 data: doc.data(),
                 recents: doc.data()['recentlychatedwith'],
             })))
-            // console.log("recentChatpersons")
-            // console.log(recentChatpersons[0].recents)
         })
         
     },[])
@@ -200,7 +198,7 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem,listLength}) {
 
             <Collapse in={isOpenmeet}>
                 <div className={styles.sidebar_features}>  
-                    <div className={styles.sidebar_meet} onClick={() => history.push('/meet/conference/anyRoomName')}>
+                    <div className={styles.sidebar_meet} onClick={() => history.push(`/meet/conference/${parseInt(100000 + Math.random()*(500000))}`)}>
                         <IconButton>
                             <VideoCallIcon  />  
                         </IconButton>
@@ -208,30 +206,6 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem,listLength}) {
                     </div>
                 </div>
             </Collapse>
-
-            
-
-            {/* <div>
-                <b>(video call)</b><br></br>
-                <IconButton onClick={() => history.push('/meet/single/rugvedpb@gmail.com')}>
-                    rugvedpb@gmail.com
-                    <DuoIcon />
-                </IconButton>
-                <br></br>
-                <IconButton onClick={() => history.push('/meet/single/rugved.bongale@somaiya.edu')}>
-                    rugved.bongale@somaiya.edu
-                    <DuoIcon />
-                </IconButton>
-                <br></br>
-            </div>
-            <div>
-                <b>(conference call)</b><br></br>
-                <IconButton onClick={() => history.push('/meet/conference/anyRoomName')}>
-                    Conf call
-                    <DuoIcon />
-                </IconButton>
-                <br></br>
-            </div> */}
         </div>;
 }
 
