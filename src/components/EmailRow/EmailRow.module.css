@@ -41,4 +41,5 @@
 .emailRow__description{
     font-weight: 400;
     color:gray;
+    text-decoration: none;
 }

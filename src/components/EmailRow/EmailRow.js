@@ -8,7 +8,7 @@ import styles from './EmailRow.module.css';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { selectMail } from '../../features/mailSlice';
-import { db } from '../../firebase';
+import { auth, db } from '../../firebase';
  
  
 import ReactHtmlParser from 'react-html-parser';
@@ -37,9 +37,11 @@ function EmailRow({ id, title, subject, description, time, starred, important, r
         );
         history.push("/mail");
     };
-
+    const rowColor = read ? "white" : "rgb(221, 221, 221)"  
+    const sentValname = "To: " + to
+    const inboxOrSent = from === auth.currentUser.email && to != auth.currentUser.email ? sentValname : title
     return (
-        <div onClick= {openMail} className={styles.emailRow}>
+        <div onClick= {openMail} className={styles.emailRow} style={{backgroundColor: rowColor}}>
             <div className={styles.emailRow__options}>
                 <Checkbox />
                 <IconButton onClick={(e) => {
@@ -59,14 +61,16 @@ function EmailRow({ id, title, subject, description, time, starred, important, r
             </div>
         
             <h3 className={styles.emailRow__title}>
-                {title}
+                {inboxOrSent}
             </h3>
 
             <div className={styles.emailRow__message}>
-                <h4> {subject} {" "}
-                <span className={styles.emailRow__description}>- {ReactHtmlParser(description)}
-                </span>
-                </h4>
+                <p>
+                    <h4> {subject} {" "}
+                    <span className={styles.emailRow__description}> - {description.replace(/<[^>]+>/g, '').substring(0,30)}...
+                    </span>
+                    </h4>
+                </p>
             </div>
 
             <p className={styles.emailRow__description}>
