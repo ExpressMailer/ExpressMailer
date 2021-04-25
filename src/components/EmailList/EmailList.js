@@ -80,6 +80,7 @@ function EmailList({ emails,selectedLabelItem,setSelectedLabelItem }) {
                             starred={data.starred || false}
                             important={data.important || false}
                             read={data.read || false}
+                            spam={data.spam || false}
                         />
                     })}
                 </div>
