@@ -14,7 +14,7 @@ import { auth, db } from '../../firebase';
 import ReactHtmlParser from 'react-html-parser';
 import { toggleImportant, toggleStarred } from '../../utilities/utils';
 
-function EmailRow({ id, title, subject, description, time, starred, important,read,to,from }) 
+function EmailRow({ id, title, subject, description, time, starred, important, read, to, from, spam }) 
 {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -31,7 +31,8 @@ function EmailRow({ id, title, subject, description, time, starred, important,re
                 important,
                 read,
                 to,
-                from
+                from,
+                spam
             })
         );
         history.push("/mail");

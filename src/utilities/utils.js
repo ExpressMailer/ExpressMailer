@@ -7,18 +7,21 @@ export function getQueryStatement(selectedSideBarItem,selectedLabelItem){
 
     // Left side bar
     if(selectedSideBarItem == 0){// received
-      emailRef = emailRef.where('to','==',auth.currentUser.email)
+      emailRef = emailRef.where('to','==',auth.currentUser.email).where('spam','==',false)
     }
     else if(selectedSideBarItem == 1){ // starred
-      emailRef = emailRef.where('to','==',auth.currentUser.email).where('starred','==',true)
+      emailRef = emailRef.where('to','==',auth.currentUser.email).where('starred','==',true).where('spam','==',false)
     }
     else if(selectedSideBarItem == 3){ // marked as imp
       console.log('imp here')
-      emailRef = emailRef.where('to','==',auth.currentUser.email).where('important','==',true)
+      emailRef = emailRef.where('to','==',auth.currentUser.email).where('important','==',true).where('spam','==',false)
     }
     else if(selectedSideBarItem == 4){// sent by me
       console.log('sentttt by meee')
       emailRef = emailRef.where('from','==',auth.currentUser.email)
+    }
+    else if(selectedSideBarItem == 6){// spam
+      emailRef = emailRef.where('to','==',auth.currentUser.email).where('spam','==',true)
     }
 
     // Label
