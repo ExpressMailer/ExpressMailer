@@ -12,7 +12,7 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import SettingsIcon from "@material-ui/icons/Settings";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Section from '../Section/Section';
-
+import ReactTooltip from 'react-tooltip';
 import EmailRow from '../EmailRow/EmailRow'
 import Loading from '../Loading/Loading';
 
@@ -21,30 +21,54 @@ function EmailList({ emails,selectedLabelItem,setSelectedLabelItem }) {
     return (<div className={styles.emailList}>
             <div className={styles.emailList__settings}>
                 <div className={styles.emailList__settingsLeft}>
-                    <Checkbox />
-                    <IconButton>
-                        <ArrowDropDownIcon />
-                    </IconButton>
-                    <IconButton>
-                        <RedoIcon />
-                    </IconButton>
-                    <IconButton>
-                        <MoreVertIcon />
-                    </IconButton>
+                    <ReactTooltip place="bottom"/>
+                        <span data-tip="Select">
+                            <Checkbox />
+                        </span>
+                    <ReactTooltip place="bottom"/>
+                        <span data-tip="Select All">
+                            <IconButton>
+                                <ArrowDropDownIcon />
+                            </IconButton>
+                        </span>
+                    <ReactTooltip place="bottom"/>
+                        <span data-tip="Refresh">
+                            <IconButton>
+                                <RedoIcon />
+                            </IconButton>
+                        </span>
+                    <ReactTooltip place="bottom"/>
+                        <span data-tip="More">
+                            <IconButton>
+                                <MoreVertIcon />
+                            </IconButton>
+                        </span>
                 </div>
                 <div className={styles.emailList__settingsRight}>
-                    <IconButton>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                    <IconButton>
-                        <ChevronRightIcon />
-                    </IconButton>
-                    <IconButton>
-                        <KeyboardHideIcon />
-                    </IconButton>
-                    <IconButton>
-                        <SettingsIcon />
-                    </IconButton>
+                    <ReactTooltip place="bottom"/>
+                        <span data-tip="Previous Page">
+                            <IconButton>
+                                <ChevronLeftIcon />
+                            </IconButton>
+                        </span>
+                    <ReactTooltip place="bottom"/>  
+                        <span data-tip="Next Page">          
+                            <IconButton>
+                                <ChevronRightIcon />
+                            </IconButton>
+                        </span>
+                    <ReactTooltip place="bottom"/>
+                        <span data-tip="Keyboard">
+                            <IconButton>
+                                <KeyboardHideIcon />
+                            </IconButton>
+                        </span>
+                    <ReactTooltip place="bottom"/>
+                        <span data-tip="Settings">
+                            <IconButton>
+                                <SettingsIcon />
+                            </IconButton>
+                        </span>
                 </div>
             </div>
 

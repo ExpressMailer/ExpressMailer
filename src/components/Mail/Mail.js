@@ -20,6 +20,7 @@ import { auth, db } from '../../firebase';
 import ReactHtmlParser from 'react-html-parser';
 import { toggleImportant, toggleSpam } from '../../utilities/utils';
 import Loading from '../Loading/Loading';
+import ReactTooltip from 'react-tooltip';
 
 function Mail() {
     const history = useHistory();
@@ -46,44 +47,70 @@ function Mail() {
     return(!selectedMail ? <Loading /> : <div className={styles.mail}>
             <div className={styles.mail__tools}>
                 <div className={styles.mail__toolsLeft}>
-                    <IconButton onClick={() => history.push("/")}>
-                        <ArrowBackIcon />
-                    </IconButton>
-                    <IconButton>
-                        <MoveToInboxIcon />
-                    </IconButton>
-                    <IconButton onClick={async (e) => {
-                            e.stopPropagation();
-                            const result = await toggleSpam(selectedMail.id)
-                            if(result) setSpam(!spam)
-                        }
-                    }>
-                        {spam ? <NewReleasesIcon style={{fill: "red"}}/> : <NewReleasesIcon /> }
-                    </IconButton>
-                    <IconButton>
-                        <DeleteIcon />
-                    </IconButton>
-                    <IconButton>
-                        <EmailIcon />
-                    </IconButton>
-                    <IconButton>
-                        <WatchLaterIcon />
-                    </IconButton>
-                    <IconButton>
-                        <CheckCircleIcon />
-                    </IconButton>
-                    <IconButton onClick={async (e) => {
-                            e.stopPropagation();
-                            const result = await toggleImportant(selectedMail.id)
-                            if(result) setImp(!imp)
-                        }
-                    }>
-                        {imp ? <LabelImportantOutlinedIcon style={{fill: "orange"}}/> : <LabelImportantOutlinedIcon /> }
-                    </IconButton>
-                    <IconButton>
-                        <MoreVertIcon />
-                    </IconButton>
-
+                    <ReactTooltip place="bottom"/>
+                        <p data-tip="Back">
+                            <IconButton onClick={() => history.push("/")}>
+                                <ArrowBackIcon />
+                            </IconButton>
+                        </p>
+                    <ReactTooltip place="bottom"/>
+                        <p data-tip="Archive">
+                            <IconButton>
+                                <MoveToInboxIcon />
+                            </IconButton>
+                        </p>
+                    <ReactTooltip place="bottom"/>
+                        <p data-tip="Report As Spam">
+                            <IconButton onClick={async (e) => {
+                                e.stopPropagation();
+                                const result = await toggleSpam(selectedMail.id)
+                                if(result) setSpam(!spam)
+                                }
+                            }>
+                                {spam ? <NewReleasesIcon style={{fill: "red"}}/> : <NewReleasesIcon /> }
+                            </IconButton>
+                        </p>
+                    <ReactTooltip place="bottom"/>
+                        <p data-tip="Delete">
+                            <IconButton>
+                                <DeleteIcon />
+                            </IconButton>
+                        </p>
+                    <ReactTooltip place="bottom"/>
+                        <p data-tip="Mark as Unread">
+                            <IconButton>
+                                <EmailIcon />
+                            </IconButton>
+                        </p>
+                    <ReactTooltip place="bottom"/>
+                        <p data-tip="Snooze">
+                            <IconButton>
+                                <WatchLaterIcon />
+                            </IconButton>
+                        </p>
+                    <ReactTooltip place="bottom"/>
+                        <p data-tip="Mark as Read">
+                            <IconButton>
+                                <CheckCircleIcon />
+                            </IconButton>
+                        </p>
+                    <ReactTooltip place="bottom"/>
+                        <p data-tip="Mark as Important">
+                            <IconButton onClick={async (e) => {
+                                e.stopPropagation();
+                                const result = await toggleImportant(selectedMail.id)
+                                if(result) setImp(!imp)
+                                }
+                            }>
+                                {imp ? <LabelImportantOutlinedIcon style={{fill: "orange"}}/> : <LabelImportantOutlinedIcon /> }
+                            </IconButton>
+                        </p>
+                    <ReactTooltip place="bottom"/>
+                        <p data-tip="More">
+                            <IconButton>
+                                <MoreVertIcon />
+                            </IconButton>
+                        </p>
                 </div>
 
                 <div className={styles.mail__toolsRight}>
