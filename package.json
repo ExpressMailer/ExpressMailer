@@ -32,7 +32,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-scroll-to-bottom": "^4.1.0",
-    "react-toastify": "^4.5.2"
+    "react-toastify": "^4.5.2",
+    "react-tooltip": "^4.2.18"
   },
   "scripts": {
     "start": "react-scripts start",

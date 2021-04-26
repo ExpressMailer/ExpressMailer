@@ -9,8 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { selectMail } from '../../features/mailSlice';
 import { auth, db } from '../../firebase';
- 
- 
+import ReactTooltip from 'react-tooltip';
 import ReactHtmlParser from 'react-html-parser';
 import { toggleImportant, toggleStarred } from '../../utilities/utils';
 
@@ -43,21 +42,30 @@ function EmailRow({ id, title, subject, description, time, starred, important, r
     return (
         <div onClick= {openMail} className={styles.emailRow} style={{backgroundColor: rowColor}}>
             <div className={styles.emailRow__options}>
-                <Checkbox />
-                <IconButton onClick={(e) => {
-                        e.stopPropagation();
-                        toggleStarred(id)
-                    }
-                }>
-                   {starred ? <StarIcon style={{fill: "orange"}}/> : <StarBorderOutlinedIcon /> }
-                </IconButton>
-                <IconButton onClick={(e) => {
-                        e.stopPropagation();
-                        toggleImportant(id)
-                    }
-                }>
-                    {important ? <LabelImportantOutlinedIcon style={{fill: "orange"}}/> : <LabelImportantOutlinedIcon /> }
-                </IconButton>
+                <ReactTooltip place="bottom"/>
+                    <span data-tip="Select">
+                        <Checkbox />
+                    </span>
+                <ReactTooltip place="bottom"/>
+                    <span data-tip="Star">
+                        <IconButton onClick={(e) => {
+                                e.stopPropagation();
+                                toggleStarred(id)
+                            }
+                        }>
+                        {starred ? <StarIcon style={{fill: "orange"}}/> : <StarBorderOutlinedIcon /> }
+                        </IconButton>
+                    </span>
+                <ReactTooltip place="bottom"/>
+                    <span data-tip="Mark As Important">
+                        <IconButton onClick={(e) => {
+                                e.stopPropagation();
+                                toggleImportant(id)
+                            }
+                        }>
+                            {important ? <LabelImportantOutlinedIcon style={{fill: "orange"}}/> : <LabelImportantOutlinedIcon /> }
+                        </IconButton>
+                    </span>
             </div>
         
             <h3 className={styles.emailRow__title}>
