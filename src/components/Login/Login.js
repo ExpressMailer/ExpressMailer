@@ -43,7 +43,7 @@ function Login() {
                     src={logo}
                     alt=""
                 />
-                <Button variant="contained" color="primary" onClick={signIn}>
+                <Button name="btnLogin" variant="contained" color="primary" onClick={signIn}>
                     Login</Button>
             </div>
         </div>

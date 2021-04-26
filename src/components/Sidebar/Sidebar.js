@@ -109,6 +109,7 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem,listLength}) {
 
     return <div className={styles.sidebar}>
             <Button 
+                name = "composebtnK"
                 startIcon={<AddIcon fontsize="large"/>}
                 className={styles.sidebar_compose}
                 onClick={() => dispatch(openSendMessage())}

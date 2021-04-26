@@ -129,7 +129,7 @@ function SendMail() {
         <div className={styles.sendMail}>
             
             <div className={styles.sendMail__header}>
-                <h3>New Message</h3>
+                <h3>New Mail</h3>
                 <CloseIcon 
                     className={styles.sendMail__close} 
                     onClick={() => dispatch(closeSendMessage())}
@@ -165,6 +165,7 @@ function SendMail() {
                     <CKEditor
                         editor={ ClassicEditor } 
                         // styles={{"minHeight":"500px"}}
+                        id="body_ckeditor"
                         data={addData}  
                         onChange={handleChange}
                     />
@@ -191,6 +192,7 @@ function SendMail() {
                         variant="contained"
                         color="primary"
                         type="submit"
+                        name="mailClick"
                     >Send</Button>
 
                    
