@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef  } from 'react';
 import styles from './Mail.module.css';
-import { IconButton } from '@material-ui/core';
+import { Chip, IconButton } from '@material-ui/core';
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import MoveToInboxIcon from "@material-ui/icons/MoveToInbox";
 import NewReleasesIcon from '@material-ui/icons/NewReleases'
@@ -146,11 +146,11 @@ function Mail() {
                         <div style={{
                             padding: "10px",
                             borderRadius: "10px",
-                            backgroundColor: "turquoise",
+                            backgroundColor: "gray",
                             cursor: "pointer",
                             color:"white"
                         }}>
-                            Read
+                            Read by recipient
                         </div>
                         :
                         selectedMail.from == auth.currentUser.email &&
@@ -158,10 +158,10 @@ function Mail() {
                             padding: "10px",
                             borderRadius: "10px",
                             backgroundColor: "transparent",
-                            border:"2px solid turquoise",
+                            border:"2px solid gray",
                             cursor: "pointer",
                         }}>
-                            Unread
+                            Unread by recipient
                         </div>
                     }
                 </div>
@@ -174,6 +174,31 @@ function Mail() {
                 </div>    
                 <div className={styles.mail__message}>
                     <p>{ReactHtmlParser(selectedMail?.description)}</p> 
+                </div>
+                <br></br>
+                
+                
+                <div style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    listStyle: 'none',
+                    padding: '5px',
+                    margin: 0,
+                    position:'fixed',
+                    bottom:'10vh',
+                    alignItems:'center'
+                }}>
+                    Keywords:
+                    {selectedMail.searchableKeywords.map((keyword,index) => {
+                        return <li key={index}>
+                            <Chip
+                                label={keyword}
+                                style={{ marginBottom:'5px' }}
+                            />
+                        </li>
+                    })}
+                    
+                    
                 </div>
             </div>
         </div>
