@@ -120,13 +120,20 @@ function Mail() {
                 </div>
 
                 <div className={styles.mail__toolsRight}>
-                    <IconButton onClick={handlePrint}>
-                        <PrintIcon />
-                    </IconButton>
-
-                    <IconButton>
-                        <ExitToAppIcon />
-                    </IconButton>
+                <div className={styles.mail__toolsRight}>
+                    <ReactTooltip place="bottom"/>
+                        <span data-tip="Print Mail"> 
+                            <IconButton onClick={handlePrint}>
+                                <PrintIcon />
+                            </IconButton>
+                        </span>
+                    <ReactTooltip place="bottom"/>
+                        <span data-tip="Pop out">     
+                            <IconButton onClick={MyComponent}>
+                                <ExitToAppIcon />
+                            </IconButton>
+                        </span>
+                </div>
                 </div>
             </div>
 
