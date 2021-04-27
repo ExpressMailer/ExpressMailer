@@ -56,6 +56,7 @@ function Header({ showSearchResults }) {
                     <input 
                         placeholder="Search mail" 
                         type="text" 
+                        name="searchMailInput"
                         className={styles.header__inputCaret} 
                         onChange={e => {
                             // if(e.key == 'Enter'){

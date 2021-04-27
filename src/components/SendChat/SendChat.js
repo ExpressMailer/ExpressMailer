@@ -178,6 +178,7 @@ function SendChat() {
                                     onSubmit()
                                 }
                             }}
+                            name="chatMsgField"
                             onChange={(e) => setChatmsg(e.target.value)}
                             type="text"
                             value={chatmsg}
@@ -189,6 +190,7 @@ function SendChat() {
                                 padding:"2px"
                             }}>
                                 <SendIcon
+                                    name="sendChatBtn"
                                     className={styles.sendChat__close} 
                                     onClick={() => onSubmit()}
                                 />

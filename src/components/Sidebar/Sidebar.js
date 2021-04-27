@@ -128,7 +128,7 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem,listLength}) {
                 </div>   
                 <div>
                 <IconButton>
-                        <AddIcon onClick={handleClickOpen} />
+                        <AddIcon name="addChat" onClick={handleClickOpen} />
                 </IconButton>
                     
                         <Dialog open={Openchatnew} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -143,7 +143,7 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem,listLength}) {
                                 id="name"
                                 label="Email Address"
                                 type="email"
-
+                                name="mailFieldChat"
                                 //connecting inputRef property of TextField to the valueRef
                                 inputRef={valueRef}   
                                 fullWidth
@@ -153,7 +153,7 @@ function Sidebar({selectedSideBarItem,setSelectedSideBarItem,listLength}) {
                             <Button onClick={handleClose} color="primary">
                                 Cancel
                             </Button>
-                            <Button onClick={sendValue} color="primary">
+                            <Button name="startChatBtn" onClick={sendValue} color="primary">
                                 Start Chat
                             </Button>
                             </DialogActions>
