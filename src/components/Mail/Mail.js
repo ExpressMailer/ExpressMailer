@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef  } from 'react';
 import styles from './Mail.module.css';
-import { IconButton } from '@material-ui/core';
+import { Chip, IconButton } from '@material-ui/core';
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import MoveToInboxIcon from "@material-ui/icons/MoveToInbox";
 import NewReleasesIcon from '@material-ui/icons/NewReleases'
@@ -21,13 +21,15 @@ import { toggleImportant, toggleSpam } from '../../utilities/utils';
 import Loading from '../Loading/Loading';
 import ReactTooltip from 'react-tooltip';
 import { useReactToPrint } from 'react-to-print';
-// import { ComponentToPrint } from './ComponentToPrint';
+import DoneAllOutlinedIcon from '@material-ui/icons/DoneAllOutlined';
+
 
 function Mail() {
     const history = useHistory();
     const selectedMail = useSelector(selectOpenMail);
     const [imp, setImp] = useState(false)
     const [spam, setSpam] = useState(false)
+    const [showKeywords, setShowKeywords] = useState(false)
     const componentRef = useRef();
 
     const handlePrint = useReactToPrint({
@@ -143,25 +145,24 @@ function Mail() {
                 <div style={{position:"absolute",top:"0px",right:"20px"}}>
                     {selectedMail && selectedMail.read ? 
                         selectedMail.from == auth.currentUser.email &&
-                        <div style={{
-                            padding: "10px",
-                            borderRadius: "10px",
-                            backgroundColor: "turquoise",
-                            cursor: "pointer",
-                            color:"white"
-                        }}>
-                            Read
+                        <div style={{padding: "10px",}}>
+                        <ReactTooltip place="left"/>
+                            <span data-tip="Read by recipient">
+                            <DoneAllOutlinedIcon 
+                                style={{color:"blue"}}
+                            />
+                            </span>
                         </div>
                         :
                         selectedMail.from == auth.currentUser.email &&
-                        <div style={{
-                            padding: "10px",
-                            borderRadius: "10px",
-                            backgroundColor: "transparent",
-                            border:"2px solid turquoise",
-                            cursor: "pointer",
-                        }}>
-                            Unread
+                        <div style={{ padding: "10px" }}>
+                            {/* Unread by recipient */}
+                        <ReactTooltip place="left"/>
+                            <span data-tip="Delivered to recipient">
+                            <DoneAllOutlinedIcon 
+                                style={{color:"darkgray"}}
+                            />
+                            </span>
                         </div>
                     }
                 </div>
@@ -173,8 +174,40 @@ function Mail() {
                     <p className={styles.mail__time}>{selectedMail?.time}</p>
                 </div>    
                 <div className={styles.mail__message}>
-                    <p>{ReactHtmlParser(selectedMail?.description)}</p> 
+                        <span 
+                            onClick={() => setShowKeywords(!showKeywords)}
+                            style={{ display:'flex',justifyContent:'flex-end',color:'blue',fontWeight:'bolder',textDecoration:'underline',cursor:'pointer' }}>
+                                {showKeywords ? 'Hide' : 'Show'} keywords
+                        </span>
+                    <p>{ReactHtmlParser(selectedMail?.description)}</p>
                 </div>
+                <br></br>
+                
+                
+                {showKeywords && <div style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    listStyle: 'none',
+                    padding: '5px',
+                    margin: 0,
+                    position:'fixed',
+                    bottom:'3vh',
+                    alignItems:'center',
+                    maxHeight:'10vh',
+                    overflow:'auto'
+                }}>
+                    {selectedMail.searchableKeywords.map((keyword,index) => {
+                        return <li key={index}>
+                            <Chip
+                                label={keyword}
+                                style={{ marginBottom:'5px',marginRight:'3px' }}
+                            />
+                        </li>
+                    })}
+                    
+                    
+                    
+                </div>}
             </div>
         </div>
         );

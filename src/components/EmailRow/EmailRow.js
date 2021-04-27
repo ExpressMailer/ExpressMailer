@@ -12,7 +12,7 @@ import { auth } from '../../firebase';
 import ReactTooltip from 'react-tooltip';
 import { toggleImportant, toggleStarred } from '../../utilities/utils';
 
-function EmailRow({ id, title, subject, description, time, starred, important, read, to, from, spam }) 
+function EmailRow({ id, title, subject, description, time, starred, important, read, to, from, spam, searchableKeywords }) 
 {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -30,7 +30,8 @@ function EmailRow({ id, title, subject, description, time, starred, important, r
                 read,
                 to,
                 from,
-                spam
+                spam,
+                searchableKeywords,
             })
         );
         history.push("/mail");

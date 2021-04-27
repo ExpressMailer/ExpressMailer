@@ -105,6 +105,7 @@ function EmailList({ emails,selectedLabelItem,setSelectedLabelItem,getMails }) {
                             important={data.important || false}
                             read={data.read || false}
                             spam={data.spam || false}
+                            searchableKeywords={data.searchableKeywords || []}
                         />
                     })}
                 </div>
