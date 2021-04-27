@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './SendMail.module.css';
 import CloseIcon from "@material-ui/icons/Close";
 import { Button } from '@material-ui/core';
@@ -11,20 +11,12 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { decrypt,encrypt } from '../../utilities/crypt';
+import { encrypt } from '../../utilities/crypt';
 import { generateRoomName } from '../../utilities/common';
-import EmailRow from '../EmailRow/EmailRow';
 import axios from 'axios';
  
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import ReactHtmlParser from 'react-html-parser';
-import Loading from '../Loading/Loading';
-
-// const api= axios.create({
-//     baseURL: 'http://127.0.0.1:5000/'
-// })
 
 
 function SendMail() {
@@ -33,7 +25,6 @@ function SendMail() {
     const dispatch = useDispatch()
     const [addData, setVal] = useState("");
     const [option,setOption] = useState("Primary");
-    const notify = (msg) => toast(msg);
     
 
     const sendEmail = async(msg) =>{

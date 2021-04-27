@@ -11,8 +11,6 @@ import { selectUser, logout } from '../../features/userSlice';
 import { auth } from '../../firebase';
 import { toggleSidebar } from '../../features/commonSlice';
 import logo from './email.png'
-// Modal when clicked on self avatar
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 

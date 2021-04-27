@@ -1,28 +1,21 @@
 import React, { useRef, useEffect } from 'react';
-import { Avatar } from '@material-ui/core'
 import styles from './Sidebar.module.css';
 import AddIcon from "@material-ui/icons/Add";
 import InboxIcon from "@material-ui/icons/Inbox"; 
 import { Button, IconButton, Collapse } from '@material-ui/core';
 import SidebarOption from '../SidebarOption/SidebarOption';
 import StarIcon from "@material-ui/icons/Star";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import NearMeIcon from "@material-ui/icons/NearMe";
 import NoteIcon from "@material-ui/icons/Note";
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
-// import PersonIcon from "@material-ui/icons/Person";
-import ChatIcon from "@material-ui/icons/Chat";
-import DuoIcon from "@material-ui/icons/Duo";
-// import PhoneIcon from "@material-ui/icons/Phone";
 import ArrowDropDown from "@material-ui/icons/ArrowDropDown";
 import { openSendMessage } from '../../features/mail';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { openSendChat } from '../../features/chat';
 import { useState } from 'react';
-//temp
 import { useSelector } from "react-redux"
 import { selectUser } from '../../features/userSlice';
 

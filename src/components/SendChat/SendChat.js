@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styles from './SendChat.module.css';
 import CloseIcon from "@material-ui/icons/Close";
-import { Button, Grid, IconButton } from '@material-ui/core';
-import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeSendChat, selectSendChatRecipientmail } from '../../features/chat';
 import { auth, db } from '../../firebase';
-import { selectUser } from '../../features/userSlice';
 import firebase from 'firebase'
-import AllChats from '../Chat/AllChats'
 import { generateRoomName } from '../../utilities/common';
 import SendIcon from '@material-ui/icons/Send';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import DuoIcon from "@material-ui/icons/Duo";
 import { decrypt,encrypt } from '../../utilities/crypt'
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function SendChat() {
@@ -24,7 +19,6 @@ function SendChat() {
     const dispatch = useDispatch();
 
     const [chatmsg, setChatmsg] = useState('')
-    const [userDetails, setuserDetails] = useState([])
     
     // check which is lexicographically bigger and set docNAme accordingly
     var docName;

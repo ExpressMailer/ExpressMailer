@@ -6,7 +6,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import Mail from './components/Mail/Mail';
 import EmailList from './components/EmailList/EmailList';
@@ -20,9 +19,6 @@ import { selectUser, login } from './features/userSlice';
 import { auth, db } from './firebase';
 import Meet from './components/Meet/Meet';
 import { selectShowSidebar } from './features/commonSlice';
-import { decrypt } from './utilities/crypt';
-import { generateRoomName } from './utilities/common';
-import Loading from './components/Loading/Loading';
 import { getQueryStatement, processMailData } from './utilities/utils';
 
 function App() {

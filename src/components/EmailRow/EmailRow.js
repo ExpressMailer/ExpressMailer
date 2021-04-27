@@ -8,9 +8,8 @@ import styles from './EmailRow.module.css';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { selectMail } from '../../features/mailSlice';
-import { auth, db } from '../../firebase';
+import { auth } from '../../firebase';
 import ReactTooltip from 'react-tooltip';
-import ReactHtmlParser from 'react-html-parser';
 import { toggleImportant, toggleStarred } from '../../utilities/utils';
 
 function EmailRow({ id, title, subject, description, time, starred, important, read, to, from, spam }) 
@@ -38,7 +37,7 @@ function EmailRow({ id, title, subject, description, time, starred, important, r
     };
     const rowColor = read ? "white" : "rgb(221, 221, 221)"  
     const sentValname = "To: " + to
-    const inboxOrSent = from === auth.currentUser.email && to != auth.currentUser.email ? sentValname : title
+    const inboxOrSent = from === auth.currentUser.email && to !== auth.currentUser.email ? sentValname : title
     return (
         <div onClick= {openMail} className={styles.emailRow} style={{backgroundColor: rowColor}}>
             <div className={styles.emailRow__options}>
