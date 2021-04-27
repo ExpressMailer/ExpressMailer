@@ -37,14 +37,27 @@ function App() {
   const [emails,setEmails] = useState([])
   const [selectedSideBarItem, setSelectedSideBarItem] = useState(0)// 0-> Inbox, 2-> Starred, etc
   const [selectedLabelItem, setSelectedLabelItem] = useState(0)// 0-> Primary, 1-> Social, 2->Promotions
+  const [emailReff, setEmailReff] = useState(null)
 
   const getMails = () => {
     let emailRef = getQueryStatement(selectedSideBarItem,selectedLabelItem)
-
-    emailRef.onSnapshot(snapshot => {
-      setEmails([...snapshot.docs.map(doc => processMailData(doc) )])
-    })
+    setEmailReff(emailRef)
   }
+
+  useEffect(() => {
+    if(emailReff){
+      console.log('----emailReff=> about to snapshot')
+      const m = emailReff.onSnapshot(snapshot => {
+        setEmails([...snapshot.docs.map(doc => processMailData(doc) )])
+      })
+      
+      return () => {
+        console.log('----emailReff=> calling cleanup')
+        m()
+        setEmails([])
+      }
+    }
+  }, [emailReff])
 
   const showSearchResults = (query) => {
     if(query.length == 0){
@@ -103,6 +116,7 @@ function App() {
                 emails={emails} 
                 selectedLabelItem={selectedLabelItem}
                 setSelectedLabelItem={setSelectedLabelItem}
+                getMails={getMails}
               />
             </Route>
           </Switch>

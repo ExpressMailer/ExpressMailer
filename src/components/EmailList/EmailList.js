@@ -16,7 +16,7 @@ import ReactTooltip from 'react-tooltip';
 import EmailRow from '../EmailRow/EmailRow'
 import Loading from '../Loading/Loading';
 
-function EmailList({ emails,selectedLabelItem,setSelectedLabelItem }) {
+function EmailList({ emails,selectedLabelItem,setSelectedLabelItem,getMails }) {
     
     return (<div className={styles.emailList}>
             <div className={styles.emailList__settings}>
@@ -33,7 +33,7 @@ function EmailList({ emails,selectedLabelItem,setSelectedLabelItem }) {
                         </span>
                     <ReactTooltip place="bottom"/>
                         <span data-tip="Refresh">
-                            <IconButton>
+                            <IconButton onClick={getMails}>
                                 <RefreshIcon />
                             </IconButton>
                         </span>

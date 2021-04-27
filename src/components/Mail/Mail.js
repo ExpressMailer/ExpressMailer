@@ -129,7 +129,7 @@ function Mail() {
                         </span>
                     <ReactTooltip place="bottom"/>
                         <span data-tip="Pop out">     
-                            <IconButton onClick={MyComponent}>
+                            <IconButton>
                                 <ExitToAppIcon />
                             </IconButton>
                         </span>
