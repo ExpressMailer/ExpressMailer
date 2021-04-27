@@ -171,16 +171,14 @@ function Mail() {
                     <h2>{selectedMail?.subject}</h2>
                     {imp ? <LabelImportantOutlinedIcon style={{fill: "orange"}}/> : <LabelImportantOutlinedIcon /> }
                     <p>{selectedMail?.title}</p> 
-                    <p className={styles.mail__time}>{selectedMail?.time}
-                        <br></br>
-                        <span 
-                            onClick={() => setShowKeywords(!showKeywords)}
-                            style={{ color:'blue',fontWeight:'bolder',textDecoration:'underline',cursor:'pointer' }}>
-                                {showKeywords ? 'Hide' : 'Show'} keywords
-                        </span>
-                    </p>
+                    <p className={styles.mail__time}>{selectedMail?.time}</p>
                 </div>    
                 <div className={styles.mail__message}>
+                        <span 
+                            onClick={() => setShowKeywords(!showKeywords)}
+                            style={{ display:'flex',justifyContent:'flex-end',color:'blue',fontWeight:'bolder',textDecoration:'underline',cursor:'pointer' }}>
+                                {showKeywords ? 'Hide' : 'Show'} keywords
+                        </span>
                     <p>{ReactHtmlParser(selectedMail?.description)}</p>
                 </div>
                 <br></br>
@@ -194,7 +192,9 @@ function Mail() {
                     margin: 0,
                     position:'fixed',
                     bottom:'3vh',
-                    alignItems:'center'
+                    alignItems:'center',
+                    maxHeight:'10vh',
+                    overflow:'auto'
                 }}>
                     {selectedMail.searchableKeywords.map((keyword,index) => {
                         return <li key={index}>
