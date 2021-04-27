@@ -28,6 +28,7 @@ function Mail() {
     const selectedMail = useSelector(selectOpenMail);
     const [imp, setImp] = useState(false)
     const [spam, setSpam] = useState(false)
+    const [showKeywords, setShowKeywords] = useState(false)
     const componentRef = useRef();
 
     const handlePrint = useReactToPrint({
@@ -170,36 +171,43 @@ function Mail() {
                     <h2>{selectedMail?.subject}</h2>
                     {imp ? <LabelImportantOutlinedIcon style={{fill: "orange"}}/> : <LabelImportantOutlinedIcon /> }
                     <p>{selectedMail?.title}</p> 
-                    <p className={styles.mail__time}>{selectedMail?.time}</p>
+                    <p className={styles.mail__time}>{selectedMail?.time}
+                        <br></br>
+                        <span 
+                            onClick={() => setShowKeywords(!showKeywords)}
+                            style={{ color:'blue',fontWeight:'bolder',textDecoration:'underline',cursor:'pointer' }}>
+                                {showKeywords ? 'Hide' : 'Show'} keywords
+                        </span>
+                    </p>
                 </div>    
                 <div className={styles.mail__message}>
-                    <p>{ReactHtmlParser(selectedMail?.description)}</p> 
+                    <p>{ReactHtmlParser(selectedMail?.description)}</p>
                 </div>
                 <br></br>
                 
                 
-                <div style={{
+                {showKeywords && <div style={{
                     display: 'flex',
                     flexWrap: 'wrap',
                     listStyle: 'none',
                     padding: '5px',
                     margin: 0,
                     position:'fixed',
-                    bottom:'10vh',
+                    bottom:'3vh',
                     alignItems:'center'
                 }}>
-                    Keywords:
                     {selectedMail.searchableKeywords.map((keyword,index) => {
                         return <li key={index}>
                             <Chip
                                 label={keyword}
-                                style={{ marginBottom:'5px' }}
+                                style={{ marginBottom:'5px',marginRight:'3px' }}
                             />
                         </li>
                     })}
                     
                     
-                </div>
+                    
+                </div>}
             </div>
         </div>
         );

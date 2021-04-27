@@ -45,6 +45,10 @@
     margin-left: 20px;
 }
 
+.mail__message{
+    overflow: auto;
+}
+
 .mail__message > p {
     padding: 10px;
     margin-right: 20px;
