@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './EmailList.module.css';
 import { Checkbox, IconButton } from "@material-ui/core";
-import RedoIcon from "@material-ui/icons/Redo";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -11,6 +10,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import SettingsIcon from "@material-ui/icons/Settings";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import RefreshIcon from '@material-ui/icons/Refresh';
 import Section from '../Section/Section';
 import ReactTooltip from 'react-tooltip';
 import EmailRow from '../EmailRow/EmailRow'
@@ -34,7 +34,7 @@ function EmailList({ emails,selectedLabelItem,setSelectedLabelItem }) {
                     <ReactTooltip place="bottom"/>
                         <span data-tip="Refresh">
                             <IconButton>
-                                <RedoIcon />
+                                <RefreshIcon />
                             </IconButton>
                         </span>
                     <ReactTooltip place="bottom"/>

@@ -32,6 +32,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-scroll-to-bottom": "^4.1.0",
+    "react-to-print": "^2.12.4",
     "react-toastify": "^4.5.2",
     "react-tooltip": "^4.2.18"
   },

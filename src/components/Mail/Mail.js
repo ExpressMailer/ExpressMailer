@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef  } from 'react';
 import styles from './Mail.module.css';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
@@ -12,7 +12,6 @@ import LabelImportantOutlinedIcon from "@material-ui/icons/LabelImportant";
 import MoreVertIcon from "@material-ui/icons/MoreVert"; 
 import PrintIcon from "@material-ui/icons/Print";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import { useHistory } from 'react-router-dom';
 import { selectOpenMail } from '../../features/mailSlice';
 import { useSelector } from 'react-redux'; 
@@ -21,12 +20,19 @@ import ReactHtmlParser from 'react-html-parser';
 import { toggleImportant, toggleSpam } from '../../utilities/utils';
 import Loading from '../Loading/Loading';
 import ReactTooltip from 'react-tooltip';
+import { useReactToPrint } from 'react-to-print';
+// import { ComponentToPrint } from './ComponentToPrint';
 
 function Mail() {
     const history = useHistory();
     const selectedMail = useSelector(selectOpenMail);
     const [imp, setImp] = useState(false)
     const [spam, setSpam] = useState(false)
+    const componentRef = useRef();
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
 
     useEffect(() => {
         if(!selectedMail){
@@ -114,12 +120,10 @@ function Mail() {
                 </div>
 
                 <div className={styles.mail__toolsRight}>
-                    <IconButton>
-                        <UnfoldMoreIcon />
-                    </IconButton>
-                    <IconButton>
+                    <IconButton onClick={handlePrint}>
                         <PrintIcon />
                     </IconButton>
+
                     <IconButton>
                         <ExitToAppIcon />
                     </IconButton>
@@ -128,7 +132,7 @@ function Mail() {
 
 
 
-            <div className={styles.mail__body} style={{position:"relative"}}>
+            <div className={styles.mail__body} style={{position:"relative"}} ref={componentRef}>                
                 <div style={{position:"absolute",top:"0px",right:"20px"}}>
                     {selectedMail && selectedMail.read ? 
                         selectedMail.from == auth.currentUser.email &&
