@@ -34,6 +34,7 @@ function App() {
   const [selectedSideBarItem, setSelectedSideBarItem] = useState(0)// 0-> Inbox, 2-> Starred, etc
   const [selectedLabelItem, setSelectedLabelItem] = useState(0)// 0-> Primary, 1-> Social, 2->Promotions
   const [emailReff, setEmailReff] = useState(null)
+  const [searchQuery, setSearchQuery] = useState()
 
   const getMails = () => {
     let emailRef = getQueryStatement(selectedSideBarItem,selectedLabelItem)
@@ -41,7 +42,21 @@ function App() {
   }
 
   useEffect(() => {
-    if(emailReff){
+    if(searchQuery && searchQuery.length > 0){
+      const m = db.collection('emails')
+      .where('to','==',auth.currentUser.email)
+      .where('searchableKeywords','array-contains',searchQuery)
+      .orderBy('timestamp','desc')
+      .onSnapshot(snapshot => {
+        setEmails(snapshot.docs.map(doc => processMailData(doc) ))
+      })
+      
+      return () => {
+        console.log('search clean up')
+        m()
+      }
+    }
+    else if(emailReff){
       console.log('----emailReff=> about to snapshot')
       const m = emailReff.onSnapshot(snapshot => {
         setEmails([...snapshot.docs.map(doc => processMailData(doc) )])
@@ -53,22 +68,7 @@ function App() {
         setEmails([])
       }
     }
-  }, [emailReff])
-
-  const showSearchResults = (query) => {
-    if(query.length == 0){
-      getMails()
-      return
-    }
-    let emailRef = db.collection('emails')
-    emailRef
-    .where('to','==',auth.currentUser.email)
-    .where('searchableKeywords','array-contains',query)
-    .orderBy('timestamp','desc')
-    .onSnapshot(snapshot => {
-        setEmails(snapshot.docs.map(doc => processMailData(doc) ))
-    })
-  }
+  }, [emailReff,searchQuery])
 
   useEffect(() => {
     auth.onAuthStateChanged(user => { 
@@ -91,7 +91,7 @@ function App() {
         <Login />
       ): (
         <div className="app">
-        <Header showSearchResults={showSearchResults} />
+        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
   
         <div className="app__body">
           {showSideBar && <Sidebar listLength={emails.length} selectedSideBarItem={selectedSideBarItem} setSelectedSideBarItem={setSelectedSideBarItem} />}

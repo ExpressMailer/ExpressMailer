@@ -15,7 +15,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
  
-function Header({ showSearchResults }) {
+function Header({ searchQuery, setSearchQuery }) {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
 
@@ -58,10 +58,9 @@ function Header({ showSearchResults }) {
                         type="text" 
                         className={styles.header__inputCaret} 
                         onChange={e => {
-                            // if(e.key == 'Enter'){
-                            showSearchResults(e.target.value);
-                            // }
+                            setSearchQuery(e.target.value);
                         }}
+                        value={searchQuery}
                     />
                 <ArrowDropDownIcon />
             </div>
