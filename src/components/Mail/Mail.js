@@ -21,7 +21,8 @@ import { toggleImportant, toggleSpam } from '../../utilities/utils';
 import Loading from '../Loading/Loading';
 import ReactTooltip from 'react-tooltip';
 import { useReactToPrint } from 'react-to-print';
-// import { ComponentToPrint } from './ComponentToPrint';
+import DoneAllOutlinedIcon from '@material-ui/icons/DoneAllOutlined';
+
 
 function Mail() {
     const history = useHistory();
@@ -144,25 +145,24 @@ function Mail() {
                 <div style={{position:"absolute",top:"0px",right:"20px"}}>
                     {selectedMail && selectedMail.read ? 
                         selectedMail.from == auth.currentUser.email &&
-                        <div style={{
-                            padding: "10px",
-                            borderRadius: "10px",
-                            backgroundColor: "gray",
-                            cursor: "pointer",
-                            color:"white"
-                        }}>
-                            Read by recipient
+                        <div style={{padding: "10px",}}>
+                        <ReactTooltip place="left"/>
+                            <span data-tip="Read by recipient">
+                            <DoneAllOutlinedIcon 
+                                style={{color:"blue"}}
+                            />
+                            </span>
                         </div>
                         :
                         selectedMail.from == auth.currentUser.email &&
-                        <div style={{
-                            padding: "10px",
-                            borderRadius: "10px",
-                            backgroundColor: "transparent",
-                            border:"2px solid gray",
-                            cursor: "pointer",
-                        }}>
-                            Unread by recipient
+                        <div style={{ padding: "10px" }}>
+                            {/* Unread by recipient */}
+                        <ReactTooltip place="left"/>
+                            <span data-tip="Delivered to recipient">
+                            <DoneAllOutlinedIcon 
+                                style={{color:"darkgray"}}
+                            />
+                            </span>
                         </div>
                     }
                 </div>
