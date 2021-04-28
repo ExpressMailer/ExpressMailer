@@ -10,13 +10,14 @@ A Fast Mail Service based on sockets(Firebase) with all necessary features like 
    <br><br>
 </p>
 
+<div align="center">
+
 [![](https://img.shields.io/badge/Made_with-reactjs-blue?style=for-the-badge&logo=React)](https://reactjs.org/docs/getting-started.html) 
-&emsp;
 [![](https://img.shields.io/badge/Made_with-firebase-blue?style=for-the-badge&logo=Firebase)](https://firebase.google.com/docs)
-&emsp;
 [![](https://img.shields.io/badge/Testing_with-selenium-blue?style=for-the-badge&logo=Selenium)](https://www.selenium.dev/documentation/en/)
-&emsp;
 [![](https://img.shields.io/badge/IDE-Visual_Studio_Code-blue?style=for-the-badge&logo=visual-studio-code)](https://code.visualstudio.com/ "Visual Studio Code")
+
+</div>
 
 
 -----------------------------------
