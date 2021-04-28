@@ -1,68 +1,174 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+<p align="center"
+<img src ="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Stack_Overflow_icon.svg/768px-Stack_Overflow_icon.svg.png" width = 200px>
+</p>
 
-## Available Scripts
+<h1 align = 'center'> ExpressMailer
+</h1>
 
-In the project directory, you can run:
+<p align='center'>
+A Fast Mail Service based on sockets(Firebase) with all necessary features like Email, Chat, Video Conference, Spam detection, Encryption, OAuth, etc .
+   <br><br>
+</p>
 
-### `npm start`
+[![](https://img.shields.io/badge/Made_with-reactjs-blue?style=for-the-badge&logo=React)](https://reactjs.org/docs/getting-started.html) 
+&emsp;
+[![](https://img.shields.io/badge/Made_with-firebase-blue?style=for-the-badge&logo=Firebase)](https://firebase.google.com/docs)
+&emsp;
+[![](https://img.shields.io/badge/Testing_with-selenium-blue?style=for-the-badge&logo=Selenium)](https://www.selenium.dev/documentation/en/)
+&emsp;
+[![](https://img.shields.io/badge/IDE-Visual_Studio_Code-blue?style=for-the-badge&logo=visual-studio-code)](https://code.visualstudio.com/ "Visual Studio Code")
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+-----------------------------------
+<h2 align='center'>Motivation</h2>
+<p align='center'>
+We all are completely dependent on Gmail like applications. When such services are down we face a lot of trouble, also privacy is issue of concern now-a-days. 
+Thus, our project helps building single page, highly customizable and scalable mail service with complete control over privacy for an particular organization.
+<br>
 
-### `npm test`
+</p>
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+------------------------------------------
+### Why does the application looks similar to Gmail?
+<p>
+  After knowing that Whatsapp was going to change it's Privacy Policies, It was expected that users would start using alternatives like Signal/Hike but that wasn't the case.
+  Analyzing Signal/Hike vs Whatsapp situation, Users don't tend to accept the changes because users were used to UI they were using since long. 
+  Thus, we tried to keep the UI as similar as Gmail.
+ </p>
+ 
+------------------------------------------
+### Preview
 
-### `npm run build`
+Inbox
+<p align="center">
+<img src ="https://github.com/RugvedB/ExpressMailer/blob/master/assets/inbox.PNG" width = 100%>
+</p>
+<br>
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Sent
+<p align="center">
+<img src ="https://github.com/RugvedB/ExpressMailer/blob/master/assets/search.PNG" width = 100%>
+</p>
+<br>
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Compose Mail
+<p>
+<img src ="https://github.com/RugvedB/ExpressMailer/blob/master/assets/compose_mail.PNG" width = 45%>
+</p>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Sent Mails
+<p align="center">
+<img src ="https://github.com/RugvedB/ExpressMailer/blob/master/assets/sent.PNG" width = 100%>
+</p>
 
-### `npm run eject`
+Mail 
+<p align="center">
+<img src ="https://github.com/RugvedB/ExpressMailer/blob/master/assets/mail_single_2.PNG" width = 100%>
+</p>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Chat
+<p>
+<img src ="https://github.com/RugvedB/ExpressMailer/blob/master/assets/chat.PNG" width = 245px>
+</p>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Join Meet
+<p align="center">
+<img src ="https://github.com/RugvedB/ExpressMailer/blob/master/assets/join_meet.PNG" width = 100%>
+</p>
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Meet
+<p align="center">
+<img src ="https://github.com/RugvedB/ExpressMailer/blob/master/assets/meet.PNG" width = 100%>
+</p>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Secure Meet
+<p align="center">
+<img src ="https://github.com/RugvedB/ExpressMailer/blob/master/assets/password_meet.PNG" width = 100%>
+</p>
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-----------------------------------
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 🚀 Features
 
-### Code Splitting
+<p align="left">
+   <ul>
+      <li>Mail to recipient</li>
+      <li>Chat with recipient</li>
+      <li>Video Conference with Organization members</li>
+      <li>Spam mail Detection</li>
+      <li>Encrytion-Decryption of Mails, Chat Messages</li>
+      <li>Search Mails</li>
+      <li>Keyword extraction for search feature</li>
+      <li>Segregation of mails into Primary, Social, Promotion</li>
+      <li>See Starred, important, sent, spam Mails</li>
+      <li>Send Attachments </li>
+      <li>Print Mails </li>
+   </ul>
+</p>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
+-----------------------------------
+###             💻 Tech stack
+`Frontend` : ReactJs <br>
+`Backend & Database` : Firebase <br>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+-----------------------------------
 
-### Making a Progressive Web App
+### :guide_dog: Installation Guide
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+A step by step series of examples that tell you how to get a development env running
 
-### Advanced Configuration
+In your cmd:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+```
+https://github.com/RugvedB/ExpressMailer
+```
 
-### Deployment
+Then,
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+```
+cd ExpressMailer
+```
 
-### `npm run build` fails to minify
+Next
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+Edit in the firebase.js, enter your credentials for following fields
+
+```
+apiKey: process.env.apiKey || "AIzaSyA6rWV50lGnmBOqfVJ6fasf234UeCjtt_U",
+authDomain: process.env.authDomain || "clone-f47f.firebaseapp.com",
+projectId: process.env.projectId || "clone-f27f",
+storageBucket: process.env.storageBucket || "clone-f47f.appspot.com",
+messagingSenderId: process.env.messagingSenderId || "1086223462538",
+appId: process.env.appId || "1:108622354062538:web:f3f54243f24fee5c1f721e73"
+```
+Then
+
+```
+npm i
+npm start
+```
+
+You are done with the setup now!
+
+------------------------------------------
+
+### 📝 To-do List
+
+- [ ] Add Email Queuing, Snooze a mail, create drafts.
+- [ ] Implement other near features like Gmail.
+- [ ] Create App for the same. 
+
+------------------------------------------
+
+
+### :page_with_curl: Acknowledgements & References
+
+- Reactjs Documentation - https://reactjs.org/docs/getting-started.html
+- Firebase Documentation - https://firebase.google.com/docs
+- Selenium Documentation - https://www.selenium.dev/documentation/en/
+-----------------------------------
+
+<h3 align="center"><b>Developed with :heart: by <a href="https://github.com/RugvedB">Rugved</a>, <a href="https://github.com/tushargithub44"> Tushar</a> and <a href="https://github.com/HardikAsher17">Hardik</a> </b></h1>
