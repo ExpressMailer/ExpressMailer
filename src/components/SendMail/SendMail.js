@@ -144,23 +144,15 @@ function SendMail() {
                 />
                 {errors.to && <p className={styles.sendMail__error}>Subject is required</p>}
 
-            {/* <input
-                    name="message"
-                    placeholder="Message..."
-                    type="text" 
-                    className={styles.sendMail__message}
-                    ref={register({ required: true })} 
-                /> */}
-
-                {/* <div className={styles.sendMail__message}> */}
+            
                     <CKEditor
                         editor={ ClassicEditor } 
-                        // styles={{"minHeight":"500px"}}
+                        // styles={{overflow:"auto",back}}
                         id="body_ckeditor"
                         data={addData}  
                         onChange={handleChange}
                     />
-                {/* </div> */}
+            
                 {errors.to && <p className={styles.sendMail__error}>Message is required</p>}
 
                 <div className={styles.sendMail__options}>
@@ -170,7 +162,7 @@ function SendMail() {
                         value={option}
                         name='option' 
                         // className="sendMail__sendtype"
-                        style={{"backgroundColor":"white", "margin":" 15px !important"}}
+                        style={{"backgroundColor":"white"}}
                         onChange={handleChangeinType}
                         >
                         <MenuItem  value="Primary">Primary</MenuItem>

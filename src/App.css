@@ -9,7 +9,7 @@
 
 
 .ck-editor__editable {
-    min-height: 40vh !important;
+    height: 40vh !important;
     border: none !important;
 }
 
