@@ -9,7 +9,7 @@ function Loading() {
             // justifyContent:"center",
             // alignItems:"center"
         }}>
-            <h1>No content available</h1>
+            <h2>No content available</h2>
         </div>
     )
 }

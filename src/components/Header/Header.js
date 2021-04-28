@@ -49,7 +49,7 @@ function Header({ searchQuery, setSearchQuery }) {
                     src={logo}
                     alt="gmail icon"
                 />
-               <h2> EMAIL </h2>
+               <h2> ExpressMailer </h2>
             </div>
             <div className={styles.header__middle}>
                 <SearchIcon />
