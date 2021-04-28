@@ -68,3 +68,12 @@
     font-size: xx-small;
 }
 
+.sendMail__buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.sendMail__buttons__left{
+    display: flex;
+    align-items: center;
+}
