@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styles from './SendMail.module.css';
 import CloseIcon from "@material-ui/icons/Close";
-import { Button } from '@material-ui/core';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
+import { Button, Chip } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { closeSendMessage } from '../../features/mail';
-import { auth, db } from '../../firebase';
+import { auth, db, storage } from '../../firebase';
 import firebase from 'firebase'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -25,11 +26,40 @@ function SendMail() {
     const dispatch = useDispatch()
     const [addData, setVal] = useState("");
     const [option,setOption] = useState("Primary");
+
+    //For file
+    const [fileUrls, setFileUrls] = useState([])
+    function handleFileChange(e) {
+        handleUpload(e.target.files[0])
+    }
+
+    function handleUpload(file) {
+        console.log('About to upload')
+        console.log(file)
+        const fileName = file.name.replace(" ","") + "-" + new Date().getTime().toString()
+        // const fileName = new Date().getTime().toString()
+        const uploadTask = storage.ref(`/images/${fileName}`).put(file);
+        uploadTask.on("state_changed", console.log, console.error, () => {
+          storage
+            .ref("images")
+            .child(fileName)
+            .getDownloadURL()
+            .then((url) => {
+              setFileUrls([...fileUrls,url])
+            //   setVal(addData + `<br></br><a href=${url}>attachment:${fileName}</a><br></br>${' '}`)
+            });
+        });
+        
+    }
+    /////////
+    
     
 
     const sendEmail = async(msg) =>{
         console.log('addData')
         let cleanMsg = addData.replace( /(<([^>]+)>)/ig, '')
+        // cleanMsg = addData.replace(/attachment:(\w+)/g,'')
+
         let config = {headers: {  
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
@@ -101,7 +131,8 @@ function SendMail() {
                 starred: false,
                 important: false,
                 spam: await sendEmail(formData.message),
-                label: option
+                label: option,
+                attachments: fileUrls
             })
             dispatch(closeSendMessage())
         }
@@ -144,39 +175,75 @@ function SendMail() {
                 />
                 {errors.to && <p className={styles.sendMail__error}>Subject is required</p>}
 
-            {/* <input
-                    name="message"
-                    placeholder="Message..."
-                    type="text" 
-                    className={styles.sendMail__message}
-                    ref={register({ required: true })} 
-                /> */}
-
-                {/* <div className={styles.sendMail__message}> */}
+            
                     <CKEditor
                         editor={ ClassicEditor } 
-                        // styles={{"minHeight":"500px"}}
+                        // styles={{overflow:"auto",back}}
                         id="body_ckeditor"
                         data={addData}  
                         onChange={handleChange}
                     />
-                {/* </div> */}
+                    <div>
+                        {/* {fileUrls.map(u => <a href={u} style={{marginRight:"2px"}} >{u}</a>)} */}
+
+                        
+
+
+
+
+
+                    </div>
+            
                 {errors.to && <p className={styles.sendMail__error}>Message is required</p>}
 
-                <div className={styles.sendMail__options}>
-                    <Select
-                        labelId="demo-simple-select-filled-label"
-                        id="demo-simple-select-filled"
-                        value={option}
-                        name='option' 
-                        // className="sendMail__sendtype"
-                        style={{"backgroundColor":"white", "margin":" 15px !important"}}
-                        onChange={handleChangeinType}
-                        >
-                        <MenuItem  value="Primary">Primary</MenuItem>
-                        <MenuItem value="Social">Social</MenuItem>
-                        <MenuItem value="Promotions">Promotions</MenuItem>
-                    </Select>
+                <div className={styles.sendMail__buttons}>
+                    <div className={styles.sendMail__buttons__left}>
+                        <Select
+                            labelId="demo-simple-select-filled-label"
+                            id="demo-simple-select-filled"
+                            value={option}
+                            name='option' 
+                            // className="sendMail__sendtype"
+                            style={{"backgroundColor":"white"}}
+                            onChange={handleChangeinType}
+                            >
+                            <MenuItem  value="Primary">Primary</MenuItem>
+                            <MenuItem value="Social">Social</MenuItem>
+                            <MenuItem value="Promotions">Promotions</MenuItem>
+                        </Select>
+                        <div>
+                            <input
+                                type="file"
+                                hidden
+                                id="file-upload"
+                                onChange={handleFileChange} 
+                            />
+                            <label htmlFor="file-upload">
+                                <AttachFileIcon 
+                                style={{color:'white',cursor:'pointer'}} 
+                                />
+                            </label>
+                        </div>
+                    </div>
+
+                        {fileUrls.length > 0 && <div style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            listStyle: 'none',
+                            flex:1,
+                            height:'30px',overflow:'auto'
+                        }}>
+                            {fileUrls.map((k,index) => {
+                                return <li key={index}>
+                                    <Chip
+                                        onClick={() => window.open(k)}
+                                        label={k}
+                                        style={{ marginBottom:'2px',marginRight:'3px',maxWidth:'100px' }}
+                                    />
+                                </li>
+                            })}
+                        </div>}
+                    {/* </div> */}
 
                     <Button 
                         className="sendMail__send"

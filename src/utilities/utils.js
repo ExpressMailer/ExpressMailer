@@ -103,3 +103,18 @@ export async function toggleSpam(id){
     },{merge:true})
   return true
 }
+
+export async function deleteMail(id){
+  var current= await db.collection('emails').doc(id).get()
+  if(current.data().from === auth.currentUser.email){
+    // Only sender can delete the mail
+    db.collection('emails').doc(id).delete().then(() => {
+      console.log("Document successfully deleted!");
+    }).catch((error) => {
+      console.error("Error removing document: ", error);
+    });
+  
+    return true
+  }
+  return false
+}

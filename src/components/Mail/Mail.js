@@ -17,7 +17,7 @@ import { selectOpenMail } from '../../features/mailSlice';
 import { useSelector } from 'react-redux'; 
 import { auth, db } from '../../firebase';
 import ReactHtmlParser from 'react-html-parser';
-import { toggleImportant, toggleSpam } from '../../utilities/utils';
+import { deleteMail, toggleImportant, toggleSpam } from '../../utilities/utils';
 import Loading from '../Loading/Loading';
 import ReactTooltip from 'react-tooltip';
 import { useReactToPrint } from 'react-to-print';
@@ -80,7 +80,18 @@ function Mail() {
                         </p>
                     <ReactTooltip place="bottom"/>
                         <p data-tip="Delete">
-                            <IconButton>
+                            <IconButton onClick={(e) => {
+                                e.stopPropagation()
+                                deleteMail(selectedMail.id).then(result => {
+                                    console.log(result)
+                                    if(result){
+                                        history.push('/')
+                                    }
+                                    else{
+                                        alert('Action Denied')
+                                    }
+                                })
+                            }}>
                                 <DeleteIcon />
                             </IconButton>
                         </p>
@@ -180,6 +191,19 @@ function Mail() {
                                 {showKeywords ? 'Hide' : 'Show'} keywords
                         </span>
                     <p>{ReactHtmlParser(selectedMail?.description)}</p>
+                    <br></br>
+                    {selectedMail && selectedMail.attachments && selectedMail.attachments.length > 0 && 
+                        <div>
+                            <h3>Attachments</h3>
+                            {selectedMail.attachments.map(attach => {
+                                return <div>
+                                    <br></br>
+                                    <a target="_blank" href={attach}>{attach}</a>
+                                </div>
+                            })}
+                        </div>
+                    }
+
                 </div>
                 <br></br>
                 
