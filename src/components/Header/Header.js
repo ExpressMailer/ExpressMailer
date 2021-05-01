@@ -74,7 +74,7 @@ function Header({ searchQuery, setSearchQuery }) {
                     <NotificationsIcon />
                 </IconButton>
                 {/* <Avatar onClick={signOut} src={user?.photoUrl} /> */}
-                <Avatar onClick={handleClick} src={user?.photoUrl} />
+                <Avatar name="avatarMenu" onClick={handleClick} src={user?.photoUrl} />
                 <Menu
                     id="simple-menu"
                     anchorEl={anchorEl}
@@ -87,7 +87,7 @@ function Header({ searchQuery, setSearchQuery }) {
                     </MenuItem>
                     <MenuItem >{user.displayName}</MenuItem>
                     <MenuItem >{user.email}</MenuItem>
-                    <MenuItem onClick={signOut}>Sign Out</MenuItem>
+                    <MenuItem name="logoutBtnK" onClick={signOut}>Sign Out</MenuItem>
                 </Menu>
             </div>
         </div>
