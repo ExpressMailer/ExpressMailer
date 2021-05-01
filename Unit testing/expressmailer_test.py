@@ -6,12 +6,19 @@ import HtmlTestRunner
 
 email = "enter your email here"
 email_password = "email password"
-report_path = "C:/Users/admin/Desktop/testing/report" # "path where you want to keep generated reports"
-executable_path_1 = "C:/Users/admin/Desktop/testing/driver/chromedriver.exe" # "path where your browser driver is located "
-mail_to="mail of recipient"
-target_url = "http://localhost:3000/" 
 
-class SendMail(unittest.TestCase):
+# "path where you want to keep generated reports"
+report_path = "C:/Users/admin/Desktop/testing/report" 
+
+ # "path where your browser driver is located "
+executable_path_1 = "C:/Users/admin/Desktop/testing/driver/chromedriver.exe"
+
+mail_to="mail of recipient"
+
+target_url = "https://express-mailer.netlify.app/"
+# target_url = "http://localhost:3000/"
+
+class ExpressMailerTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -20,20 +27,12 @@ class SendMail(unittest.TestCase):
         cls.driver.maximize_window()
 
     def test_sendmail(self):
+        time.sleep(2)
         self.driver.set_page_load_timeout("50")
         self.driver.get(target_url)
-        window_old = self.driver.window_handles[0]
+        time.sleep(5)
         self.driver.find_element_by_name("btnLogin").click()
-        window_after = self.driver.window_handles[1]
-        self.driver.switch_to_window(window_after)
-        self.driver.find_element_by_id("identifierId").send_keys(email)
-        self.driver.find_element_by_class_name("VfPpkd-RLmnJb").click() 
-        time.sleep(3)
-        self.driver.find_element_by_name("password").send_keys(email_password)
-        self.driver.find_element_by_class_name("VfPpkd-RLmnJb").click() 
-        
-        self.driver.switch_to_window(window_old)
-        time.sleep(7)
+        time.sleep(4)
         # Now Send Mail
         self.driver.find_element_by_name("composebtnK").click()
         self.driver.find_element_by_name("to").send_keys(mail_to)
@@ -41,29 +40,28 @@ class SendMail(unittest.TestCase):
         self.driver.find_element_by_xpath("/html/body/div[1]/div/div[4]/form/div[2]/div[2]/div").send_keys("Dear, bapechatushar04@gmail.com Your Cyber Security Report is ready you can collect it from our office anytime between 7am-6pm. ")
         time.sleep(1)
         self.driver.find_element_by_name("mailClick").click()
+        time.sleep(3)
+        self.driver.find_element_by_name("avatarMenu").click()
+        self.driver.find_element_by_name("logoutBtnK").click()
+        
 
     def test_sendchat(self):
+        time.sleep(2)
         self.driver.set_page_load_timeout("50")
         self.driver.get(target_url)
-        window_old = self.driver.window_handles[0]
-        self.driver.find_element_by_name("btnLogin").click()
-        window_after = self.driver.window_handles[1]
-        self.driver.switch_to_window(window_after)
-        self.driver.find_element_by_id("identifierId").send_keys(email)
-        self.driver.find_element_by_class_name("VfPpkd-RLmnJb").click() 
         time.sleep(3)
-        self.driver.find_element_by_name("password").send_keys(email_password)
-        self.driver.find_element_by_class_name("VfPpkd-RLmnJb").click() 
-        
-        self.driver.switch_to_window(window_old)
-        time.sleep(5)
+        self.driver.find_element_by_name("btnLogin").click()
+        time.sleep(4)
         # Now Chat
         self.driver.find_element_by_name("addChat").click()
         self.driver.find_element_by_name("mailFieldChat").send_keys(mail_to)
         self.driver.find_element_by_name("startChatBtn").click()
         self.driver.find_element_by_name("chatMsgField").send_keys("Cybersecurity Report")
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element_by_name("sendChatBtn").click()
+        time.sleep(3)
+        self.driver.find_element_by_name("avatarMenu").click()
+        self.driver.find_element_by_name("logoutBtnK").click()
 
 
     def test_searchmail(self):
@@ -78,18 +76,18 @@ class SendMail(unittest.TestCase):
         time.sleep(3)
         self.driver.find_element_by_name("password").send_keys(email_password)
         self.driver.find_element_by_class_name("VfPpkd-RLmnJb").click() 
-        
         self.driver.switch_to_window(window_old)
-        time.sleep(7)
+        time.sleep(8)
         # Search
         self.driver.find_element_by_name("searchMailInput").send_keys("India")
         time.sleep(2)
         self.driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[2]/div[3]/div/div[1]").click()
-
+        time.sleep(3)
+        self.driver.find_element_by_name("avatarMenu").click()
+        self.driver.find_element_by_name("logoutBtnK").click()
 
     @classmethod
     def tearDownClass(cls):
-        time.sleep(20)
         cls.driver.close()
         cls.driver.quit()
         print("Test Completed")
