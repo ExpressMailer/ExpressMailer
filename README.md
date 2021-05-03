@@ -46,6 +46,12 @@ Inbox
 </p>
 <br>
 
+Dark mode
+<p align="center">
+   <img src ="https://github.com/ExpressMailer/ExpressMailer/blob/master/assets/dark-mode.png" width = 100%>
+</p>
+<br>
+
 Sent
 <p align="center">
 <img src ="https://github.com/RugvedB/ExpressMailer/blob/master/assets/search.PNG" width = 100%>
