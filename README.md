@@ -123,7 +123,7 @@ A step by step series of examples that tell you how to get a development env run
 In your cmd:
 
 ```
-https://github.com/RugvedB/ExpressMailer
+git clone https://github.com/ExpressMailer/ExpressMailer.git
 ```
 
 Then,
